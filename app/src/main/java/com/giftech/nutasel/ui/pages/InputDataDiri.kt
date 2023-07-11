@@ -22,15 +22,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.giftech.nutasel.R
 import com.giftech.nutasel.ui.components.atoms.MyFilterChips
 import com.giftech.nutasel.ui.components.atoms.MyOutlinedTextField
 import com.giftech.nutasel.ui.components.atoms.PrimaryButton
+import com.giftech.nutasel.ui.components.enums.HeroEnum
 import com.giftech.nutasel.ui.components.molecules.HeroColumn
 
 @ExperimentalMaterial3Api
 @Composable
-fun InputDataDiriScreen() {
+fun InputDataDiriScreen(
+    onNext: () -> Unit
+) {
     val scrollState = rememberScrollState()
 
     var nama by remember { mutableStateOf("") }
@@ -45,9 +47,7 @@ fun InputDataDiriScreen() {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             HeroColumn(
-                image = R.drawable.vector_datadiri,
-                title = "Isi data diri dulu ya",
-                description = "Selamat datang di kolom isi data diri kamu, pastikan untuk mengisi semua kolom dengan informasi yang akurat ya!"
+                hero = HeroEnum.InputDataDiri
             )
             Text(
                 text = "Informasi Personal",
@@ -88,7 +88,7 @@ fun InputDataDiriScreen() {
                 text = "Jenis Kelamin",
                 style = MaterialTheme.typography.titleMedium
             )
-            Column{
+            Column {
                 MyFilterChips(
                     selected = isMale,
                     onSelectedChange = {
@@ -106,7 +106,7 @@ fun InputDataDiriScreen() {
             }
             PrimaryButton(
                 text = "Selanjutnya",
-                onClick = {},
+                onClick = onNext,
                 modifier = Modifier.fillMaxWidth()
             )
         }
@@ -117,5 +117,7 @@ fun InputDataDiriScreen() {
 @Preview
 @Composable
 fun PreviewInputDataDiriScreen() {
-    InputDataDiriScreen()
+    InputDataDiriScreen(
+        onNext = {}
+    )
 }
