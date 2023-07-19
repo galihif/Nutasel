@@ -5,8 +5,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material3.ElevatedFilterChip
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,14 +21,14 @@ fun MyFilterChips(
     onSelectedChange: (Boolean) -> Unit,
     text: String
 ) {
-    FilterChip(
+    ElevatedFilterChip(
         modifier = modifier.fillMaxWidth(),
         selected = selected,
         onClick = { onSelectedChange(!selected) },
         label = {
             Text(
                 text = text,
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(16.dp),
             )
         },
         leadingIcon = {
@@ -38,6 +38,6 @@ fun MyFilterChips(
                     ""
                 )
             }
-        }
+        },
     )
 }
