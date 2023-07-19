@@ -84,11 +84,11 @@ fun InputDataDiriScreen(
                 label = "Tanggal Lahir",
                 supportingText = "Bulan, Tanggal, Tahun",
             )
-            Text(
-                text = "Jenis Kelamin",
-                style = MaterialTheme.typography.titleMedium
-            )
-            Column {
+            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                Text(
+                    text = "Jenis Kelamin",
+                    style = MaterialTheme.typography.titleMedium
+                )
                 MyFilterChips(
                     selected = isMale,
                     onSelectedChange = {
