@@ -14,7 +14,8 @@ import androidx.compose.ui.unit.dp
 fun PrimaryButton(
     modifier: Modifier = Modifier,
     text: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    enabled: Boolean = true
 ) {
     ElevatedButton(
         modifier = modifier,
@@ -25,6 +26,7 @@ fun PrimaryButton(
         ),
         contentPadding = PaddingValues(vertical = 16.dp, horizontal = 24.dp),
         shape = RoundedCornerShape(12.dp),
+        enabled = enabled
     ) {
         Text(text = text)
     }
