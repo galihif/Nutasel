@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.giftech.nutasel'
+    namespace 'com.giftech.terbit'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.giftech.nutasel"
+        applicationId "com.giftech.terbit"
         minSdk 24
         targetSdk 33
         versionCode 1
