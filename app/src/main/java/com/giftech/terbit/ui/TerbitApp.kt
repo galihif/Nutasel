@@ -14,7 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import com.giftech.terbit.data.model.Asaq
 import com.giftech.terbit.ui.components.enums.HeroEnum
 import com.giftech.terbit.ui.components.templates.Onboarding
-import com.giftech.terbit.ui.pages.InputDataDiriScreen
+import com.giftech.terbit.ui.pages.input_data_diri.InputDataDiriScreen
 import com.giftech.terbit.ui.pages.asaq.AsaqScreen
 import com.giftech.terbit.ui.route.Screen
 import com.giftech.terbit.utils.DataProvider
