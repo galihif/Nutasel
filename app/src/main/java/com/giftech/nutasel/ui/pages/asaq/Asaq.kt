@@ -12,26 +12,33 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.giftech.nutasel.data.model.Asaq
 import com.giftech.nutasel.ui.components.atoms.MyFilterChips
 import com.giftech.nutasel.ui.components.atoms.PrimaryButton
 import com.giftech.nutasel.ui.components.enums.HariEnum
-import com.giftech.nutasel.ui.components.enums.HeroEnum
 import com.giftech.nutasel.ui.components.enums.TingkatAktivitasEnum
 import com.giftech.nutasel.ui.components.molecules.HeroColumn
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AsaqScreen(
+    asaq: Asaq?,
     onBack: () -> Unit,
+    onNext: (Asaq) -> Unit
 ) {
+    if (asaq == null) {
+        return
+    }
     var tingkatHariKerja by remember {
         mutableStateOf(TingkatAktivitasEnum.DEFAULT)
     }
@@ -44,10 +51,16 @@ fun AsaqScreen(
     var modalSheetOpen by remember {
         mutableStateOf(false)
     }
+    LaunchedEffect(asaq) {
+        tingkatHariKerja = asaq.tingkatHariKerja
+        tingkatHariLibur = asaq.tingkatHariLibur
+    }
     Scaffold(
         topBar = {
             TopAppBar(
-                title = {},
+                title = {
+                        Text("${asaq.id}/12")
+                },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.Default.ArrowBack, "")
@@ -64,7 +77,7 @@ fun AsaqScreen(
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             HeroColumn(
-                hero = HeroEnum.AsaqOnboard3,
+                hero = asaq.hero,
                 imageHeight = 200
             )
             MyFilterChips(
@@ -87,7 +100,14 @@ fun AsaqScreen(
             )
             PrimaryButton(
                 text = "Selesai",
-                onClick = {},
+                onClick = {
+                    onNext(
+                        asaq.copy(
+                            tingkatHariKerja = tingkatHariKerja,
+                            tingkatHariLibur = tingkatHariLibur
+                        )
+                    )
+                },
                 modifier = Modifier.fillMaxWidth(),
                 enabled = tingkatHariKerja != TingkatAktivitasEnum.DEFAULT &&
                         tingkatHariLibur != TingkatAktivitasEnum.DEFAULT
