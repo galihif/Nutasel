@@ -16,12 +16,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.giftech.terbit.data.model.Asaq
 import com.giftech.terbit.ui.components.atoms.MyFilterChips
 import com.giftech.terbit.ui.components.atoms.PrimaryButton
@@ -32,13 +34,18 @@ import com.giftech.terbit.ui.components.molecules.HeroColumn
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AsaqScreen(
-    asaq: Asaq?,
-    onBack: () -> Unit,
-    onNext: (Asaq) -> Unit
+    viewModel: AsaqViewModel = hiltViewModel(),
+    onBack : () -> Unit,
+    onNext : () -> Unit
 ) {
-    if (asaq == null) {
-        return
-    }
+    val currentAsaq by remember {
+        viewModel.currentAsaq
+    }.collectAsState()
+
+    val currentNumber by remember {
+        viewModel.currentNumber
+    }.collectAsState()
+
     var tingkatHariKerja by remember {
         mutableStateOf(TingkatAktivitasEnum.DEFAULT)
     }
@@ -51,18 +58,24 @@ fun AsaqScreen(
     var modalSheetOpen by remember {
         mutableStateOf(false)
     }
-    LaunchedEffect(asaq) {
-        tingkatHariKerja = asaq.tingkatHariKerja
-        tingkatHariLibur = asaq.tingkatHariLibur
+    LaunchedEffect(currentAsaq) {
+        tingkatHariKerja = currentAsaq.tingkatHariKerja
+        tingkatHariLibur = currentAsaq.tingkatHariLibur
     }
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
-                        Text("${asaq.id}/12")
+                        Text("${currentAsaq.id}/12")
                 },
                 navigationIcon = {
-                    IconButton(onClick = onBack) {
+                    IconButton(onClick = {
+                        if (currentNumber > 1) {
+                            viewModel.prevQuestion()
+                        }else{
+                            onBack()
+                        }
+                    }) {
                         Icon(Icons.Default.ArrowBack, "")
                     }
                 }
@@ -77,7 +90,7 @@ fun AsaqScreen(
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             HeroColumn(
-                hero = asaq.hero,
+                hero = currentAsaq.hero,
                 imageHeight = 200
             )
             MyFilterChips(
@@ -99,14 +112,19 @@ fun AsaqScreen(
                 modifier = Modifier.fillMaxWidth()
             )
             PrimaryButton(
-                text = "Selesai",
+                text = if (currentNumber < 12) "Selanjutnya" else "Selesai",
                 onClick = {
-                    onNext(
-                        asaq.copy(
+                    viewModel.nextQuestion(
+                        Asaq(
+                            id = currentAsaq.id,
+                            hero = currentAsaq.hero,
                             tingkatHariKerja = tingkatHariKerja,
                             tingkatHariLibur = tingkatHariLibur
                         )
                     )
+                    if (currentNumber == 12) {
+                        onNext()
+                    }
                 },
                 modifier = Modifier.fillMaxWidth(),
                 enabled = tingkatHariKerja != TingkatAktivitasEnum.DEFAULT &&
