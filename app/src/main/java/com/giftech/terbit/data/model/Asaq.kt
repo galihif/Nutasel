@@ -4,8 +4,8 @@ import com.giftech.terbit.ui.components.enums.HeroEnum
 import com.giftech.terbit.ui.components.enums.TingkatAktivitasEnum
 
 data class Asaq(
-    var id:Int,
-    var hero:HeroEnum,
-    var tingkatHariKerja:TingkatAktivitasEnum,
-    var tingkatHariLibur:TingkatAktivitasEnum,
+    var id:Int = 0,
+    var hero:HeroEnum = HeroEnum.Asaq1,
+    var tingkatHariKerja:TingkatAktivitasEnum = TingkatAktivitasEnum.DEFAULT,
+    var tingkatHariLibur:TingkatAktivitasEnum = TingkatAktivitasEnum.DEFAULT,
 )
