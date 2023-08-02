@@ -2,33 +2,20 @@ package com.giftech.terbit.ui
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.giftech.terbit.data.model.Asaq
 import com.giftech.terbit.ui.components.enums.HeroEnum
 import com.giftech.terbit.ui.components.templates.Onboarding
-import com.giftech.terbit.ui.pages.input_data_diri.InputDataDiriScreen
 import com.giftech.terbit.ui.pages.asaq.AsaqScreen
+import com.giftech.terbit.ui.pages.input_data_diri.InputDataDiriScreen
 import com.giftech.terbit.ui.route.Screen
-import com.giftech.terbit.utils.DataProvider
 
 @ExperimentalMaterial3Api
 @Composable
 fun TerbitApp() {
     val navHostController = rememberNavController()
-    var asaqMap by remember { mutableStateOf(DataProvider.asaqMap()) }
-    var currentAsaqNumber by remember { mutableStateOf(1) }
-    var currentAsaq by remember { mutableStateOf(asaqMap[currentAsaqNumber]) }
-    LaunchedEffect(currentAsaqNumber) {
-        currentAsaq = asaqMap[currentAsaqNumber]
-    }
     NavHost(
         navController = navHostController,
         startDestination = Screen.InputDataDiri.route
@@ -75,25 +62,12 @@ fun TerbitApp() {
         }
         composable(Screen.ASAQ1.route) {
             AsaqScreen(
-                asaq = currentAsaq,
                 onBack = {
-                    if (currentAsaqNumber > 1) {
-                        currentAsaqNumber--
-                    } else {
-                        navHostController.popBackStack()
-                        asaqMap = DataProvider.asaqMap()
-                    }
+                    navHostController.popBackStack()
                 },
-                onNext = { newAsaq ->
-                    asaqMap = asaqMap.toMutableMap()
-                        .apply { this[currentAsaqNumber] = newAsaq } as HashMap<Int, Asaq>
-                    currentAsaq = asaqMap[currentAsaqNumber]
-                    if (currentAsaqNumber < 12) {
-                        currentAsaqNumber++
-                    } else {
-                        navHostController.navigate(Screen.OnboardingASAQ1.route)
-                    }
-                }
+                onNext = {
+                    navHostController.navigate(Screen.InputDataDiri.route)
+                },
             )
         }
 
