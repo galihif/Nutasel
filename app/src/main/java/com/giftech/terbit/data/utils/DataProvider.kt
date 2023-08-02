@@ -1,13 +1,12 @@
-package com.giftech.terbit.utils
+package com.giftech.terbit.data.utils
 
 import com.giftech.terbit.data.model.Asaq
 import com.giftech.terbit.ui.components.enums.HeroEnum
 import com.giftech.terbit.ui.components.enums.TingkatAktivitasEnum
 
 object DataProvider {
-    fun asaqMap(): HashMap<Int, Asaq> {
-        val resultMap = HashMap<Int, Asaq>()
-
+    fun asaqList():List<Asaq>{
+        val asaqList = mutableListOf<Asaq>()
         for (i in 1..12) {
             val asaq = Asaq(
                 id = i,
@@ -29,11 +28,9 @@ object DataProvider {
                 tingkatHariKerja = TingkatAktivitasEnum.DEFAULT,
                 tingkatHariLibur = TingkatAktivitasEnum.DEFAULT
             )
-
-            resultMap[i] = asaq
+            asaqList.add(asaq)
         }
-
-        return resultMap
+        return asaqList
     }
 
 
