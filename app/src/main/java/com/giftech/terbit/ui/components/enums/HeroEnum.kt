@@ -13,6 +13,16 @@ enum class HeroEnum(
         title = "Isi data diri dulu ya",
         description = "Selamat datang di kolom isi data diri kamu, pastikan untuk mengisi semua kolom dengan informasi yang akurat ya!"
     ),
+    LoadingIMT(
+        image = R.drawable.vector_hasil_imt,
+        title = "Mengkalkulasikan IMT Kamu",
+        description = ""
+    ),
+    HasilIMT(
+        image = R.drawable.vector_hasil_imt,
+        title = "Indeks Massa Tubuh",
+        description = "Yuk lihat hasil dan kategori dari perhitungan IMT kamu!"
+    ),
     AsaqOnboard1(
         image = R.drawable.vector_onboard_asaq1,
         title = "Tingkat Aktivitas",

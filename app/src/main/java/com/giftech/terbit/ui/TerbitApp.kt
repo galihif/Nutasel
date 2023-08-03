@@ -7,8 +7,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.giftech.terbit.ui.components.enums.HeroEnum
+import com.giftech.terbit.ui.components.templates.OnboardLoading
 import com.giftech.terbit.ui.components.templates.Onboarding
 import com.giftech.terbit.ui.pages.asaq.AsaqScreen
+import com.giftech.terbit.ui.pages.hasil_imt.HasilIMTScreen
 import com.giftech.terbit.ui.pages.input_data_diri.InputDataDiriScreen
 import com.giftech.terbit.ui.route.Screen
 
@@ -23,9 +25,20 @@ fun TerbitApp() {
         composable(Screen.InputDataDiri.route) {
             InputDataDiriScreen(
                 onNext = {
-                    navHostController.navigate(Screen.OnboardingASAQ1.route)
+                    navHostController.navigate(Screen.OnboardingIMT.route)
                 }
             )
+        }
+        composable(Screen.OnboardingIMT.route) {
+            OnboardLoading(
+                onNext = {
+                    navHostController.navigate(Screen.HasilIMT.route)
+                },
+                hero = HeroEnum.LoadingIMT
+            )
+        }
+        composable(Screen.HasilIMT.route){
+            HasilIMTScreen()
         }
         composable(Screen.OnboardingASAQ1.route) {
             Onboarding(
