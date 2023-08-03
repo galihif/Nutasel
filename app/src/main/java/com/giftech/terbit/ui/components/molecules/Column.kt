@@ -1,6 +1,7 @@
 package com.giftech.terbit.ui.components.molecules
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -24,7 +25,8 @@ fun HeroColumn(
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
         Image(
             painter = painterResource(hero.image),
@@ -39,7 +41,7 @@ fun HeroColumn(
             textAlign = TextAlign.Center
         )
         Text(
-            text = hero.description,
+            text = if (hero.description.isNotBlank()) hero.description else "",
             style = MaterialTheme.typography.bodySmall,
             textAlign = TextAlign.Center
         )
