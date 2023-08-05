@@ -19,7 +19,8 @@ fun MyOutlinedTextField(
     supportingText: String = "",
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(
         keyboardType = KeyboardType.Text
-    )
+    ),
+    isError:Boolean = false
 ) {
     OutlinedTextField(
         value = value,
@@ -39,6 +40,7 @@ fun MyOutlinedTextField(
                 )
             }
         },
-        keyboardOptions = keyboardOptions
+        keyboardOptions = keyboardOptions,
+        isError = isError
     )
 }
