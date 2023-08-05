@@ -6,6 +6,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.giftech.terbit.data.model.User
 import com.giftech.terbit.ui.components.enums.HeroEnum
 import com.giftech.terbit.ui.components.templates.OnboardLoading
 import com.giftech.terbit.ui.components.templates.Onboarding
@@ -24,21 +25,42 @@ fun TerbitApp() {
     ) {
         composable(Screen.InputDataDiri.route) {
             InputDataDiriScreen(
-                onNext = {
-                    navHostController.navigate(Screen.OnboardingIMT.route)
+                onNext = {user ->
+                    navHostController.apply {
+                        currentBackStackEntry?.savedStateHandle?.set("user", user)
+                        navigate(Screen.OnboardingIMT.route)
+                    }
                 }
             )
         }
         composable(Screen.OnboardingIMT.route) {
+            val user = navHostController.previousBackStackEntry?.savedStateHandle?.get<User>("user")
             OnboardLoading(
                 onNext = {
-                    navHostController.navigate(Screen.HasilIMT.route)
+                    navHostController.apply {
+                        currentBackStackEntry?.savedStateHandle?.set("user", user)
+                        navigate(Screen.HasilIMT.route)
+                    }
                 },
                 hero = HeroEnum.LoadingIMT
             )
         }
         composable(Screen.HasilIMT.route){
-            HasilIMTScreen()
+            val user = navHostController.previousBackStackEntry?.savedStateHandle?.get<User>("user")
+            if (user != null) {
+                HasilIMTScreen(
+                    onNext = {
+                        navHostController.apply {
+                            currentBackStackEntry?.savedStateHandle?.set("user", user)
+                            navigate(Screen.OnboardingASAQ1.route)
+                        }
+                    },
+                    onBack = {
+                        navHostController.popBackStack(route = Screen.InputDataDiri.route, inclusive = false)
+                    },
+                    user = user
+                )
+            }
         }
         composable(Screen.OnboardingASAQ1.route) {
             Onboarding(
