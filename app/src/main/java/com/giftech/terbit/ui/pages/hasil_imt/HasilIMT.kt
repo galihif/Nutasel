@@ -2,6 +2,7 @@
 
 package com.giftech.terbit.ui.pages.hasil_imt
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,27 +25,42 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.giftech.terbit.data.model.User
 import com.giftech.terbit.ui.components.atoms.PrimaryButton
 import com.giftech.terbit.ui.components.enums.HeroEnum
-import com.giftech.terbit.ui.components.enums.KategoriIMTEnum
 import com.giftech.terbit.ui.components.molecules.HeroColumn
+import com.giftech.terbit.ui.utils.toFormattedString
 
 @Composable
 fun HasilIMTScreen(
     onNext: () -> Unit = {},
-    kategoriIMT: KategoriIMTEnum = KategoriIMTEnum.OBESITAS
+    onBack: () -> Unit = {},
+    user: User,
+    viewModel: HasilIMTViewModel = hiltViewModel()
 ) {
+    LaunchedEffect(user){
+        viewModel.setUser(user)
+    }
+    val skorIMT by viewModel.skorIMT.collectAsState()
+    val kategoriIMT by viewModel.kategoriIMT.collectAsState()
+    BackHandler() {
+        onBack()
+    }
     Scaffold(
         containerColor = kategoriIMT.color,
         topBar = {
             TopAppBar(
                 title = {},
                 navigationIcon = {
-                    IconButton(onClick = {}) {
+                    IconButton(onClick = onBack) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = "Back"
@@ -80,8 +96,8 @@ fun HasilIMTScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Nama User",
-                        style = MaterialTheme.typography.titleMedium,
+                        text = user.nama,
+                        style = MaterialTheme.typography.headlineSmall,
                         modifier = Modifier.fillMaxWidth()
                     )
                     Column(
@@ -103,7 +119,7 @@ fun HasilIMTScreen(
                                     style = MaterialTheme.typography.bodyMedium
                                 )
                                 Text(
-                                    text = "22,9",
+                                    text = skorIMT.toFormattedString(),
                                     style = MaterialTheme.typography.labelLarge
                                 )
                             }
