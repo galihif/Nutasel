@@ -110,9 +110,16 @@ fun InputDataDiriScreen(
             }
             MyOutlinedTextField(
                 value = usia,
-                onValueChange = { viewModel.usia.value = it },
+                onValueChange = {
+                    if (it.isDigitsOnly()) {
+                        viewModel.usia.value = it
+                    }
+                },
                 label = "Usia",
                 supportingText = "Tahun",
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Number
+                )
             )
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 Text(
