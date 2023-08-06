@@ -14,7 +14,7 @@ import com.giftech.terbit.ui.utils.toFormattedString
 
 @Composable
 fun HasilIMTScreen(
-    onNext: () -> Unit = {},
+    onNext: (User) -> Unit = {},
     onBack: () -> Unit = {},
     user: User,
     viewModel: HasilIMTViewModel = hiltViewModel()
@@ -32,7 +32,9 @@ fun HasilIMTScreen(
 
     key(skorIMT, kategoriIMT) {
         Hasil(
-            onNext = onNext,
+            onNext = {
+                onNext(user.copy(skorIMT = skorIMT))
+            },
             onBack = onBack,
             hero = HeroEnum.HasilIMT,
             statusColor = kategoriIMT.color,
