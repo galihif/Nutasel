@@ -9,5 +9,6 @@ data class User(
     val tinggi:Int = 0,
     val berat:Int = 0,
     val usia:Int = 0,
-    val isMale:Boolean = true
+    val isMale:Boolean = true,
+    val skorIMT:Double = 0.0,
 ):Parcelable

@@ -12,6 +12,7 @@ import com.giftech.terbit.ui.components.templates.OnboardLoading
 import com.giftech.terbit.ui.components.templates.Onboarding
 import com.giftech.terbit.ui.pages.asaq.AsaqScreen
 import com.giftech.terbit.ui.pages.hasil_imt.HasilIMTScreen
+import com.giftech.terbit.ui.pages.hasil_status_gizi.HasilStatusGiziScreen
 import com.giftech.terbit.ui.pages.input_data_diri.InputDataDiriScreen
 import com.giftech.terbit.ui.route.Screen
 
@@ -51,12 +52,41 @@ fun TerbitApp() {
                 HasilIMTScreen(
                     onNext = {
                         navHostController.apply {
+                            currentBackStackEntry?.savedStateHandle?.set("user", it)
+                            navigate(Screen.OnboardingStatusGizi.route)
+                        }
+                    },
+                    onBack = {
+                        navHostController.popBackStack(route = Screen.InputDataDiri.route, inclusive = false)
+                    },
+                    user = user
+                )
+            }
+        }
+        composable(Screen.OnboardingStatusGizi.route) {
+            val user = navHostController.previousBackStackEntry?.savedStateHandle?.get<User>("user")
+            OnboardLoading(
+                onNext = {
+                    navHostController.apply {
+                        currentBackStackEntry?.savedStateHandle?.set("user", user)
+                        navigate(Screen.HasilStatusGizi.route)
+                    }
+                },
+                hero = HeroEnum.LoadingStatusGizi
+            )
+        }
+        composable(Screen.HasilStatusGizi.route){
+            val user = navHostController.previousBackStackEntry?.savedStateHandle?.get<User>("user")
+            if (user != null) {
+                HasilStatusGiziScreen(
+                    onNext = {
+                        navHostController.apply {
                             currentBackStackEntry?.savedStateHandle?.set("user", user)
                             navigate(Screen.OnboardingASAQ1.route)
                         }
                     },
                     onBack = {
-                        navHostController.popBackStack(route = Screen.InputDataDiri.route, inclusive = false)
+                        navHostController.popBackStack(route = Screen.HasilIMT.route, inclusive = false)
                     },
                     user = user
                 )

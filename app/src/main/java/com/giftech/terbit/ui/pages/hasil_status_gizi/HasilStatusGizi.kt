@@ -1,4 +1,4 @@
-package com.giftech.terbit.ui.pages.hasil_imt
+package com.giftech.terbit.ui.pages.hasil_status_gizi
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -10,41 +10,38 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.giftech.terbit.data.model.User
 import com.giftech.terbit.ui.components.enums.HeroEnum
 import com.giftech.terbit.ui.components.templates.Hasil
-import com.giftech.terbit.ui.utils.toFormattedString
 
 @Composable
-fun HasilIMTScreen(
-    onNext: (User) -> Unit = {},
+fun HasilStatusGiziScreen(
+    onNext: () -> Unit = {},
     onBack: () -> Unit = {},
     user: User,
-    viewModel: HasilIMTViewModel = hiltViewModel()
+    viewModel: HasilStatusGiziViewModel = hiltViewModel()
 ) {
     LaunchedEffect(user) {
         viewModel.setUser(user)
     }
-    val skorIMT by remember{
-        viewModel.skorIMT
+    val skorStatusGizi by remember{
+        viewModel.skorStatusGizi
     }.collectAsState()
 
-    val kategoriIMT by remember {
-        viewModel.kategoriIMT
+    val kategoriStatusGizi by remember {
+        viewModel.kategoriStatusGizi
     }.collectAsState()
 
-    key(skorIMT, kategoriIMT) {
+    key(skorStatusGizi, kategoriStatusGizi) {
         Hasil(
-            onNext = {
-                onNext(user.copy(skorIMT = skorIMT))
-            },
+            onNext = onNext,
             onBack = onBack,
-            hero = HeroEnum.HasilIMT,
-            statusColor = kategoriIMT.color,
+            hero = HeroEnum.HasilStatusGizi,
+            statusColor = kategoriStatusGizi.color,
             nama = user.nama,
-            skorTitle = "Skor IMT",
-            skor = skorIMT.toFormattedString(),
+            skorTitle = "Ambang Batas",
+            skor = kategoriStatusGizi.ambangBatas,
             kategoriTitle = "KategoriMT",
-            kategori = kategoriIMT.title,
-            desc = kategoriIMT.desc,
-            buttonText = "Cek Status Gizi"
+            kategori = kategoriStatusGizi.title,
+            desc = kategoriStatusGizi.desc,
+            buttonText = "Selanjutnya"
         )
     }
 }

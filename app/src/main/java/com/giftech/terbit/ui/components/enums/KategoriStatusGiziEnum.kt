@@ -8,36 +8,44 @@ import com.giftech.terbit.ui.theme.CustomColor1
 import com.giftech.terbit.ui.theme.CustomColor3
 import com.giftech.terbit.ui.theme.light_CustomColor2
 
-enum class KategoriIMTEnum(val title:String, val desc:String) {
-    NORMAL(
-        title = "Normal",
+enum class KategoriStatusGiziEnum(
+    val title: String, val desc: String,
+    val ambangBatas: String
+) {
+    GIZI_BURUK(
+        title = "Gizi Buruk",
+        ambangBatas = "< -3SD",
         desc = "Hasil perhitungan IMT kamu mendapatkan skor 22,9 berada dalam kategori Normal, hasil ini cukup baik, namun harus disesuaikan dengan kegiatan kamu sehari - hari, yuk coba kita lihat status gizi kamu!"
     ),
-    KURUS(
-        title = "Kurus",
+    GIZI_KURANG(
+        title = "Gizi Kurang",
+        ambangBatas = "-3SD sd -2SD",
         desc = "Hasil perhitungan IMT kamu mendapatkan skor 22,9 berada dalam kategori Normal, hasil ini cukup baik, namun harus disesuaikan dengan kegiatan kamu sehari - hari, yuk coba kita lihat status gizi kamu!"
     ),
-    SANGAT_KURUS(
-        title = "Sangat Kurus",
-        desc = "Hasil perhitungan IMT kamu mendapatkan skor 22,9 berada dalam kategori Normal, hasil ini cukup baik, namun harus disesuaikan dengan kegiatan kamu sehari - hari, yuk coba kita lihat status gizi kamu!"
+    GIZI_BAIK(
+        title = "Gizi Baik",
+        ambangBatas = "-2SD sd +1SD",
+        desc = "Hasil perhitungan IMT kamu mendapatkan skor 22,9 berada dalam kategori Normal, hasil ini cukup baik, namun harus disesuaikan dengan kegiatan kamu sehari - hari, yuk coba kita lihat status gizi kamu!",
     ),
-    GEMUK(
-        title = "Gemuk",
+    GIZI_LEBIH(
+        title = "Gizi Lebih",
+        ambangBatas = "+1SD sd +2SD",
         desc = "Hasil perhitungan IMT kamu mendapatkan skor 22,9 berada dalam kategori Normal, hasil ini cukup baik, namun harus disesuaikan dengan kegiatan kamu sehari - hari, yuk coba kita lihat status gizi kamu!"
     ),
     OBESITAS(
         title = "Obesitas",
-
+        ambangBatas = "> +2SD",
         desc = "Hasil perhitungan IMT kamu mendapatkan skor 22,9 berada dalam kategori Normal, hasil ini cukup baik, namun harus disesuaikan dengan kegiatan kamu sehari - hari, yuk coba kita lihat status gizi kamu!"
     );
+
     val color: Color
         @Composable
         @ReadOnlyComposable
-        get() = when(this) {
-            NORMAL -> light_CustomColor2
-            KURUS -> CustomColor1
-            SANGAT_KURUS -> MaterialTheme.colorScheme.inverseSurface
-            GEMUK -> CustomColor3
+        get() = when (this) {
+            GIZI_KURANG -> CustomColor1
+            GIZI_BURUK -> MaterialTheme.colorScheme.inverseSurface
+            GIZI_BAIK -> light_CustomColor2
+            GIZI_LEBIH -> CustomColor3
             OBESITAS -> MaterialTheme.colorScheme.secondary
         }
 }
