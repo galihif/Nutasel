@@ -26,6 +26,7 @@ class HasilIMTViewModel
         val berat = _user.value.berat.toDouble()
         val skor = berat / (tinggi * tinggi)
         _skorIMT.value = skor
+        _user.value = _user.value.copy(skorIMT = skor)
         setKategoriIMT()
     }
 
