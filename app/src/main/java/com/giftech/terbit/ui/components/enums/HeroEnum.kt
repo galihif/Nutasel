@@ -23,6 +23,16 @@ enum class HeroEnum(
         title = "Indeks Massa Tubuh",
         description = "Yuk lihat hasil dan kategori dari perhitungan IMT kamu!"
     ),
+    LoadingStatusGizi(
+        image = R.drawable.vector_status_gizi,
+        title = "Mengkalkulasikan hasil status gizi Kamu",
+        description = ""
+    ),
+    HasilStatusGizi(
+        image = R.drawable.vector_status_gizi,
+        title = "Status Gizi",
+        description = "Yuk lihat hasil status gizi kamu!"
+    ),
     AsaqOnboard1(
         image = R.drawable.vector_onboard_asaq1,
         title = "Tingkat Aktivitas",
