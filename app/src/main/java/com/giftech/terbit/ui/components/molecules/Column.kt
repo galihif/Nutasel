@@ -1,6 +1,7 @@
 package com.giftech.terbit.ui.components.molecules
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -10,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -21,10 +23,12 @@ fun HeroColumn(
     modifier: Modifier = Modifier,
     hero:HeroEnum,
     imageHeight: Int? = null,
+    textColor:Color = MaterialTheme.colorScheme.onSurface
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
         Image(
             painter = painterResource(hero.image),
@@ -36,12 +40,14 @@ fun HeroColumn(
             text = hero.title,
             style = MaterialTheme.typography.titleLarge,
             modifier = Modifier.padding(16.dp),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            color = textColor
         )
         Text(
-            text = hero.description,
+            text = hero.description.ifBlank { "" },
             style = MaterialTheme.typography.bodySmall,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            color = textColor
         )
     }
 }
