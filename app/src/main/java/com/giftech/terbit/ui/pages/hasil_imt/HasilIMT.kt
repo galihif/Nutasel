@@ -43,7 +43,7 @@ fun HasilIMTScreen(
             skor = skorIMT.toFormattedString(),
             kategoriTitle = "KategoriMT",
             kategori = kategoriIMT.title,
-            desc = kategoriIMT.desc,
+            desc = kategoriIMT.desc(skorIMT.toFormattedString()),
             buttonText = "Cek Status Gizi"
         )
     }
