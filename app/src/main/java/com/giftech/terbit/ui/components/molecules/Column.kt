@@ -45,7 +45,7 @@ fun HeroColumn(
         )
         Text(
             text = hero.description.ifBlank { "" },
-            style = MaterialTheme.typography.bodySmall,
+            style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center,
             color = textColor
         )
