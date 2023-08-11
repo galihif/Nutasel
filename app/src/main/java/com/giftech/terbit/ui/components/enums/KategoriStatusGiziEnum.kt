@@ -15,27 +15,27 @@ enum class KategoriStatusGiziEnum(
     GIZI_BURUK(
         title = "Gizi Buruk",
         ambangBatas = "< -3SD",
-        desc = "Hasil perhitungan IMT kamu mendapatkan skor 22,9 berada dalam kategori Normal, hasil ini cukup baik, namun harus disesuaikan dengan kegiatan kamu sehari - hari, yuk coba kita lihat status gizi kamu!"
+        desc = "Status gizi kamu masuk kategori gizi baik! Pantau asupan yang baik dan seimbangkan aktivitas bisa membantu kamu mempertahankan tubuh ideal. Semangat mempertahankan ya!"
     ),
     GIZI_KURANG(
         title = "Gizi Kurang",
         ambangBatas = "-3SD sd -2SD",
-        desc = "Hasil perhitungan IMT kamu mendapatkan skor 22,9 berada dalam kategori Normal, hasil ini cukup baik, namun harus disesuaikan dengan kegiatan kamu sehari - hari, yuk coba kita lihat status gizi kamu!"
+        desc = "Status gizi kamu masuk kategori gizi baik! Pantau asupan yang baik dan seimbangkan aktivitas bisa membantu kamu mempertahankan tubuh ideal. Semangat mempertahankan ya!"
     ),
     GIZI_BAIK(
         title = "Gizi Baik",
         ambangBatas = "-2SD sd +1SD",
-        desc = "Hasil perhitungan IMT kamu mendapatkan skor 22,9 berada dalam kategori Normal, hasil ini cukup baik, namun harus disesuaikan dengan kegiatan kamu sehari - hari, yuk coba kita lihat status gizi kamu!",
+        desc = "Status gizi kamu masuk kategori gizi baik! Pantau asupan yang baik dan seimbangkan aktivitas bisa membantu kamu mempertahankan tubuh ideal. Semangat mempertahankan ya!"
     ),
     GIZI_LEBIH(
         title = "Gizi Lebih",
         ambangBatas = "+1SD sd +2SD",
-        desc = "Hasil perhitungan IMT kamu mendapatkan skor 22,9 berada dalam kategori Normal, hasil ini cukup baik, namun harus disesuaikan dengan kegiatan kamu sehari - hari, yuk coba kita lihat status gizi kamu!"
+        desc = "Status gizi kamu masuk kategori gizi baik! Pantau asupan yang baik dan seimbangkan aktivitas bisa membantu kamu mempertahankan tubuh ideal. Semangat mempertahankan ya!"
     ),
     OBESITAS(
         title = "Obesitas",
         ambangBatas = "> +2SD",
-        desc = "Hasil perhitungan IMT kamu mendapatkan skor 22,9 berada dalam kategori Normal, hasil ini cukup baik, namun harus disesuaikan dengan kegiatan kamu sehari - hari, yuk coba kita lihat status gizi kamu!"
+        desc = "Status gizi kamu masuk kategori gizi baik! Pantau asupan yang baik dan seimbangkan aktivitas bisa membantu kamu mempertahankan tubuh ideal. Semangat mempertahankan ya!"
     );
 
     val color: Color
