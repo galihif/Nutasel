@@ -13,6 +13,7 @@ import com.giftech.terbit.ui.components.templates.Onboarding
 import com.giftech.terbit.ui.pages.asaq.AsaqScreen
 import com.giftech.terbit.ui.pages.hasil_imt.HasilIMTScreen
 import com.giftech.terbit.ui.pages.hasil_status_gizi.HasilStatusGiziScreen
+import com.giftech.terbit.ui.pages.hasil_tingkat_pemantauan.HasilTPScreen
 import com.giftech.terbit.ui.pages.input_data_diri.InputDataDiriScreen
 import com.giftech.terbit.ui.route.Screen
 
@@ -22,7 +23,7 @@ fun TerbitApp() {
     val navHostController = rememberNavController()
     NavHost(
         navController = navHostController,
-        startDestination = Screen.InputDataDiri.route
+        startDestination = Screen.ASAQ.route
     ) {
         composable(Screen.InputDataDiri.route) {
             InputDataDiriScreen(
@@ -120,22 +121,47 @@ fun TerbitApp() {
                     navHostController.popBackStack()
                 },
                 onNext = {
-                    navHostController.navigate(Screen.ASAQ1.route)
+                    navHostController.navigate(Screen.ASAQ.route)
                 },
                 hero = HeroEnum.AsaqOnboard3
             )
         }
-        composable(Screen.ASAQ1.route) {
+        composable(Screen.ASAQ.route) {
             AsaqScreen(
                 onBack = {
                     navHostController.popBackStack()
                 },
                 onNext = {
-                    navHostController.navigate(Screen.InputDataDiri.route)
+                    navHostController.apply {
+                        currentBackStackEntry?.savedStateHandle?.set("total_score", it)
+                        navigate(Screen.OnboardingTingkatPemantauan.route)
+                    }
                 },
             )
         }
-
+        composable(Screen.OnboardingTingkatPemantauan.route){
+            val totalScore = navHostController.previousBackStackEntry?.savedStateHandle?.get<Int>("total_score")
+            OnboardLoading(
+                onNext = {
+                    navHostController.apply {
+                        currentBackStackEntry?.savedStateHandle?.set("total_score", totalScore)
+                        navigate(Screen.HasilTingkatPemantauan.route)
+                    }
+                },
+                hero = HeroEnum.LoadingHasilTP
+            )
+        }
+        composable(Screen.HasilTingkatPemantauan.route){
+            val totalScore = navHostController.previousBackStackEntry?.savedStateHandle?.get<Int>("total_score")
+            if (totalScore!= null && totalScore>0){
+                HasilTPScreen(
+                    totalScore = totalScore,
+                    onNext = {
+                        // go to home
+                    }
+                )
+            }
+        }
     }
 }
 
