@@ -30,13 +30,14 @@ import com.giftech.terbit.ui.components.atoms.PrimaryButton
 import com.giftech.terbit.ui.components.enums.HariEnum
 import com.giftech.terbit.ui.components.enums.TingkatAktivitasEnum
 import com.giftech.terbit.ui.components.molecules.HeroColumn
+import com.giftech.terbit.ui.utils.Constant
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AsaqScreen(
     viewModel: AsaqViewModel = hiltViewModel(),
     onBack : () -> Unit,
-    onNext : () -> Unit
+    onNext : (score:Int) -> Unit
 ) {
     val currentAsaq by remember {
         viewModel.currentAsaq
@@ -112,7 +113,7 @@ fun AsaqScreen(
                 modifier = Modifier.fillMaxWidth()
             )
             PrimaryButton(
-                text = if (currentNumber < 12) "Selanjutnya" else "Selesai",
+                text = if (currentNumber < Constant.TOTAL_ASAQ) "Selanjutnya" else "Selesai",
                 onClick = {
                     viewModel.nextQuestion(
                         Asaq(
@@ -122,8 +123,9 @@ fun AsaqScreen(
                             tingkatHariLibur = tingkatHariLibur
                         )
                     )
-                    if (currentNumber == 12) {
-                        onNext()
+                    if (currentNumber == Constant.TOTAL_ASAQ) {
+                        viewModel.calculateScore()
+                        onNext(viewModel.totalScore.value)
                     }
                 },
                 modifier = Modifier.fillMaxWidth(),
