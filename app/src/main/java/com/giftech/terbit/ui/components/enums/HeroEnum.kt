@@ -108,4 +108,9 @@ enum class HeroEnum(
         title = "Pergi ke tempat ibadah",
         description = "Berapa lama waktu yang kamu habiskan untuk pergi ke tempat ibadah? (sesuai agama dan kepercayaan masing - masing)"
     ),
+    LoadingHasilTP(
+        image = R.drawable.vector_onboard_tp,
+        title = "Mengkalkulasikan tingkat pemantauan kamu",
+        description = ""
+    )
 }
