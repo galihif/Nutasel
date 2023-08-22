@@ -25,6 +25,6 @@ fun HasilIMTScreen(
         kategoriTitle = "KategoriMT",
         kategori = user.kategoriIMT.title,
         desc = user.kategoriIMT.desc(user.skorIMT.toFormattedString()),
-        buttonText = "Cek Status Gizi"
+        buttonText = "Selanjutnya"
     )
 }
