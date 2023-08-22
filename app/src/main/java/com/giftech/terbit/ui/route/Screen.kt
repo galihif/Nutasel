@@ -10,4 +10,5 @@ sealed class Screen(val route:String){
     object  ASAQ:Screen("ASAQ")
     object OnboardingTingkatPemantauan:Screen("OnboardingTingkatPemantauan")
     object HasilTingkatPemantauan:Screen("HasilTingkatPemantauan")
+    object Profesional:Screen("Profesional")
 }
