@@ -14,6 +14,7 @@ import com.giftech.terbit.ui.pages.asaq.AsaqScreen
 import com.giftech.terbit.ui.pages.hasil_imt.HasilIMTScreen
 import com.giftech.terbit.ui.pages.hasil_tingkat_pemantauan.HasilTPScreen
 import com.giftech.terbit.ui.pages.input_data_diri.InputDataDiriScreen
+import com.giftech.terbit.ui.pages.profesional.ProfesionalScreen
 import com.giftech.terbit.ui.route.Screen
 
 @ExperimentalMaterial3Api
@@ -131,6 +132,9 @@ fun TerbitApp() {
                     }
                 )
             }
+        }
+        composable(Screen.Profesional.route){
+            ProfesionalScreen()
         }
     }
 }
