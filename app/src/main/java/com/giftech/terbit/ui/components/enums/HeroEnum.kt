@@ -113,4 +113,9 @@ enum class HeroEnum(
         title = "Frekuensi Makanan",
         description = "Selanjutnya, kamu akan diberikan pilihan untuk menginput makanan yang kamu makan dalam sebulan terakhir, ini untuk mengetahui perkembanganmu sebelum dan sesudah menggunakan aplikasi X !",
     ),
+    LoadingHasilTP(
+        image = R.drawable.vector_onboard_tp,
+        title = "Mengkalkulasikan tingkat pemantauan kamu",
+        description = ""
+    ),
 }

@@ -120,9 +120,11 @@ private fun FfqResultContent(
         PrimaryButton(
             text = stringResource(R.string.btn_next_ffqresult),
             onClick = {
-                navController.navigate(
-                    Screen.FfqMain.createRoute(programId = 2)
-                )
+                navController.apply {
+                    // Nanti disimpan ke database
+                    currentBackStackEntry?.savedStateHandle?.set("total_score", 0)
+                    navigate(Screen.OnboardingTingkatPemantauan.route)
+                }
             },
             modifier = Modifier
                 .fillMaxWidth(),
