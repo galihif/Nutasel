@@ -6,7 +6,7 @@ import com.giftech.terbit.R
 enum class HeroEnum(
     @DrawableRes val image: Int,
     val title: String,
-    val description: String
+    val description: String,
 ) {
     InputDataDiri(
         image = R.drawable.vector_datadiri,
@@ -108,9 +108,14 @@ enum class HeroEnum(
         title = "Pergi ke tempat ibadah",
         description = "Berapa lama waktu yang kamu habiskan untuk pergi ke tempat ibadah? (sesuai agama dan kepercayaan masing - masing)"
     ),
+    FfqOnboard1(
+        image = R.drawable.vector_onboard_ffq1,
+        title = "Frekuensi Makanan",
+        description = "Selanjutnya, kamu akan diberikan pilihan untuk menginput makanan yang kamu makan dalam sebulan terakhir, ini untuk mengetahui perkembanganmu sebelum dan sesudah menggunakan aplikasi X !",
+    ),
     LoadingHasilTP(
         image = R.drawable.vector_onboard_tp,
         title = "Mengkalkulasikan tingkat pemantauan kamu",
         description = ""
-    )
+    ),
 }

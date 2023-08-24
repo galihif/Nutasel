@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">Terbit</string>
+    <string name="txt_title_ffqmain">FFQ</string>
+    <string name="btn_cd_back_ffqmain">Kembali</string>
+    <string name="btn_complete_ffqmain">Selesai</string>
+    <string name="btn_cd_back_ffqlist">Kembali</string>
+    <string name="btn_add_food_ffqlist">Tambah Bahan Makanan</string>
+    <string name="txt_title_ffqresult">Hasil FFQ</string>
+    <string name="txt_desc_ffqresult">Ini adalah nilai dari apa yang kamu makan sebulan kemarin!</string>
+    <string name="txt_subtitle_ffqresult">Nilai</string>
+    <string name="btn_next_ffqresult">Selanjutnya</string>
+    <string name="txt_title_addfooddialog">Tambah Menu</string>
+    <string name="btn_add_addfooddialog">Tambah</string>
+    <string name="btn_next_ffqresponsebottomsheet">Selanjutnya</string>
+    <string name="ffq_freq_day_3"><![CDATA[> 3 Kali / Hari]]></string>
+    <string name="ffq_freq_day_1">1 Kali / Hari</string>
+    <string name="ffq_freq_week_3_6">3 - 6 Kali / Minggu</string>
+    <string name="ffq_freq_week_1_2">1 - 2 Kali / Minggu</string>
+    <string name="ffq_freq_month_2">2 Kali / Bulan</string>
+    <string name="ffq_freq_never">Tidak Pernah</string>
 </resources>

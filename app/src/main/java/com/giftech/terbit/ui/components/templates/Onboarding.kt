@@ -28,9 +28,10 @@ import kotlinx.coroutines.delay
 @ExperimentalMaterial3Api
 @Composable
 fun Onboarding(
+    modifier: Modifier = Modifier,
     onBack: (() -> Unit)? = null,
     onNext: () -> Unit,
-    hero:HeroEnum
+    hero:HeroEnum,
 ) {
     Scaffold(
         topBar = {
@@ -47,7 +48,8 @@ fun Onboarding(
                     }
                 )
             }
-        }
+        },
+        modifier = modifier,
     ) {
         Column(
             modifier = Modifier
@@ -79,7 +81,7 @@ fun OnboardLoading(
         delay(3000)
         onNext()
     }
-    Scaffold() {
+    Scaffold {
         Column(
             modifier = Modifier
                 .fillMaxSize()
