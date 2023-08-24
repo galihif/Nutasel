@@ -1,7 +1,7 @@
 package com.giftech.terbit.domain.enums
 
 enum class ProgramType(val typeId: String) {
-    TAKE_ASAQ("take_asaq"),
-    TAKE_FFQ("take_ffq"),
+    FILL_OUT_ASAQ("fill_out_asaq"),
+    FILL_OUT_FFQ("fill_out_ffq"),
     READ_ARTICLE("read_article"),
 }
