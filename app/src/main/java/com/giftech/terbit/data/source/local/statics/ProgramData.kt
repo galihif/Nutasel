@@ -1,11 +1,14 @@
 package com.giftech.terbit.data.source.local.statics
 
-import com.giftech.terbit.data.source.local.statics.model.ProgramEntity
+import com.giftech.terbit.data.source.local.room.entity.ProgramEntity
 import com.giftech.terbit.domain.enums.ProgramType
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object ProgramData {
+@Singleton
+class ProgramData @Inject constructor(){
     
-    fun get(): List<ProgramEntity> {
+    fun getAll(): List<ProgramEntity> {
         val list = mutableListOf<ProgramEntity>()
         for (i in programIdList.indices) {
             list.add(
@@ -49,58 +52,58 @@ object ProgramData {
     
     private val typeList = listOf(
         // First time use
-        ProgramType.TAKE_ASAQ.typeId,
-        ProgramType.TAKE_FFQ.typeId,
+        ProgramType.FILL_OUT_ASAQ.typeId,
+        ProgramType.FILL_OUT_FFQ.typeId,
         // Week 1
-        ProgramType.TAKE_ASAQ.typeId,
-        ProgramType.TAKE_ASAQ.typeId,
-        ProgramType.TAKE_ASAQ.typeId,
-        ProgramType.TAKE_ASAQ.typeId,
-        ProgramType.TAKE_ASAQ.typeId,
-        ProgramType.TAKE_ASAQ.typeId,
-        ProgramType.TAKE_ASAQ.typeId,
+        ProgramType.FILL_OUT_ASAQ.typeId,
+        ProgramType.FILL_OUT_ASAQ.typeId,
+        ProgramType.FILL_OUT_ASAQ.typeId,
+        ProgramType.FILL_OUT_ASAQ.typeId,
+        ProgramType.FILL_OUT_ASAQ.typeId,
+        ProgramType.FILL_OUT_ASAQ.typeId,
+        ProgramType.FILL_OUT_ASAQ.typeId,
         ProgramType.READ_ARTICLE.typeId,
         ProgramType.READ_ARTICLE.typeId,
-        ProgramType.TAKE_FFQ.typeId,
+        ProgramType.FILL_OUT_FFQ.typeId,
         // Week 2
-        ProgramType.TAKE_ASAQ.typeId,
-        ProgramType.TAKE_ASAQ.typeId,
-        ProgramType.TAKE_ASAQ.typeId,
-        ProgramType.TAKE_ASAQ.typeId,
-        ProgramType.TAKE_ASAQ.typeId,
-        ProgramType.TAKE_ASAQ.typeId,
-        ProgramType.TAKE_ASAQ.typeId,
+        ProgramType.FILL_OUT_ASAQ.typeId,
+        ProgramType.FILL_OUT_ASAQ.typeId,
+        ProgramType.FILL_OUT_ASAQ.typeId,
+        ProgramType.FILL_OUT_ASAQ.typeId,
+        ProgramType.FILL_OUT_ASAQ.typeId,
+        ProgramType.FILL_OUT_ASAQ.typeId,
+        ProgramType.FILL_OUT_ASAQ.typeId,
         ProgramType.READ_ARTICLE.typeId,
         ProgramType.READ_ARTICLE.typeId,
-        ProgramType.TAKE_FFQ.typeId,
+        ProgramType.FILL_OUT_FFQ.typeId,
         // Week 3
-        ProgramType.TAKE_ASAQ.typeId,
-        ProgramType.TAKE_ASAQ.typeId,
-        ProgramType.TAKE_ASAQ.typeId,
-        ProgramType.TAKE_ASAQ.typeId,
-        ProgramType.TAKE_ASAQ.typeId,
-        ProgramType.TAKE_ASAQ.typeId,
-        ProgramType.TAKE_ASAQ.typeId,
+        ProgramType.FILL_OUT_ASAQ.typeId,
+        ProgramType.FILL_OUT_ASAQ.typeId,
+        ProgramType.FILL_OUT_ASAQ.typeId,
+        ProgramType.FILL_OUT_ASAQ.typeId,
+        ProgramType.FILL_OUT_ASAQ.typeId,
+        ProgramType.FILL_OUT_ASAQ.typeId,
+        ProgramType.FILL_OUT_ASAQ.typeId,
         ProgramType.READ_ARTICLE.typeId,
         ProgramType.READ_ARTICLE.typeId,
-        ProgramType.TAKE_FFQ.typeId,
+        ProgramType.FILL_OUT_FFQ.typeId,
         // Week 4
-        ProgramType.TAKE_ASAQ.typeId,
-        ProgramType.TAKE_ASAQ.typeId,
-        ProgramType.TAKE_ASAQ.typeId,
-        ProgramType.TAKE_ASAQ.typeId,
-        ProgramType.TAKE_ASAQ.typeId,
-        ProgramType.TAKE_ASAQ.typeId,
-        ProgramType.TAKE_ASAQ.typeId,
+        ProgramType.FILL_OUT_ASAQ.typeId,
+        ProgramType.FILL_OUT_ASAQ.typeId,
+        ProgramType.FILL_OUT_ASAQ.typeId,
+        ProgramType.FILL_OUT_ASAQ.typeId,
+        ProgramType.FILL_OUT_ASAQ.typeId,
+        ProgramType.FILL_OUT_ASAQ.typeId,
+        ProgramType.FILL_OUT_ASAQ.typeId,
         ProgramType.READ_ARTICLE.typeId,
         ProgramType.READ_ARTICLE.typeId,
-        ProgramType.TAKE_FFQ.typeId,
+        ProgramType.FILL_OUT_FFQ.typeId,
         // Week 5
-        ProgramType.TAKE_ASAQ.typeId,
-        ProgramType.TAKE_ASAQ.typeId,
+        ProgramType.FILL_OUT_ASAQ.typeId,
+        ProgramType.FILL_OUT_ASAQ.typeId,
         ProgramType.READ_ARTICLE.typeId,
         ProgramType.READ_ARTICLE.typeId,
-        ProgramType.TAKE_FFQ.typeId,
+        ProgramType.FILL_OUT_FFQ.typeId,
     )
     
 }

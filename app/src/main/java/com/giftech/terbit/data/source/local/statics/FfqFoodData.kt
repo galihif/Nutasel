@@ -1,16 +1,19 @@
 package com.giftech.terbit.data.source.local.statics
 
 import com.giftech.terbit.data.source.local.room.entity.FfqFoodEntity
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object FfqFoodData {
+@Singleton
+class FfqFoodData @Inject constructor(){
     
-    fun get(): List<FfqFoodEntity> {
+    fun getAll(): List<FfqFoodEntity> {
         val list = mutableListOf<FfqFoodEntity>()
         for (i in foodIdList.indices) {
             list.add(
                 FfqFoodEntity(
                     foodId = foodIdList[i],
-                    categoryId = categoryIdList[i],
+                    foodCategoryId = categoryIdList[i],
                     name = nameList[i],
                 )
             )
@@ -19,13 +22,13 @@ object FfqFoodData {
     }
     
     private val foodIdList = listOf(
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, // Staple
-        11, 12, 13, 14, 15, 16, // Animal protein
-        17, 18, 19, 20, 21, // Vegetable protein
-        22, 23, 24, 25, // Vegetable
-        26, 27, 28, 29, 30, 31, // Fruit
-        32, 33, 34, 35, // Drink
-        36, 37, 38, // Snack
+        1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010, // Staple
+        1011, 1012, 1013, 1014, 1015, 1016, // Animal protein
+        1017, 1018, 1019, 1020, 1021, // Vegetable protein
+        1022, 1023, 1024, 1025, // Vegetable
+        1026, 1027, 1028, 1029, 1030, 1031, // Fruit
+        1032, 1033, 1034, 1035, // Drink
+        1036, 1037, 1038, // Snack
     )
     
     private val categoryIdList = listOf(

@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "FfqFoodEntity")
 data class FfqFoodEntity(
-    @PrimaryKey val foodId: Int,
-    val categoryId: Int,
+    @PrimaryKey(autoGenerate = true) val foodId: Int,
+    val foodCategoryId: Int,
     val name: String,
 )

@@ -2,17 +2,20 @@ package com.giftech.terbit.data.source.local.statics
 
 import com.giftech.terbit.R
 import com.giftech.terbit.data.source.local.statics.model.FfqFoodCategoryEntity
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object FfqFoodCategoryData {
+@Singleton
+class FfqFoodCategoryData @Inject constructor(){
     
-    fun get(): List<FfqFoodCategoryEntity> {
+    fun getAll(): List<FfqFoodCategoryEntity> {
         val list = mutableListOf<FfqFoodCategoryEntity>()
         for (i in categoryIdList.indices) {
             list.add(
                 FfqFoodCategoryEntity(
-                    categoryId = categoryIdList[i],
+                    foodCategoryId = categoryIdList[i],
                     name = nameList[i],
-                    image = imageList[i],
+                    imageRes = imageList[i],
                 )
             )
         }
