@@ -20,7 +20,9 @@ fun MyOutlinedTextField(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(
         keyboardType = KeyboardType.Text
     ),
-    isError:Boolean = false
+    isError:Boolean = false,
+    trailingIcon : @Composable () -> Unit = {},
+    readOnly : Boolean = false
 ) {
     OutlinedTextField(
         value = value,
@@ -41,6 +43,10 @@ fun MyOutlinedTextField(
             }
         },
         keyboardOptions = keyboardOptions,
-        isError = isError
+        isError = isError,
+        trailingIcon = {
+            trailingIcon()
+        },
+        readOnly = readOnly
     )
 }
