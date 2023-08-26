@@ -8,7 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.giftech.terbit.data.model.User
+import com.giftech.terbit.domain.model.User
 import com.giftech.terbit.ui.components.enums.HeroEnum
 import com.giftech.terbit.ui.components.templates.OnboardLoading
 import com.giftech.terbit.ui.components.templates.Onboarding
