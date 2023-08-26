@@ -20,8 +20,8 @@ class InputDataDiriViewModel
     private var _berat:MutableStateFlow<String> = MutableStateFlow("")
     val berat = _berat
 
-    private var _usia:MutableStateFlow<String> = MutableStateFlow("")
-    val usia = _usia
+    private var _tglLahir:MutableStateFlow<String> = MutableStateFlow("")
+    val tglLahir = _tglLahir
 
     private var _isMale:MutableStateFlow<Boolean> = MutableStateFlow(true)
     val isMale = _isMale

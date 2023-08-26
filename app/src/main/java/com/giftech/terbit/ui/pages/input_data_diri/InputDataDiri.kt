@@ -11,7 +11,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -28,12 +32,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.giftech.terbit.data.model.User
+import com.giftech.terbit.domain.model.User
 import com.giftech.terbit.ui.components.atoms.MyFilterChips
 import com.giftech.terbit.ui.components.atoms.MyOutlinedTextField
 import com.giftech.terbit.ui.components.atoms.PrimaryButton
 import com.giftech.terbit.ui.components.enums.HeroEnum
 import com.giftech.terbit.ui.components.molecules.HeroColumn
+import com.giftech.terbit.ui.components.molecules.MyDatePickerDialog
 
 @ExperimentalMaterial3Api
 @Composable
@@ -46,12 +51,22 @@ fun InputDataDiriScreen(
     val nama by remember { viewModel.nama }.collectAsState()
     val tinggi by remember { viewModel.tinggi }.collectAsState()
     val berat by remember { viewModel.berat }.collectAsState()
-    val usia by remember { viewModel.usia }.collectAsState()
+    val tglLahir by remember { viewModel.tglLahir }.collectAsState()
     val isMale by remember { viewModel.isMale }.collectAsState()
     var isValid by remember { mutableStateOf(false) }
-    LaunchedEffect(nama, tinggi, berat, usia) {
+
+    var showDatePicker by remember {
+        mutableStateOf(false)
+    }
+    if (showDatePicker) {
+        MyDatePickerDialog(
+            onDateSelected = { viewModel.tglLahir.value = it },
+            onDismiss = { showDatePicker = false }
+        )
+    }
+    LaunchedEffect(nama, tinggi, berat, tglLahir) {
         isValid =
-            nama.isNotBlank() && tinggi.isNotBlank() && berat.isNotBlank() && usia.isNotBlank()
+            nama.isNotBlank() && tinggi.isNotBlank() && berat.isNotBlank() && tglLahir.isNotBlank()
     }
     Scaffold { padding ->
         Column(
@@ -109,17 +124,18 @@ fun InputDataDiriScreen(
                 )
             }
             MyOutlinedTextField(
-                value = usia,
-                onValueChange = {
-                    if (it.isDigitsOnly()) {
-                        viewModel.usia.value = it
+                value = tglLahir,
+                onValueChange = {},
+                readOnly = true,
+                label = "Tanggal Lahir",
+                supportingText = "Tanggal/Bulan/Tahun",
+                trailingIcon = {
+                    IconButton(onClick = {
+                        showDatePicker = true
+                    }) {
+                        Icon(imageVector = Icons.Default.CalendarMonth, contentDescription = "")
                     }
-                },
-                label = "Usia",
-                supportingText = "Tahun",
-                keyboardOptions = KeyboardOptions.Default.copy(
-                    keyboardType = KeyboardType.Number
-                )
+                }
             )
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 Text(
@@ -149,7 +165,7 @@ fun InputDataDiriScreen(
                             nama = nama,
                             tinggi = tinggi.trim().toInt(),
                             berat = berat.trim().toInt(),
-                            usia = usia.trim().toInt(),
+                            tglLahir = tglLahir,
                             isMale = isMale
                         )
                     )
