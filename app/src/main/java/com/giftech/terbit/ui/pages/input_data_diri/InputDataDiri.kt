@@ -32,7 +32,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.giftech.terbit.domain.model.User
 import com.giftech.terbit.ui.components.atoms.MyFilterChips
 import com.giftech.terbit.ui.components.atoms.MyOutlinedTextField
 import com.giftech.terbit.ui.components.atoms.PrimaryButton
@@ -43,7 +42,7 @@ import com.giftech.terbit.ui.components.molecules.MyDatePickerDialog
 @ExperimentalMaterial3Api
 @Composable
 fun InputDataDiriScreen(
-    onNext: (User) -> Unit,
+    onNext: () -> Unit,
     viewModel: InputDataDiriViewModel = hiltViewModel()
 ) {
     val scrollState = rememberScrollState()
@@ -160,15 +159,8 @@ fun InputDataDiriScreen(
             PrimaryButton(
                 text = "Selanjutnya",
                 onClick = {
-                    onNext(
-                        User(
-                            nama = nama,
-                            tinggi = tinggi.trim().toInt(),
-                            berat = berat.trim().toInt(),
-                            tglLahir = tglLahir,
-                            isMale = isMale
-                        )
-                    )
+                    onNext()
+                    viewModel.saveUser()
                 },
                 modifier = Modifier.fillMaxWidth(),
                 enabled = isValid
