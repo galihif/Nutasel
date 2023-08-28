@@ -3,7 +3,7 @@ package com.giftech.terbit.ui.pages.asaq
 import androidx.lifecycle.ViewModel
 import com.giftech.terbit.data.model.Asaq
 import com.giftech.terbit.data.utils.DataProvider
-import com.giftech.terbit.ui.utils.Constant
+import com.giftech.terbit.ui.utils.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
@@ -37,7 +37,7 @@ class AsaqViewModel
             it.tingkatHariKerja = newAsaq.tingkatHariKerja
             it.tingkatHariLibur = newAsaq.tingkatHariLibur
         }
-        if (_currentNumber.value < Constant.TOTAL_ASAQ) {
+        if (_currentNumber.value < Constants.TOTAL_ASAQ) {
             _currentNumber.value += 1
             _currentAsaq.value = _listAsaq.value.find { it.id == _currentNumber.value }!!
         }

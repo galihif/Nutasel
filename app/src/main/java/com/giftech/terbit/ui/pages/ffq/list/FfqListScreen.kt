@@ -1,13 +1,20 @@
 package com.giftech.terbit.ui.pages.ffq.list
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FabPosition
@@ -21,15 +28,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.giftech.terbit.R
-import com.giftech.terbit.ui.components.molecules.FfqFoodItem
-import com.giftech.terbit.ui.pages.ffq.dialog.FfqAddFoodDialog
-import com.giftech.terbit.ui.pages.ffq.dialog.FfqResponseBottomSheet
+import com.giftech.terbit.ui.pages.ffq.floating.FfqAddFoodDialog
+import com.giftech.terbit.ui.pages.ffq.floating.FfqResponseBottomSheet
 
 @Composable
 fun FfqListScreen(
@@ -169,5 +176,44 @@ fun FfqListContent(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun FfqFoodItem(
+    name: String,
+    isChecked: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    onCheckedChange: ((Boolean) -> Unit)? = null,
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable { onClick() },
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = name,
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier
+                    .padding(8.dp)
+                    .weight(1f),
+            )
+            if (isChecked) {
+                Checkbox(
+                    checked = true,
+                    onCheckedChange = onCheckedChange,
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(4.dp))
+        Divider(
+            thickness = 1.dp,
+            modifier = Modifier
+                .fillMaxWidth(),
+        )
     }
 }

@@ -3,12 +3,12 @@ package com.giftech.terbit.data.utils
 import com.giftech.terbit.data.model.Asaq
 import com.giftech.terbit.ui.components.enums.HeroEnum
 import com.giftech.terbit.ui.components.enums.TingkatAktivitasEnum
-import com.giftech.terbit.ui.utils.Constant
+import com.giftech.terbit.ui.utils.Constants
 
 object DataProvider {
     fun asaqList():List<Asaq>{
         val asaqList = mutableListOf<Asaq>()
-        for (i in 1..Constant.TOTAL_ASAQ) {
+        for (i in 1..Constants.TOTAL_ASAQ) {
             val asaq = Asaq(
                 id = i,
                 hero = when (i) {
