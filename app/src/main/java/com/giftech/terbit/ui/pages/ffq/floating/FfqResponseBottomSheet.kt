@@ -1,4 +1,4 @@
-package com.giftech.terbit.ui.pages.ffq.dialog
+package com.giftech.terbit.ui.pages.ffq.floating
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
