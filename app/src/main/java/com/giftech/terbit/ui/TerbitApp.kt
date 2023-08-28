@@ -13,7 +13,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.giftech.terbit.data.model.User
 import com.giftech.terbit.ui.components.enums.HeroEnum
 import com.giftech.terbit.ui.components.molecules.BottomNavigation
 import com.giftech.terbit.ui.components.templates.OnboardLoading
@@ -66,54 +65,38 @@ fun TerbitApp(
     ) { innerPadding ->
         NavHost(
             navController = navHostController,
-            startDestination = Screen.Home.route,
+            startDestination = Screen.InputDataDiri.route,
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(Screen.InputDataDiri.route) {
                 InputDataDiriScreen(
-                    onNext = { user ->
-                        navHostController.apply {
-                            currentBackStackEntry?.savedStateHandle?.set("user", user)
-                            navigate(Screen.OnboardingIMT.route)
-                        }
+                    onNext = {
+                        navHostController.navigate(Screen.OnboardingIMT.route)
                     }
                 )
             }
             
             composable(Screen.OnboardingIMT.route) {
-                val user =
-                    navHostController.previousBackStackEntry?.savedStateHandle?.get<User>("user")
                 OnboardLoading(
                     onNext = {
-                        navHostController.apply {
-                            currentBackStackEntry?.savedStateHandle?.set("user", user)
-                            navigate(Screen.HasilIMT.route)
-                        }
+                        navHostController.navigate(Screen.HasilIMT.route)
                     },
                     hero = HeroEnum.LoadingIMT
                 )
             }
             
             composable(Screen.HasilIMT.route) {
-                val user =
-                    navHostController.previousBackStackEntry?.savedStateHandle?.get<User>("user")
-                if (user != null) {
-                    HasilIMTScreen(
-                        onNext = {
-                            navHostController.apply {
-                                currentBackStackEntry?.savedStateHandle?.set("user", it)
-                                navigate(Screen.OnboardingASAQ1.route)
-                            }
-                        },
-                        onBack = {
-                            navHostController.popBackStack(
-                                route = Screen.InputDataDiri.route,
-                                inclusive = false
-                            )
-                        },
-                        user = user
-                    )
-                }
+                HasilIMTScreen(
+                    onNext = {
+                        navHostController.navigate(Screen.OnboardingASAQ1.route)
+                    },
+                    onBack = {
+                        navHostController.popBackStack(
+                            route = Screen.InputDataDiri.route,
+                            inclusive = false
+                        )
+                    },
+                )
             }
             
             composable(Screen.OnboardingASAQ1.route) {
@@ -197,6 +180,7 @@ fun TerbitApp(
                 }
             }
             
+            // Homepage
             composable(Screen.Home.route) {
                 HomeScreen(
                     navController = navHostController,
