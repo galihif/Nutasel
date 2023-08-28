@@ -30,7 +30,19 @@ sealed class Screen(val route: String) {
     }
     
     object OnboardingTingkatPemantauan : Screen("OnboardingTingkatPemantauan")
+    
     object HasilTingkatPemantauan : Screen("HasilTingkatPemantauan")
+    
+    object Home : Screen("Home")
+    
+    object WeeklyMonitoring : Screen("WeeklyMonitoring")
+    
+    object Graph : Screen("Graph")
+    
+    object Profile : Screen("Profile")
+    
+    object NotificationList : Screen("NotificationList")
+    
     object Profesional : Screen("Profesional")
     
 }
