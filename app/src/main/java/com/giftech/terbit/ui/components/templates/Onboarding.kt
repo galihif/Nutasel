@@ -59,7 +59,9 @@ fun Onboarding(
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             HeroColumn(
-                hero = hero
+                title = hero.title,
+                description = hero.description,
+                imageRes = hero.image
             )
             PrimaryButton(
                 text = "Selanjutnya",
@@ -91,7 +93,9 @@ fun OnboardLoading(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             HeroColumn(
-                hero = hero,
+                title = hero.title,
+                description = hero.description,
+                imageRes = hero.image,
                 modifier = Modifier.weight(1f)
             )
             CircularProgressIndicator(
