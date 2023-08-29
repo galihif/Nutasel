@@ -18,17 +18,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.core.text.isDigitsOnly
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.giftech.terbit.data.model.Asaq
+import com.giftech.terbit.domain.model.Asaq
 import com.giftech.terbit.ui.components.atoms.MyFilterChips
+import com.giftech.terbit.ui.components.atoms.MyOutlinedTextField
 import com.giftech.terbit.ui.components.atoms.PrimaryButton
 import com.giftech.terbit.ui.components.enums.HariEnum
-import com.giftech.terbit.ui.components.enums.TingkatAktivitasEnum
 import com.giftech.terbit.ui.components.molecules.HeroColumn
 import com.giftech.terbit.ui.utils.Constants
 
@@ -36,22 +38,32 @@ import com.giftech.terbit.ui.utils.Constants
 @Composable
 fun AsaqScreen(
     viewModel: AsaqViewModel = hiltViewModel(),
-    onBack : () -> Unit,
-    onNext : (score:Int) -> Unit
+    onBack: () -> Unit,
+    onNext: (score: Int) -> Unit
 ) {
     val currentAsaq by remember {
         viewModel.currentAsaq
+    }.collectAsState()
+
+    val currentQuestion by remember {
+        viewModel.currentQuestion
     }.collectAsState()
 
     val currentNumber by remember {
         viewModel.currentNumber
     }.collectAsState()
 
-    var tingkatHariKerja by remember {
-        mutableStateOf(TingkatAktivitasEnum.DEFAULT)
+    var jam by remember {
+        mutableStateOf("")
     }
-    var tingkatHariLibur by remember {
-        mutableStateOf(TingkatAktivitasEnum.DEFAULT)
+    var menit by remember {
+        mutableStateOf("")
+    }
+    var durasiHariKerja by remember {
+        mutableIntStateOf(0)
+    }
+    var durasiHariLibur by remember {
+        mutableIntStateOf(0)
     }
     var selectedHari by remember {
         mutableStateOf(HariEnum.HARI_KERJA)
@@ -60,20 +72,35 @@ fun AsaqScreen(
         mutableStateOf(false)
     }
     LaunchedEffect(currentAsaq) {
-        tingkatHariKerja = currentAsaq.tingkatHariKerja
-        tingkatHariLibur = currentAsaq.tingkatHariLibur
+        durasiHariKerja = currentAsaq.durasiHariKerja
+        durasiHariLibur = currentAsaq.durasiHariLibur
+    }
+    LaunchedEffect(selectedHari, durasiHariKerja, durasiHariLibur) {
+        when (selectedHari) {
+            HariEnum.HARI_KERJA -> {
+                jam = (durasiHariKerja / 60).toString()
+                menit = (durasiHariKerja % 60).toString()
+            }
+
+            HariEnum.HARI_LIBUR -> {
+                jam = (durasiHariLibur / 60).toString()
+                menit = (durasiHariLibur % 60).toString()
+            }
+
+            else -> {}
+        }
     }
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
-                        Text("${currentAsaq.id}/12")
+                    Text("${currentAsaq.questionId}/12")
                 },
                 navigationIcon = {
                     IconButton(onClick = {
                         if (currentNumber > 1) {
                             viewModel.prevQuestion()
-                        }else{
+                        } else {
                             onBack()
                         }
                     }) {
@@ -91,11 +118,13 @@ fun AsaqScreen(
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             HeroColumn(
-                hero = currentAsaq.hero,
+                title = currentQuestion.title,
+                description = currentQuestion.question,
+                imageRes = currentQuestion.imageRes,
                 imageHeight = 200
             )
             MyFilterChips(
-                selected = tingkatHariKerja != TingkatAktivitasEnum.DEFAULT,
+                selected = durasiHariKerja != 0,
                 onSelectedChange = {
                     selectedHari = HariEnum.HARI_KERJA
                     modalSheetOpen = true
@@ -104,7 +133,7 @@ fun AsaqScreen(
                 modifier = Modifier.fillMaxWidth()
             )
             MyFilterChips(
-                selected = tingkatHariLibur != TingkatAktivitasEnum.DEFAULT,
+                selected = durasiHariLibur != 0,
                 onSelectedChange = {
                     selectedHari = HariEnum.HARI_LIBUR
                     modalSheetOpen = true
@@ -117,20 +146,18 @@ fun AsaqScreen(
                 onClick = {
                     viewModel.nextQuestion(
                         Asaq(
-                            id = currentAsaq.id,
-                            hero = currentAsaq.hero,
-                            tingkatHariKerja = tingkatHariKerja,
-                            tingkatHariLibur = tingkatHariLibur
+                            questionId = currentAsaq.questionId,
+                            durasiHariKerja = durasiHariKerja,
+                            durasiHariLibur = durasiHariLibur,
                         )
                     )
                     if (currentNumber == Constants.TOTAL_ASAQ) {
-                        viewModel.calculateScore()
+                        viewModel.saveAsaq()
                         onNext(viewModel.totalScore.value)
                     }
                 },
                 modifier = Modifier.fillMaxWidth(),
-                enabled = tingkatHariKerja != TingkatAktivitasEnum.DEFAULT &&
-                        tingkatHariLibur != TingkatAktivitasEnum.DEFAULT
+                enabled = durasiHariKerja != 0 && durasiHariLibur != 0
             )
         }
         if (modalSheetOpen) {
@@ -143,72 +170,47 @@ fun AsaqScreen(
                         .padding(12.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    MyFilterChips(
-                        selected = when (selectedHari) {
-                            HariEnum.HARI_KERJA -> tingkatHariKerja == TingkatAktivitasEnum.RENDAH
-                            HariEnum.HARI_LIBUR -> tingkatHariLibur == TingkatAktivitasEnum.RENDAH
-                            else -> false
-                        },
-                        onSelectedChange = {
-                            when (selectedHari) {
-                                HariEnum.HARI_KERJA -> tingkatHariKerja =
-                                    TingkatAktivitasEnum.RENDAH
-
-                                HariEnum.HARI_LIBUR -> tingkatHariLibur =
-                                    TingkatAktivitasEnum.RENDAH
-
-                                else -> Unit
+                    MyOutlinedTextField(
+                        //Jam
+                        value = jam,
+                        onValueChange = { newValue ->
+                            if (newValue.isDigitsOnly()) {
+                                jam = newValue
                             }
                         },
-                        text = TingkatAktivitasEnum.RENDAH.title,
-                        modifier = Modifier.fillMaxWidth()
+                        label = "Jam",
+                        supportingText = if (jam.isNotEmpty() && jam.toInt() > 24) "Jam tidak boleh lebih dari 24" else "",
                     )
-                    MyFilterChips(
-                        selected = when (selectedHari) {
-                            HariEnum.HARI_KERJA -> tingkatHariKerja == TingkatAktivitasEnum.SEDANG
-                            HariEnum.HARI_LIBUR -> tingkatHariLibur == TingkatAktivitasEnum.SEDANG
-                            else -> false
-                        },
-                        onSelectedChange = {
-                            when (selectedHari) {
-                                HariEnum.HARI_KERJA -> tingkatHariKerja =
-                                    TingkatAktivitasEnum.SEDANG
-
-                                HariEnum.HARI_LIBUR -> tingkatHariLibur =
-                                    TingkatAktivitasEnum.SEDANG
-
-                                else -> Unit
+                    MyOutlinedTextField(
+                        //Menit
+                        value = menit,
+                        onValueChange = { newValue ->
+                            if (newValue.isDigitsOnly()) {
+                                menit = newValue
                             }
                         },
-                        text = TingkatAktivitasEnum.SEDANG.title,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    MyFilterChips(
-                        selected = when (selectedHari) {
-                            HariEnum.HARI_KERJA -> tingkatHariKerja == TingkatAktivitasEnum.TINGGI
-                            HariEnum.HARI_LIBUR -> tingkatHariLibur == TingkatAktivitasEnum.TINGGI
-                            else -> false
-                        },
-                        onSelectedChange = {
-                            when (selectedHari) {
-                                HariEnum.HARI_KERJA -> tingkatHariKerja =
-                                    TingkatAktivitasEnum.TINGGI
-
-                                HariEnum.HARI_LIBUR -> tingkatHariLibur =
-                                    TingkatAktivitasEnum.TINGGI
-
-                                else -> Unit
-                            }
-                        },
-                        text = TingkatAktivitasEnum.TINGGI.title,
-                        modifier = Modifier.fillMaxWidth()
+                        label = "Menit",
+                        supportingText = if (menit.isNotEmpty() && menit.toInt() > 60) "Menit tidak boleh lebih dari 60" else "",
                     )
                     PrimaryButton(
                         text = "Selanjutnya",
                         onClick = {
                             modalSheetOpen = false
+                            when (selectedHari) {
+                                HariEnum.HARI_KERJA -> {
+                                    durasiHariKerja = jam.toInt() * 60 + menit.toInt()
+                                }
+
+                                HariEnum.HARI_LIBUR -> {
+                                    durasiHariLibur = jam.toInt() * 60 + menit.toInt()
+                                }
+
+                                else -> {}
+                            }
                         },
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        enabled = jam.isNotBlank() && menit.isNotBlank() && jam.toInt() <= 24 && menit.toInt() <= 60
+
                     )
                 }
             }
