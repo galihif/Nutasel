@@ -16,52 +16,27 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.giftech.terbit.R
 import com.giftech.terbit.ui.components.atoms.PrimaryButton
 import com.giftech.terbit.ui.components.molecules.IconTextRow
 
 @Composable
 fun HasilTPScreen(
-    totalScore: Int,
-    onNext: () -> Unit
+    onNext: () -> Unit,
+    viewModel:HasilTPViewModel = hiltViewModel()
 ) {
-    var title by remember {
-        mutableStateOf("Ringan")
-    }
-    var desc by remember {
-        mutableStateOf("Aktivitas sedentari kamu ringan nih, yuk kita perbaiki lagi agar pola hidup kamu menjadi lebih baik.")
-    }
-    LaunchedEffect(totalScore) {
-        when {
-            totalScore <= 30 -> {
-                title = "Ringan"
-                desc =
-                    "Aktivitas sedentari kamu ringan nih, yuk kita perbaiki lagi agar pola hidup kamu menjadi lebih baik."
-            }
-
-            totalScore <= 54 -> {
-                title = "Sedang"
-                desc =
-                    "Aktivitas sedentari dan pola makanmu sepertinya kurang baik, yuk kita perbaiki dengan aktivitas ini ya"
-            }
-
-            else -> {
-                title = "Berat"
-                desc =
-                    "Wah aktivitas sedentari kamu berat, yuk lakukan kegiatan dibawah ini agar pola hidupmu jauh lebih baik"
-            }
-        }
-    }
+    val sedenterType by remember {
+        viewModel.sedenterType
+    }.collectAsState()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -100,11 +75,11 @@ fun HasilTPScreen(
                         .padding(horizontal = 12.dp, vertical = 24.dp)
                 ) {
                     Text(
-                        text = title,
+                        text = sedenterType.title,
                         style = MaterialTheme.typography.headlineLarge
                     )
                     Text(
-                        text = desc,
+                        text = sedenterType.description,
                         style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.Center
                     )
