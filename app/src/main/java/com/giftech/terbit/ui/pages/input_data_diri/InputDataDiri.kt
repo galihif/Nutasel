@@ -77,7 +77,9 @@ fun InputDataDiriScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             HeroColumn(
-                hero = HeroEnum.InputDataDiri
+                title = "Data Diri",
+                description = "Isi data diri kamu dengan benar",
+                imageRes = HeroEnum.InputDataDiri.image,
             )
             Text(
                 text = "Informasi Personal",
