@@ -33,19 +33,20 @@ import com.giftech.terbit.ui.components.atoms.PrimaryButton
 import com.giftech.terbit.ui.components.enums.HeroEnum
 import com.giftech.terbit.ui.components.molecules.HeroColumn
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Hasil(
     onNext: () -> Unit = {},
     onBack: () -> Unit = {},
     hero: HeroEnum,
     statusColor: Color,
-    nama:String,
-    skorTitle:String,
-    skor:String,
-    kategoriTitle:String,
-    kategori:String,
-    desc:String,
-    buttonText:String
+    nama: String,
+    skorTitle: String,
+    skor: String,
+    kategoriTitle: String,
+    kategori: String,
+    desc: String,
+    buttonText: String
 ) {
     BackHandler() {
         onBack()
@@ -76,7 +77,13 @@ fun Hasil(
                 .padding(it),
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            HeroColumn(hero = hero, textColor = Color.White, imageHeight = 200)
+            HeroColumn(
+                title = hero.title,
+                description = hero.description,
+                imageRes = hero.image,
+                textColor = Color.White,
+                imageHeight = 200
+            )
             Card(
                 colors = CardDefaults.cardColors(
                     containerColor = MaterialTheme.colorScheme.surface,
@@ -134,7 +141,10 @@ fun Hasil(
                                         text = kategori,
                                         color = Color.White,
                                         style = MaterialTheme.typography.labelLarge,
-                                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                                        modifier = Modifier.padding(
+                                            horizontal = 8.dp,
+                                            vertical = 4.dp
+                                        )
                                     )
                                 }
                             }
@@ -143,7 +153,7 @@ fun Hasil(
                     }
                     Column(
                         verticalArrangement = Arrangement.spacedBy(8.dp),
-                    ){
+                    ) {
                         Text(
                             text = "Penjelasan",
                             style = MaterialTheme.typography.labelLarge,

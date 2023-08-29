@@ -27,14 +27,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.giftech.terbit.R
-import com.giftech.terbit.ui.components.enums.HeroEnum
 import com.giftech.terbit.ui.theme.light_CustomColor2
 import com.giftech.terbit.ui.theme.light_onCustomColor2
 
 @Composable
 fun HeroColumn(
     modifier: Modifier = Modifier,
-    hero: HeroEnum,
+    title:String,
+    description:String,
+    imageRes:Int,
     imageHeight: Int? = null,
     textColor: Color = MaterialTheme.colorScheme.onSurface
 ) {
@@ -44,20 +45,20 @@ fun HeroColumn(
         verticalArrangement = Arrangement.Center
     ) {
         Image(
-            painter = painterResource(hero.image),
+            painter = painterResource(imageRes),
             contentDescription = "",
             modifier = if (imageHeight != null) Modifier.height(imageHeight.dp) else Modifier,
             contentScale = ContentScale.FillHeight
         )
         Text(
-            text = hero.title,
+            text = title,
             style = MaterialTheme.typography.titleLarge,
             modifier = Modifier.padding(16.dp),
             textAlign = TextAlign.Center,
             color = textColor
         )
         Text(
-            text = hero.description.ifBlank { "" },
+            text = description.ifBlank { "" },
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center,
             color = textColor

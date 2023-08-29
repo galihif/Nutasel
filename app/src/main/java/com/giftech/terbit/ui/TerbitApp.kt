@@ -68,6 +68,7 @@ fun TerbitApp(
             startDestination = Screen.InputDataDiri.route,
             modifier = Modifier.padding(innerPadding)
         ) {
+            // Input Data Diri
             composable(Screen.InputDataDiri.route) {
                 InputDataDiriScreen(
                     onNext = {
@@ -75,7 +76,8 @@ fun TerbitApp(
                     }
                 )
             }
-            
+
+            // Onboarding IMT
             composable(Screen.OnboardingIMT.route) {
                 OnboardLoading(
                     onNext = {
@@ -84,7 +86,8 @@ fun TerbitApp(
                     hero = HeroEnum.LoadingIMT
                 )
             }
-            
+
+            // Hasil IMT
             composable(Screen.HasilIMT.route) {
                 HasilIMTScreen(
                     onNext = {
@@ -98,7 +101,8 @@ fun TerbitApp(
                     },
                 )
             }
-            
+
+            // Onboarding ASAQ 1
             composable(Screen.OnboardingASAQ1.route) {
                 Onboarding(
                     onBack = {
@@ -110,7 +114,8 @@ fun TerbitApp(
                     hero = HeroEnum.AsaqOnboard1
                 )
             }
-            
+
+            // Onboarding ASAQ 2
             composable(Screen.OnboardingASAQ2.route) {
                 Onboarding(
                     onBack = {
@@ -122,7 +127,8 @@ fun TerbitApp(
                     hero = HeroEnum.AsaqOnboard2
                 )
             }
-            
+
+            // Onboarding ASAQ 3
             composable(Screen.OnboardingASAQ3.route) {
                 Onboarding(
                     onBack = {
@@ -134,7 +140,8 @@ fun TerbitApp(
                     hero = HeroEnum.AsaqOnboard3
                 )
             }
-            
+
+            // ASAQ
             composable(Screen.ASAQ.route) {
                 AsaqScreen(
                     onBack = {
@@ -152,32 +159,24 @@ fun TerbitApp(
                     navController = navHostController,
                 )
             }
-            
+
+            //Onboarding Tingkat Pemantauan
             composable(Screen.OnboardingTingkatPemantauan.route) {
-                val totalScore =
-                    navHostController.previousBackStackEntry?.savedStateHandle?.get<Int>("total_score")
                 OnboardLoading(
                     onNext = {
-                        navHostController.apply {
-                            currentBackStackEntry?.savedStateHandle?.set("total_score", totalScore)
-                            navigate(Screen.HasilTingkatPemantauan.route)
-                        }
+                        navHostController.navigate(Screen.HasilTingkatPemantauan.route)
                     },
                     hero = HeroEnum.LoadingHasilTP
                 )
             }
-            
+
+            //Hasil Tingkat Pemantauan
             composable(Screen.HasilTingkatPemantauan.route) {
-                val totalScore =
-                    navHostController.previousBackStackEntry?.savedStateHandle?.get<Int>("total_score")
-                if (totalScore != null && totalScore > 0) {
-                    HasilTPScreen(
-                        totalScore = totalScore,
-                        onNext = {
-                            navHostController.navigate(Screen.Home.route)
-                        }
-                    )
-                }
+                HasilTPScreen(
+                    onNext = {
+                        navHostController.navigate(Screen.Home.route)
+                    }
+                )
             }
             
             // Homepage
