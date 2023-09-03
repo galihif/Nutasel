@@ -9,9 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material3.Button
@@ -19,22 +17,35 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.giftech.terbit.R
 
 @Composable
-fun ProfileScreen() {
+fun ProfileScreen(
+    onEdit : () -> Unit,
+    viewModel: ProfileViewModel = hiltViewModel()
+) {
+    LaunchedEffect(true){
+        viewModel.getUser()
+    }
+    val user by remember {
+        viewModel.user
+    }.collectAsState()
 
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .verticalScroll(rememberScrollState())
             .fillMaxSize()
             .padding(24.dp)
     ) {
@@ -49,7 +60,7 @@ fun ProfileScreen() {
                     .clip(CircleShape)
             )
             Text(
-                text = "Nama",
+                text = user.nama,
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier
                     .padding(top = 16.dp),
@@ -73,16 +84,23 @@ fun ProfileScreen() {
                     text = "Edit",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.clickable { }
+                    modifier = Modifier.clickable {
+                        onEdit()
+                    }
                 )
             }
-            ProfileTextColumn(title = "Berat Badan", subtitle = "60 Kg")
-            ProfileTextColumn(title = "Tinggi Badan", subtitle = "170 cm")
-            ProfileTextColumn(title = "Tanggal Lahir", subtitle = "22/08/2001")
-            ProfileTextColumn(title = "Jenis Kelamin", subtitle = "Laki-laki")
+            ProfileTextColumn(title = "Berat Badan", subtitle = "${user.berat} Kg")
+            ProfileTextColumn(title = "Tinggi Badan", subtitle = "${user.tinggi} cm")
+            ProfileTextColumn(title = "Tanggal Lahir", subtitle = user.tglLahir)
+            ProfileTextColumn(
+                title = "Jenis Kelamin",
+                subtitle = if (user.isMale) "Laki-laki" else "Perempuan"
+            )
         }
         Button(
-            onClick = { /*TODO*/ },
+            onClick = {
+                //download pemantauan
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 10.dp)

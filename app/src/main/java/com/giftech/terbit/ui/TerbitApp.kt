@@ -29,6 +29,7 @@ import com.giftech.terbit.ui.pages.input_data_diri.InputDataDiriScreen
 import com.giftech.terbit.ui.pages.notificationlist.NotificationListScreen
 import com.giftech.terbit.ui.pages.onboarding.FfqOnboardingScreen
 import com.giftech.terbit.ui.pages.profesional.ProfesionalScreen
+import com.giftech.terbit.ui.pages.profile.EditProfileScreen
 import com.giftech.terbit.ui.pages.profile.ProfileScreen
 import com.giftech.terbit.ui.pages.weeklymonitoring.WeeklyMonitoringScreen
 import com.giftech.terbit.ui.route.BottomNavItem
@@ -195,7 +196,19 @@ fun TerbitApp(
             }
             
             composable(Screen.Profile.route) {
-                ProfileScreen()
+                ProfileScreen(
+                    onEdit = {
+                        navHostController.navigate(Screen.EditProfile.route)
+                    }
+                )
+            }
+
+            composable(Screen.EditProfile.route) {
+                EditProfileScreen(
+                    onBack = {
+                        navHostController.popBackStack()
+                    }
+                )
             }
             
             composable(Screen.NotificationList.route) {

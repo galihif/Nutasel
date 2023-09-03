@@ -40,6 +40,7 @@ sealed class Screen(val route: String) {
     object Graph : Screen("Graph")
     
     object Profile : Screen("Profile")
+    object EditProfile : Screen("EditProfile")
     
     object NotificationList : Screen("NotificationList")
     
