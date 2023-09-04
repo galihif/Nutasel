@@ -6,7 +6,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ProgramData @Inject constructor(){
+class ProgramData @Inject constructor() {
     
     fun getAll(): List<ProgramEntity> {
         val list = mutableListOf<ProgramEntity>()
@@ -25,29 +25,29 @@ class ProgramData @Inject constructor(){
     
     private val programIdList = listOf(
         1, 2, // First time use
-        3, 4, 5, 6, 7, 8, 9, 10, 11, 12, // Week 1
-        13, 14, 15, 16, 17, 18, 19, 20, 21, 22, // Week 2
-        23, 24, 25, 26, 27, 28, 29, 30, 31, 32, // Week 3
-        33, 34, 35, 36, 37, 38, 39, 40, 41, 42, // Week 4
-        43, 44, 45, 46, 47, // Week 5
+        3, 4, 5, 6, 7, 8, 9, 10, 11, // Week 1
+        12, 13, 14, 15, 16, 17, 18, 19, 20, // Week 2
+        21, 22, 23, 24, 25, 26, 27, 28, 29, // Week 3
+        30, 31, 32, 33, 34, 35, 36, 37, 38, // Week 4
+        39, 40, // Last
     )
     
     private val weekList = listOf(
         null, null, // First time use
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-        3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
-        4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
-        5, 5, 5, 5, 5,
+        1, 1, 1, 1, 1, 1, 1, 1, 1,
+        2, 2, 2, 2, 2, 2, 2, 2, 2,
+        3, 3, 3, 3, 3, 3, 3, 3, 3,
+        4, 4, 4, 4, 4, 4, 4, 4, 4,
+        null, null, // Last
     )
     
     private val dayOfWeek = listOf(
         null, null, // First time use
-        1, 2, 3, 4, 5, 6, 7, 3, 7, null, // Week 1
-        1, 2, 3, 4, 5, 6, 7, 3, 7, null, // Week 2
-        1, 2, 3, 4, 5, 6, 7, 3, 7, null, // Week 3
-        1, 2, 3, 4, 5, 6, 7, 3, 7, null, // Week 4
-        1, 2, 3, 7, null, // Week 5
+        1, 2, 3, 4, 5, 6, 7, 3, 7, // Week 1
+        1, 2, 3, 4, 5, 6, 7, 3, 7, // Week 2
+        1, 2, 3, 4, 5, 6, 7, 3, 7, // Week 3
+        1, 2, 3, 4, 5, 6, 7, 3, 7, // Week 4
+        null, null, // Last
     )
     
     private val typeList = listOf(
@@ -64,7 +64,6 @@ class ProgramData @Inject constructor(){
         ProgramType.FILL_OUT_ASAQ.typeId,
         ProgramType.READ_ARTICLE.typeId,
         ProgramType.READ_ARTICLE.typeId,
-        ProgramType.FILL_OUT_FFQ.typeId,
         // Week 2
         ProgramType.FILL_OUT_ASAQ.typeId,
         ProgramType.FILL_OUT_ASAQ.typeId,
@@ -75,7 +74,6 @@ class ProgramData @Inject constructor(){
         ProgramType.FILL_OUT_ASAQ.typeId,
         ProgramType.READ_ARTICLE.typeId,
         ProgramType.READ_ARTICLE.typeId,
-        ProgramType.FILL_OUT_FFQ.typeId,
         // Week 3
         ProgramType.FILL_OUT_ASAQ.typeId,
         ProgramType.FILL_OUT_ASAQ.typeId,
@@ -86,7 +84,6 @@ class ProgramData @Inject constructor(){
         ProgramType.FILL_OUT_ASAQ.typeId,
         ProgramType.READ_ARTICLE.typeId,
         ProgramType.READ_ARTICLE.typeId,
-        ProgramType.FILL_OUT_FFQ.typeId,
         // Week 4
         ProgramType.FILL_OUT_ASAQ.typeId,
         ProgramType.FILL_OUT_ASAQ.typeId,
@@ -97,12 +94,8 @@ class ProgramData @Inject constructor(){
         ProgramType.FILL_OUT_ASAQ.typeId,
         ProgramType.READ_ARTICLE.typeId,
         ProgramType.READ_ARTICLE.typeId,
-        ProgramType.FILL_OUT_FFQ.typeId,
-        // Week 5
+        // Last
         ProgramType.FILL_OUT_ASAQ.typeId,
-        ProgramType.FILL_OUT_ASAQ.typeId,
-        ProgramType.READ_ARTICLE.typeId,
-        ProgramType.READ_ARTICLE.typeId,
         ProgramType.FILL_OUT_FFQ.typeId,
     )
     
