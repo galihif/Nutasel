@@ -3,7 +3,7 @@
     <string name="txt_title_ffqmain">FFQ</string>
     <string name="btn_cd_back_ffqmain">Kembali</string>
     <string name="btn_complete_ffqmain">Selesai</string>
-    <string name="btn_cd_back_ffqlist">Kembali</string>
+    <string name="btn_cd_back">Kembali</string>
     <string name="btn_add_food_ffqlist">Tambah Bahan Makanan</string>
     <string name="txt_title_ffqresult">Hasil FFQ</string>
     <string name="txt_desc_ffqresult">Ini adalah nilai dari apa yang kamu makan sebulan kemarin!</string>
