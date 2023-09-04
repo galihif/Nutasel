@@ -26,12 +26,13 @@ import com.giftech.terbit.ui.pages.hasil_imt.HasilIMTScreen
 import com.giftech.terbit.ui.pages.hasil_tingkat_pemantauan.HasilTPScreen
 import com.giftech.terbit.ui.pages.home.HomeScreen
 import com.giftech.terbit.ui.pages.input_data_diri.InputDataDiriScreen
+import com.giftech.terbit.ui.pages.monitoring.MonitoringScreen
+import com.giftech.terbit.ui.pages.monitoringdetails.MonitoringDetailsScreen
 import com.giftech.terbit.ui.pages.notificationlist.NotificationListScreen
 import com.giftech.terbit.ui.pages.onboarding.FfqOnboardingScreen
 import com.giftech.terbit.ui.pages.profesional.ProfesionalScreen
 import com.giftech.terbit.ui.pages.profile.EditProfileScreen
 import com.giftech.terbit.ui.pages.profile.ProfileScreen
-import com.giftech.terbit.ui.pages.weeklymonitoring.WeeklyMonitoringScreen
 import com.giftech.terbit.ui.route.BottomNavItem
 import com.giftech.terbit.ui.route.Screen
 import com.giftech.terbit.ui.utils.Constants
@@ -45,7 +46,7 @@ fun TerbitApp(
     
     val navigationItems = listOf(
         BottomNavItem.Home,
-        BottomNavItem.WeeklyMonitoring,
+        BottomNavItem.Monitoring,
         BottomNavItem.Graph,
         BottomNavItem.Profile,
     )
@@ -66,7 +67,7 @@ fun TerbitApp(
     ) { innerPadding ->
         NavHost(
             navController = navHostController,
-            startDestination = Screen.InputDataDiri.route,
+            startDestination = Screen.Home.route,
             modifier = Modifier.padding(innerPadding)
         ) {
             // Input Data Diri
@@ -77,7 +78,7 @@ fun TerbitApp(
                     }
                 )
             }
-
+            
             // Onboarding IMT
             composable(Screen.OnboardingIMT.route) {
                 OnboardLoading(
@@ -87,7 +88,7 @@ fun TerbitApp(
                     hero = HeroEnum.LoadingIMT
                 )
             }
-
+            
             // Hasil IMT
             composable(Screen.HasilIMT.route) {
                 HasilIMTScreen(
@@ -102,7 +103,7 @@ fun TerbitApp(
                     },
                 )
             }
-
+            
             // Onboarding ASAQ 1
             composable(Screen.OnboardingASAQ1.route) {
                 Onboarding(
@@ -115,7 +116,7 @@ fun TerbitApp(
                     hero = HeroEnum.AsaqOnboard1
                 )
             }
-
+            
             // Onboarding ASAQ 2
             composable(Screen.OnboardingASAQ2.route) {
                 Onboarding(
@@ -128,7 +129,7 @@ fun TerbitApp(
                     hero = HeroEnum.AsaqOnboard2
                 )
             }
-
+            
             // Onboarding ASAQ 3
             composable(Screen.OnboardingASAQ3.route) {
                 Onboarding(
@@ -141,7 +142,7 @@ fun TerbitApp(
                     hero = HeroEnum.AsaqOnboard3
                 )
             }
-
+            
             // ASAQ
             composable(Screen.ASAQ.route) {
                 AsaqScreen(
@@ -160,7 +161,7 @@ fun TerbitApp(
                     navController = navHostController,
                 )
             }
-
+            
             //Onboarding Tingkat Pemantauan
             composable(Screen.OnboardingTingkatPemantauan.route) {
                 OnboardLoading(
@@ -170,7 +171,7 @@ fun TerbitApp(
                     hero = HeroEnum.LoadingHasilTP
                 )
             }
-
+            
             //Hasil Tingkat Pemantauan
             composable(Screen.HasilTingkatPemantauan.route) {
                 HasilTPScreen(
@@ -187,8 +188,10 @@ fun TerbitApp(
                 )
             }
             
-            composable(Screen.WeeklyMonitoring.route) {
-                WeeklyMonitoringScreen()
+            composable(Screen.Monitoring.route) {
+                MonitoringScreen(
+                    navController = navHostController,
+                )
             }
             
             composable(Screen.Graph.route) {
@@ -202,7 +205,7 @@ fun TerbitApp(
                     }
                 )
             }
-
+            
             composable(Screen.EditProfile.route) {
                 EditProfileScreen(
                     onBack = {
@@ -219,6 +222,12 @@ fun TerbitApp(
             
             composable(Screen.Profesional.route) {
                 ProfesionalScreen()
+            }
+            
+            composable(Screen.MonitoringDetails.route) {
+                MonitoringDetailsScreen(
+                    navController = navHostController,
+                )
             }
             
             // FFQ Main

@@ -35,7 +35,7 @@ sealed class Screen(val route: String) {
     
     object Home : Screen("Home")
     
-    object WeeklyMonitoring : Screen("WeeklyMonitoring")
+    object Monitoring : Screen("Monitoring")
     
     object Graph : Screen("Graph")
     
@@ -45,5 +45,7 @@ sealed class Screen(val route: String) {
     object NotificationList : Screen("NotificationList")
     
     object Profesional : Screen("Profesional")
+    
+    object MonitoringDetails : Screen("MonitoringDetails")
     
 }

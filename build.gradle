@@ -4,6 +4,8 @@ buildscript {
         coroutines_version = '1.7.1'
         hilt_version = '2.47'
         room_version = '2.5.2'
+        desugar_jdk_libs_version = '2.0.3'
+        calendar_version = '2.4.0-beta01'
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 

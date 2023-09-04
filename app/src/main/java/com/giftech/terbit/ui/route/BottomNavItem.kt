@@ -19,10 +19,10 @@ sealed class BottomNavItem(
         screen = Screen.Home,
     )
     
-    object WeeklyMonitoring : BottomNavItem(
+    object Monitoring : BottomNavItem(
         title = "Pantau",
         icon = Icons.Outlined.MonitorHeart,
-        screen = Screen.WeeklyMonitoring,
+        screen = Screen.Monitoring,
     )
     
     object Graph : BottomNavItem(

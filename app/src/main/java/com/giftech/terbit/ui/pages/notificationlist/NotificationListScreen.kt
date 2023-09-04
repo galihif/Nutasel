@@ -57,7 +57,7 @@ private fun NotificationListContent(
                     IconButton(onClick = navController::popBackStack) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = stringResource(R.string.btn_cd_back_ffqlist),
+                            contentDescription = stringResource(R.string.btn_cd_back),
                         )
                     }
                 },
