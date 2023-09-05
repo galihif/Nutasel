@@ -47,5 +47,7 @@ sealed class Screen(val route: String) {
     object Profesional : Screen("Profesional")
     
     object MonitoringDetails : Screen("MonitoringDetails")
+
+    object Article : Screen("Article")
     
 }
