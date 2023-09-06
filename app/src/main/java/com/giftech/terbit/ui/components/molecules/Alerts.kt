@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.giftech.terbit.ui.theme.dark_onCustomColor3
 import com.giftech.terbit.ui.theme.light_CustomColor3Container
@@ -49,6 +50,7 @@ fun Alerts(
             text = text,
             style = MaterialTheme.typography.bodyMedium,
             color = color,
+            textAlign = TextAlign.Center,
         )
     }
 }
