@@ -12,13 +12,16 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowRight
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.outlined.AccessTime
+import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material.icons.rounded.ArrowRight
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -29,11 +32,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.giftech.terbit.R
+import com.giftech.terbit.ui.components.molecules.Alerts
 import com.giftech.terbit.ui.route.Screen
 import com.giftech.terbit.ui.theme.CustomColor1
 import com.giftech.terbit.ui.theme.CustomColor2
@@ -71,6 +76,12 @@ private fun HomeContent(
         Spacer(modifier = Modifier.height(32.dp))
         
         InitialConditionsSection()
+        
+        Spacer(modifier = Modifier.height(32.dp))
+        
+        PostTestSection(
+            navController = navController,
+        )
         
         Spacer(modifier = Modifier.height(32.dp))
         
@@ -162,6 +173,33 @@ private fun InitialConditionsSection() {
 }
 
 @Composable
+private fun PostTestSection(
+    navController: NavController,
+) {
+    Alerts(
+        text = "Post test dibuka mulai tanggal dd - mm - yyyy  ",
+        icon = Icons.Outlined.AccessTime,
+    )
+    
+    Spacer(modifier = Modifier.height(24.dp))
+    
+    Text(
+        text = "Jangan lupa post test ya",
+        style = MaterialTheme.typography.titleMedium,
+    )
+    
+    Spacer(modifier = Modifier.height(24.dp))
+    
+    GeneralContainer(
+        title = "Post test",
+        desc = "Pantau pola hidup barumu",
+        imageRes = R.drawable.img_fill_out_asaq_icon_224,
+        nextIcon = Icons.Outlined.Lock,
+        onClick = null,
+    )
+}
+
+@Composable
 private fun NutritionistAssistanceSection(
     navController: NavController,
 ) {
@@ -172,10 +210,11 @@ private fun NutritionistAssistanceSection(
     
     Spacer(modifier = Modifier.height(24.dp))
     
-    NutritionistAssistanceContainer(
+    GeneralContainer(
         title = "Butuh bantuan?",
         desc = "Konsultasi dengan ahli gizi di sini",
         imageRes = R.drawable.img_nutritionist_assistance_168,
+        nextIcon = Icons.Rounded.ArrowRight,
         onClick = {
             navController.navigate(Screen.Profesional.route)
         },
@@ -299,11 +338,12 @@ private fun InitialConditionContainer(
 }
 
 @Composable
-private fun NutritionistAssistanceContainer(
+private fun GeneralContainer(
     title: String,
     desc: String,
     @DrawableRes imageRes: Int,
-    onClick: () -> Unit,
+    nextIcon: ImageVector,
+    onClick: (() -> Unit)?,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -315,7 +355,7 @@ private fun NutritionistAssistanceContainer(
                 color = MaterialTheme.colorScheme.outlineVariant,
                 shape = MaterialTheme.shapes.medium,
             )
-            .clickable { onClick() }
+            .clickable(enabled = onClick != null) { onClick!!() }
             .padding(
                 horizontal = 16.dp,
                 vertical = 12.dp,
@@ -325,7 +365,8 @@ private fun NutritionistAssistanceContainer(
             painter = painterResource(imageRes),
             contentDescription = null,
             modifier = Modifier
-                .clip(MaterialTheme.shapes.small),
+                .clip(MaterialTheme.shapes.small)
+                .size(56.dp),
         )
         Spacer(modifier = Modifier.width(16.dp))
         Column(
@@ -344,7 +385,7 @@ private fun NutritionistAssistanceContainer(
         }
         Spacer(modifier = Modifier.width(16.dp))
         Icon(
-            imageVector = Icons.Filled.ArrowRight,
+            imageVector = nextIcon,
             contentDescription = null,
         )
     }
