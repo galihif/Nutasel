@@ -79,8 +79,6 @@ private fun MonitoringContent(
         Alerts(
             text = "Program dimulai pada 15 - 10 - 2023",
             icon = Icons.Rounded.AccessTime,
-            color = dark_onCustomColor3,
-            backgroundColor = light_CustomColor3Container,
         )
         
         Spacer(modifier = Modifier.height(24.dp))
