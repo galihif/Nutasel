@@ -43,7 +43,7 @@ class ArticleData @Inject constructor() {
         1,
         2,
         3,
-        3,
+        4,
         1,
         2,
         3,
@@ -54,7 +54,7 @@ class ArticleData @Inject constructor() {
         3,
         3,
         3,
-        4,
+        3,
         7,
         7,
         7,
@@ -73,14 +73,14 @@ class ArticleData @Inject constructor() {
     )
 
     private val imageList = listOf(
-        R.drawable.img_animal_protein_ffq_480_370,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
+        R.drawable.article_image_1_3,
+        R.drawable.article_image_2_3,
+        R.drawable.article_image_3_3,
+        R.drawable.article_image_4_3,
+        R.drawable.article_image_1_7,
+        R.drawable.article_image_2_7,
+        R.drawable.article_image_3_7,
+        R.drawable.article_image_4_7,
     )
 
     private val readDurationList = listOf(

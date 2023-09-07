@@ -1,6 +1,5 @@
 package com.giftech.terbit.ui.pages.article
 
-import android.graphics.drawable.shapes.OvalShape
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,7 +18,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CardElevation
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -40,17 +38,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.giftech.terbit.ui.theme.light_CustomColor1
 import com.giftech.terbit.ui.theme.light_CustomColor2
 import com.giftech.terbit.ui.theme.light_onCustomColor2
+import com.giftech.terbit.ui.theme.md_theme_light_tertiary
 
 @ExperimentalMaterial3Api
 @Composable
 fun ArticleScreen(
+    week: Int,
+    day: Int,
     viewModel: ArticleViewModel = hiltViewModel()
 ) {
-    LaunchedEffect(true) {
-        viewModel.getArticleByWeekDay(1, 3)
+    LaunchedEffect(week,day) {
+        viewModel.getArticleByWeekDay(week, day)
     }
     val article by remember {
         viewModel.article
@@ -116,7 +116,9 @@ fun ArticleScreen(
                                 .clip(
                                     RoundedCornerShape(64.dp)
                                 )
-                                .background(light_CustomColor2)
+                                .background(
+                                    if (day ==3) light_CustomColor2 else md_theme_light_tertiary
+                                )
                                 .padding(horizontal = 8.dp, vertical = 4.dp),
                             color = light_onCustomColor2,
                             style = MaterialTheme.typography.labelSmall
@@ -130,7 +132,7 @@ fun ArticleScreen(
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Justify
                 )
-                Column{
+                Column {
                     Text(
                         text = "Referensi :",
                         style = MaterialTheme.typography.titleMedium,
@@ -145,8 +147,8 @@ fun ArticleScreen(
                     )
                 }
 
-                if (article!!.imageSource.isNotEmpty()){
-                    Column{
+                if (article!!.imageSource.isNotEmpty()) {
+                    Column {
                         Text(
                             text = "Sumber Gambar :",
                             style = MaterialTheme.typography.titleMedium,

@@ -17,6 +17,7 @@ import com.giftech.terbit.ui.components.enums.HeroEnum
 import com.giftech.terbit.ui.components.molecules.BottomNavigation
 import com.giftech.terbit.ui.components.templates.OnboardLoading
 import com.giftech.terbit.ui.components.templates.Onboarding
+import com.giftech.terbit.ui.pages.article.ArticleScreen
 import com.giftech.terbit.ui.pages.asaq.AsaqScreen
 import com.giftech.terbit.ui.pages.ffq.list.FfqListScreen
 import com.giftech.terbit.ui.pages.ffq.main.FfqMainScreen
@@ -43,17 +44,17 @@ fun TerbitApp(
     modifier: Modifier = Modifier,
 ) {
     val navHostController = rememberNavController()
-    
+
     val navigationItems = listOf(
         BottomNavItem.Home,
         BottomNavItem.Monitoring,
         BottomNavItem.Graph,
         BottomNavItem.Profile,
     )
-    
+
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-    
+
     Scaffold(
         bottomBar = {
             if (currentRoute in navigationItems.map { it.screen.route }) {
@@ -67,9 +68,10 @@ fun TerbitApp(
     ) { innerPadding ->
         NavHost(
             navController = navHostController,
-            startDestination = Screen.Home.route,
+            startDestination = Screen.Article.route,
             modifier = Modifier.padding(innerPadding)
         ) {
+            // TODO: change start destination to default route
             // Input Data Diri
             composable(Screen.InputDataDiri.route) {
                 InputDataDiriScreen(
@@ -78,7 +80,7 @@ fun TerbitApp(
                     }
                 )
             }
-            
+
             // Onboarding IMT
             composable(Screen.OnboardingIMT.route) {
                 OnboardLoading(
@@ -88,7 +90,7 @@ fun TerbitApp(
                     hero = HeroEnum.LoadingIMT
                 )
             }
-            
+
             // Hasil IMT
             composable(Screen.HasilIMT.route) {
                 HasilIMTScreen(
@@ -103,7 +105,7 @@ fun TerbitApp(
                     },
                 )
             }
-            
+
             // Onboarding ASAQ 1
             composable(Screen.OnboardingASAQ1.route) {
                 Onboarding(
@@ -116,7 +118,7 @@ fun TerbitApp(
                     hero = HeroEnum.AsaqOnboard1
                 )
             }
-            
+
             // Onboarding ASAQ 2
             composable(Screen.OnboardingASAQ2.route) {
                 Onboarding(
@@ -129,7 +131,7 @@ fun TerbitApp(
                     hero = HeroEnum.AsaqOnboard2
                 )
             }
-            
+
             // Onboarding ASAQ 3
             composable(Screen.OnboardingASAQ3.route) {
                 Onboarding(
@@ -142,7 +144,7 @@ fun TerbitApp(
                     hero = HeroEnum.AsaqOnboard3
                 )
             }
-            
+
             // ASAQ
             composable(Screen.ASAQ.route) {
                 AsaqScreen(
@@ -154,14 +156,14 @@ fun TerbitApp(
                     },
                 )
             }
-            
+
             // FFQ Onboarding
             composable(Screen.FfqOnboarding.route) {
                 FfqOnboardingScreen(
                     navController = navHostController,
                 )
             }
-            
+
             //Onboarding Tingkat Pemantauan
             composable(Screen.OnboardingTingkatPemantauan.route) {
                 OnboardLoading(
@@ -171,7 +173,7 @@ fun TerbitApp(
                     hero = HeroEnum.LoadingHasilTP
                 )
             }
-            
+
             //Hasil Tingkat Pemantauan
             composable(Screen.HasilTingkatPemantauan.route) {
                 HasilTPScreen(
@@ -180,24 +182,24 @@ fun TerbitApp(
                     }
                 )
             }
-            
+
             // Homepage
             composable(Screen.Home.route) {
                 HomeScreen(
                     navController = navHostController,
                 )
             }
-            
+
             composable(Screen.Monitoring.route) {
                 MonitoringScreen(
                     navController = navHostController,
                 )
             }
-            
+
             composable(Screen.Graph.route) {
                 GraphScreen()
             }
-            
+
             composable(Screen.Profile.route) {
                 ProfileScreen(
                     onEdit = {
@@ -205,7 +207,7 @@ fun TerbitApp(
                     }
                 )
             }
-            
+
             composable(Screen.EditProfile.route) {
                 EditProfileScreen(
                     onBack = {
@@ -213,23 +215,23 @@ fun TerbitApp(
                     }
                 )
             }
-            
+
             composable(Screen.NotificationList.route) {
                 NotificationListScreen(
                     navController = navHostController,
                 )
             }
-            
+
             composable(Screen.Profesional.route) {
                 ProfesionalScreen()
             }
-            
+
             composable(Screen.MonitoringDetails.route) {
                 MonitoringDetailsScreen(
                     navController = navHostController,
                 )
             }
-            
+
             // FFQ Main
             composable(
                 route = Screen.FfqMain.route,
@@ -243,7 +245,7 @@ fun TerbitApp(
                     navController = navHostController,
                 )
             }
-            
+
             composable(
                 route = Screen.FfqList.route,
                 arguments = listOf(
@@ -260,7 +262,7 @@ fun TerbitApp(
                     navController = navHostController,
                 )
             }
-            
+
             composable(
                 route = Screen.FfqResult.route,
                 arguments = listOf(
@@ -272,6 +274,19 @@ fun TerbitApp(
                     programId = programId,
                     navController = navHostController,
                 )
+            }
+
+            composable(
+                route = Screen.Article.route,
+                arguments = listOf(
+                    navArgument(Constants.EXTRAS.WEEK) { type = NavType.IntType },
+                    navArgument(Constants.EXTRAS.DAY) { type = NavType.IntType },
+                ),
+            ) {
+                val week = it.arguments?.getInt(Constants.EXTRAS.WEEK) ?: -1
+                val day = it.arguments?.getInt(Constants.EXTRAS.DAY) ?: -1
+                ArticleScreen(4, 7)
+                // TODO: change week day in param 
             }
         }
     }
