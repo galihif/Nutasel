@@ -1,6 +1,7 @@
 package com.giftech.terbit.data.source.local.statics
 
 import com.giftech.terbit.data.source.local.room.entity.ProgramEntity
+import com.giftech.terbit.domain.enums.ProgramTag
 import com.giftech.terbit.domain.enums.ProgramType
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -17,6 +18,7 @@ class ProgramData @Inject constructor() {
                     week = weekList[i],
                     dayOfWeek = dayOfWeek[i],
                     type = typeList[i],
+                    tag = tagList[i],
                 )
             )
         }
@@ -97,6 +99,55 @@ class ProgramData @Inject constructor() {
         // Last
         ProgramType.FILL_OUT_ASAQ.typeId,
         ProgramType.FILL_OUT_FFQ.typeId,
+    )
+    
+    private val tagList = listOf(
+        // First time use
+        ProgramTag.PRE_TEST.tagId,
+        ProgramTag.PRE_TEST.tagId,
+        // Week 1
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        // Week 2
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        // Week 3
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        // Week 4
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        ProgramTag.WEEKLY_PROGRAM.tagId,
+        // Last
+        ProgramTag.POST_TEST.tagId,
+        ProgramTag.POST_TEST.tagId,
     )
     
 }

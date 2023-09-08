@@ -11,14 +11,18 @@ data class ProgramEntity(
     @Ignore val dayOfWeek: Int?,
     @Ignore val type: String,
     var isComplete: Boolean = false,
+    var completionDateInMillis: Long? = null,
+    @Ignore val tag: String,
 ) {
     
-    constructor(programId: Int, isComplete: Boolean) : this(
+    constructor(programId: Int, isComplete: Boolean, completionDateInMillis: Long?) : this(
         programId = programId,
         week = null,
         dayOfWeek = null,
         type = "",
         isComplete = isComplete,
+        completionDateInMillis = completionDateInMillis,
+        tag = "",
     )
     
 }
