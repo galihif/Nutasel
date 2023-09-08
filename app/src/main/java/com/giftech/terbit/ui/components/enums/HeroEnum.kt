@@ -111,7 +111,7 @@ enum class HeroEnum(
     FfqOnboard1(
         image = R.drawable.vector_onboard_ffq1,
         title = "Frekuensi Makanan",
-        description = "Selanjutnya, kamu akan diberikan pilihan untuk menginput makanan yang kamu makan dalam sebulan terakhir, ini untuk mengetahui perkembanganmu sebelum dan sesudah menggunakan aplikasi X !",
+        description = "Selanjutnya, kamu akan diberikan pilihan untuk menginput makanan yang kamu makan dalam sebulan terakhir, ini untuk mengetahui perkembanganmu sebelum dan sesudah menggunakan aplikasi Terbit!",
     ),
     LoadingHasilTP(
         image = R.drawable.vector_onboard_tp,
