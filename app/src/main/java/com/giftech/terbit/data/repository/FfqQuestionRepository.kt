@@ -10,7 +10,7 @@ import com.giftech.terbit.domain.model.FfqQuestion
 import com.giftech.terbit.domain.repository.IFfqQuestionRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapLatest
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -24,7 +24,7 @@ class FfqQuestionRepository @Inject constructor(
     // The user responses of an FFQ can be empty
     override fun getByProgramId(programId: Int): Flow<List<FfqQuestion>> {
         return ffqFoodLocalDataSource.getAll().flatMapLatest { ffqFood ->
-            ffqResponseLocalDataSource.getAll().map { ffqResponse ->
+            ffqResponseLocalDataSource.getAll().mapLatest { ffqResponse ->
                 ffqQuestionMapper.mapToDomain(programId, ffqFood, ffqResponse)
             }
         }
