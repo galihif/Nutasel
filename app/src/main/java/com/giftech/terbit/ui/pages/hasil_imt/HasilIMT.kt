@@ -26,7 +26,7 @@ fun HasilIMTScreen(
         nama = user.nama,
         skorTitle = "Skor IMT",
         skor = user.skorIMT.toFormattedString(),
-        kategoriTitle = "KategoriMT",
+        kategoriTitle = "Kategori IMT",
         kategori = user.kategoriIMT.title,
         desc = user.kategoriIMT.desc(user.skorIMT.toFormattedString()),
         buttonText = "Selanjutnya"

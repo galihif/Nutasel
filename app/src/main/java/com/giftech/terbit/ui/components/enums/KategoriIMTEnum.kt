@@ -39,7 +39,7 @@ enum class KategoriIMTEnum(val title: String, val desc: (String) -> String) {
             "Hasil perhitungan IMT kamu mendapatkan skor $skor berada dalam kategori Obesitas, wah pastikan kamu mengkonsumsi makanan bernutrisi dan menghindari makanan tinggi gula, garam, dan lemak ya, jangan lupa untuk terus aktif dengan olahraga yang kamu suka!"
         }
     );
-
+    
     val color: Color
         @Composable
         @ReadOnlyComposable
@@ -50,4 +50,14 @@ enum class KategoriIMTEnum(val title: String, val desc: (String) -> String) {
             GEMUK -> CustomColor3
             OBESITAS -> MaterialTheme.colorScheme.secondary
         }
+    
+    companion object {
+        
+        fun fromTitle(title: String): KategoriIMTEnum {
+            return values().firstOrNull { it.title == title }
+                ?: SANGAT_KURUS
+        }
+        
+    }
+    
 }

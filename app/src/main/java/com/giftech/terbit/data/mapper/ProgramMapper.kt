@@ -2,6 +2,7 @@ package com.giftech.terbit.data.mapper
 
 import com.giftech.terbit.data.source.local.room.entity.ProgramEntity
 import com.giftech.terbit.data.source.local.statics.util.ProgramType
+import com.giftech.terbit.domain.enums.ProgramTag
 import com.giftech.terbit.domain.model.FillOutAsaq
 import com.giftech.terbit.domain.model.FillOutFfq
 import com.giftech.terbit.domain.model.Program
@@ -26,6 +27,8 @@ class ProgramMapper @Inject constructor() {
                     week = input.week,
                     dayOfWeek = input.dayOfWeek,
                     isComplete = input.isComplete,
+                    completionDateInMillis = input.completionDateInMillis,
+                    tag = ProgramTag.fromTagId(input.tag),
                 )
             }
             
@@ -35,6 +38,8 @@ class ProgramMapper @Inject constructor() {
                     week = input.week,
                     dayOfWeek = input.dayOfWeek,
                     isComplete = input.isComplete,
+                    completionDateInMillis = input.completionDateInMillis,
+                    tag = ProgramTag.fromTagId(input.tag),
                 )
             }
             
@@ -44,6 +49,8 @@ class ProgramMapper @Inject constructor() {
                     week = input.week,
                     dayOfWeek = input.dayOfWeek,
                     isComplete = input.isComplete,
+                    completionDateInMillis = input.completionDateInMillis,
+                    tag = ProgramTag.fromTagId(input.tag),
                 )
             }
             

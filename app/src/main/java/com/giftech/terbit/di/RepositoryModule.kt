@@ -1,10 +1,12 @@
 package com.giftech.terbit.di
 
+import com.giftech.terbit.data.repository.ArticleRepository
 import com.giftech.terbit.data.repository.AsaqRepository
 import com.giftech.terbit.data.repository.FfqFoodCategoryRepository
 import com.giftech.terbit.data.repository.FfqQuestionRepository
 import com.giftech.terbit.data.repository.ProgramRepository
 import com.giftech.terbit.data.repository.UserRepository
+import com.giftech.terbit.domain.repository.IArticleRepository
 import com.giftech.terbit.domain.repository.IAsaqRepository
 import com.giftech.terbit.domain.repository.IFfqFoodCategoryRepository
 import com.giftech.terbit.domain.repository.IFfqQuestionRepository
@@ -43,5 +45,11 @@ abstract class RepositoryModule {
     abstract fun provideAsaqRepository(
         asaqRepository: AsaqRepository,
     ): IAsaqRepository
+
+    @Binds
+    abstract fun provideArticleRepository(
+        articleRepository: ArticleRepository,
+    ): IArticleRepository
+
     
 }
