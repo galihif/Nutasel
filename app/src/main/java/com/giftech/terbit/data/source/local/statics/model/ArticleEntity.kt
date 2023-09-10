@@ -7,7 +7,7 @@ data class ArticleEntity(
     val articleId:Int,
     val week:Int,
     val day:Int,
-    val title:String,
+    @StringRes val title:Int,
     @DrawableRes val imageRes:Int,
     val readDuration:Int,
     val category:List<String>,
