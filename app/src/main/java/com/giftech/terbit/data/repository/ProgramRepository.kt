@@ -19,9 +19,10 @@ class ProgramRepository @Inject constructor(
 ) : IProgramRepository {
     
     override fun getAll(): Flow<List<Program>> {
-        return programLocalDataSource.getAll().map {
-            programMapper.mapToDomain(it)
-        }
+        return programLocalDataSource.getAll()
+            .map {
+                programMapper.mapToDomain(it)
+            }
     }
     
     override suspend fun insert(

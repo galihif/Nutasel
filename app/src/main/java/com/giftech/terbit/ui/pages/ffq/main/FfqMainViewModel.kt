@@ -3,7 +3,7 @@ package com.giftech.terbit.ui.pages.ffq.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.giftech.terbit.domain.usecase.CheckAllFfqQuestionAnsweredUseCase
-import com.giftech.terbit.domain.usecase.CompleteFfqUseCase
+import com.giftech.terbit.domain.usecase.CompleteProgramUseCase
 import com.giftech.terbit.domain.usecase.GetFfqFoodCategoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FfqMainViewModel @Inject constructor(
     private val checkAllFfqQuestionAnsweredUseCase: CheckAllFfqQuestionAnsweredUseCase,
-    private val completeFfqUseCase: CompleteFfqUseCase,
+    private val completeProgramUseCase: CompleteProgramUseCase,
     private val getFfqFoodCategoryUseCase: GetFfqFoodCategoryUseCase,
 ) : ViewModel() {
     
@@ -37,14 +37,6 @@ class FfqMainViewModel @Inject constructor(
     
     fun onEvent(event: FfqMainEvent) {
         when (event) {
-            is FfqMainEvent.CompleteFfq -> {
-                viewModelScope.launch {
-                    completeFfqUseCase(
-                        programId = event.programId,
-                    )
-                }
-            }
-            
             is FfqMainEvent.Init -> {
                 viewModelScope.launch {
                     checkAllFfqQuestionAnsweredUseCase(event.programId)
@@ -54,6 +46,14 @@ class FfqMainViewModel @Inject constructor(
                                 isAllAnswered = isAllAnswered,
                             )
                         }
+                }
+            }
+            
+            is FfqMainEvent.CompleteFfq -> {
+                viewModelScope.launch {
+                    completeProgramUseCase(
+                        programId = event.programId,
+                    )
                 }
             }
         }

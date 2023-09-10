@@ -4,11 +4,6 @@ import com.giftech.terbit.domain.enums.FfqFrequency
 
 sealed class FfqListEvent {
     
-    data class AddNewFood(
-        val foodName: String,
-        val foodCategoryId: Int,
-    ) : FfqListEvent()
-    
     data class Init(
         val programId: Int,
         val foodCategoryId: Int,
@@ -18,6 +13,11 @@ sealed class FfqListEvent {
         val programId: Int,
         val foodId: Int,
         val freq: FfqFrequency,
+    ) : FfqListEvent()
+    
+    data class AddNewFood(
+        val foodName: String,
+        val foodCategoryId: Int,
     ) : FfqListEvent()
     
 }

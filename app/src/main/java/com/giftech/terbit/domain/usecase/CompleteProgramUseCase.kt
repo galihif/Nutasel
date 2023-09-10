@@ -5,7 +5,7 @@ import com.giftech.terbit.domain.util.toMillis
 import java.time.LocalDateTime
 import javax.inject.Inject
 
-class CompleteFfqUseCase @Inject constructor(
+class CompleteProgramUseCase @Inject constructor(
     private val programRepository: IProgramRepository,
 ) {
     
@@ -16,7 +16,7 @@ class CompleteFfqUseCase @Inject constructor(
         programRepository.insert(
             programId = programId,
             isComplete = true,
-            completionDateInMilis = completionDate.toMillis(),
+            completionDateInMillis = completionDate.toMillis(),
         )
     }
     

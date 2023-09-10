@@ -45,7 +45,9 @@ fun FfqMainScreen(
     viewModel: FfqMainViewModel = hiltViewModel(),
 ) {
     viewModel.onEvent(
-        FfqMainEvent.Init(programId = programId)
+        FfqMainEvent.Init(
+            programId = programId,
+        )
     )
     val state = viewModel.state.collectAsState().value
     
