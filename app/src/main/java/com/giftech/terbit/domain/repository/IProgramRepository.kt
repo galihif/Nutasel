@@ -11,7 +11,7 @@ interface IProgramRepository {
     suspend fun insert(
         programId: Int,
         isComplete: Boolean,
-        completionDateInMilis: Long,
+        completionDateInMillis: Long,
     )
     
 }

@@ -129,11 +129,10 @@ private fun HomeContent(
                 onClick = {
                     navController.navigate(
                         when (program) {
-                            // TODO: Navigate with an ASAQ id
-                            is FillOutAsaq -> Screen.ASAQ.route
+                            is FillOutAsaq -> Screen.WeeklyAsaq.createRoute(programId = program.programId)
                             is FillOutFfq -> Screen.FfqMain.createRoute(programId = program.programId)
                             // TODO: Article screen is not ready
-                            is ReadArticle -> Screen.Home.route
+                            is ReadArticle -> Screen.Article.route
                         }
                     )
                     

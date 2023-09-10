@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import com.giftech.terbit.data.source.local.room.LocalDatabase
 import com.giftech.terbit.data.source.local.room.dao.AsaqDao
+import com.giftech.terbit.data.source.local.room.dao.AsaqResponseDao
 import com.giftech.terbit.data.source.local.room.dao.FfqFoodDao
 import com.giftech.terbit.data.source.local.room.dao.FfqResponseDao
 import com.giftech.terbit.data.source.local.room.dao.ProgramDao
@@ -29,6 +30,18 @@ object DatabaseModule {
     
     @Singleton
     @Provides
+    fun provideAsaqDao(database: LocalDatabase): AsaqDao {
+        return database.asaqDao()
+    }
+    
+    @Singleton
+    @Provides
+    fun provideAsaqResponseDao(database: LocalDatabase): AsaqResponseDao {
+        return database.asaqResponseDao()
+    }
+    
+    @Singleton
+    @Provides
     fun provideFfqFoodDao(database: LocalDatabase): FfqFoodDao {
         return database.ffqFoodDao()
     }
@@ -44,11 +57,5 @@ object DatabaseModule {
     fun provideProgramDao(database: LocalDatabase): ProgramDao {
         return database.programDao()
     }
-    @Singleton
-    @Provides
-    fun provideAsaqDao(database: LocalDatabase): AsaqDao {
-        return database.asaqDao()
-    }
-
     
 }

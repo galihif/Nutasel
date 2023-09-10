@@ -19,20 +19,21 @@ class ProgramRepository @Inject constructor(
 ) : IProgramRepository {
     
     override fun getAll(): Flow<List<Program>> {
-        return programLocalDataSource.getAll().map {
-            programMapper.mapToDomain(it)
-        }
+        return programLocalDataSource.getAll()
+            .map {
+                programMapper.mapToDomain(it)
+            }
     }
     
     override suspend fun insert(
         programId: Int,
         isComplete: Boolean,
-        completionDateInMilis: Long,
+        completionDateInMillis: Long,
     ) {
         val programEntity = ProgramEntity(
             programId = programId,
             isComplete = isComplete,
-            completionDateInMillis = completionDateInMilis,
+            completionDateInMillis = completionDateInMillis,
             week = null, // Ignored
             dayOfWeek = null, // Ignored
             type = "", // Ignored
