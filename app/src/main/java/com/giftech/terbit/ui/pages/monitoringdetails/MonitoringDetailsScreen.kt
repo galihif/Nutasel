@@ -29,6 +29,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.giftech.terbit.R
+import com.giftech.terbit.domain.enums.ProgramTag
 import com.giftech.terbit.domain.model.FillOutAsaq
 import com.giftech.terbit.domain.model.Program
 import com.giftech.terbit.domain.model.ReadArticle
@@ -96,54 +97,72 @@ private fun MonitoringDetailsContent(
                     week = 1,
                     dayOfWeek = 1,
                     isComplete = true,
+                    completionDateInMillis = null,
+                    tag = ProgramTag.WEEKLY_PROGRAM,
                 ),
                 FillOutAsaq(
                     programId = 4,
                     week = 1,
                     dayOfWeek = 2,
                     isComplete = false,
+                    completionDateInMillis = null,
+                    tag = ProgramTag.WEEKLY_PROGRAM,
                 ),
                 FillOutAsaq(
                     programId = 5,
                     week = 1,
                     dayOfWeek = 3,
                     isComplete = false,
+                    completionDateInMillis = null,
+                    tag = ProgramTag.WEEKLY_PROGRAM,
                 ),
                 ReadArticle(
                     programId = 10,
                     week = 1,
                     dayOfWeek = 3,
                     isComplete = false,
+                    completionDateInMillis = null,
+                    tag = ProgramTag.WEEKLY_PROGRAM,
                 ),
                 FillOutAsaq(
                     programId = 6,
                     week = 1,
                     dayOfWeek = 4,
                     isComplete = false,
+                    completionDateInMillis = null,
+                    tag = ProgramTag.WEEKLY_PROGRAM,
                 ),
                 FillOutAsaq(
                     programId = 7,
                     week = 1,
                     dayOfWeek = 5,
                     isComplete = false,
+                    completionDateInMillis = null,
+                    tag = ProgramTag.WEEKLY_PROGRAM,
                 ),
                 FillOutAsaq(
                     programId = 8,
                     week = 1,
                     dayOfWeek = 6,
                     isComplete = false,
+                    completionDateInMillis = null,
+                    tag = ProgramTag.WEEKLY_PROGRAM,
                 ),
                 FillOutAsaq(
                     programId = 9,
                     week = 1,
                     dayOfWeek = 7,
                     isComplete = false,
+                    completionDateInMillis = null,
+                    tag = ProgramTag.WEEKLY_PROGRAM,
                 ),
                 ReadArticle(
                     programId = 11,
                     week = 1,
                     dayOfWeek = 7,
                     isComplete = false,
+                    completionDateInMillis = null,
+                    tag = ProgramTag.WEEKLY_PROGRAM,
                 ),
             )
             

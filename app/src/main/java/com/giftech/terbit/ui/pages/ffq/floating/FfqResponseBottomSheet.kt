@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,11 +29,15 @@ fun FfqResponseBottomSheet(
     val selectedResponseState = remember { mutableStateOf(selectedResponse) }
     
     ModalBottomSheet(
-        onDismissRequest = { setShow(false) }
+        sheetState = rememberModalBottomSheetState(
+            skipPartiallyExpanded = true
+        ),
+        onDismissRequest = { setShow(false) },
+        modifier = modifier,
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(10.dp),
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(12.dp),
         ) {

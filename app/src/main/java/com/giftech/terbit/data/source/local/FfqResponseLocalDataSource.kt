@@ -19,8 +19,4 @@ class FfqResponseLocalDataSource @Inject constructor(
         ffqResponseDao.insert(ffqResponseEntity)
     }
     
-    suspend fun update(ffqResponseEntity: FfqResponseEntity) {
-        ffqResponseDao.update(ffqResponseEntity)
-    }
-    
 }

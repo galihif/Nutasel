@@ -1,9 +1,9 @@
-package com.giftech.terbit.ui.pages.asaq
+package com.giftech.terbit.ui.pages.asaq.prepost
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.giftech.terbit.domain.model.Asaq
 import com.giftech.terbit.data.utils.DataProvider
+import com.giftech.terbit.domain.model.Asaq
 import com.giftech.terbit.domain.usecase.AsaqUseCase
 import com.giftech.terbit.ui.components.enums.AsaqQuestions
 import com.giftech.terbit.ui.utils.Constants

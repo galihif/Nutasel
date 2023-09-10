@@ -3,6 +3,7 @@ package com.giftech.terbit.data.source.local
 import com.giftech.terbit.data.source.local.room.dao.ProgramDao
 import com.giftech.terbit.data.source.local.room.entity.ProgramEntity
 import com.giftech.terbit.data.source.local.statics.ProgramData
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -16,19 +17,26 @@ class ProgramLocalDataSource @Inject constructor(
     private val programData: ProgramData,
 ) {
     
+    @OptIn(ExperimentalCoroutinesApi::class)
     fun getAll(): Flow<List<ProgramEntity>> {
-        val programEntityList = programData.getAll()
+        val programEntityListFlow = MutableStateFlow(programData.getAll())
         
         // The list from local DB (completion status) can be empty
-        return MutableStateFlow(programEntityList).flatMapLatest { programEntityList ->
+        return programEntityListFlow.flatMapLatest { programEntityList ->
             programDao.getAll().map { listFromLocalDB ->
-                val mappedListFromLocalDB = listFromLocalDB.map { it.programId }
+                
                 programEntityList.forEachIndexed { index, programEntity ->
-                    if (mappedListFromLocalDB.contains(programEntity.programId)) {
-                        programEntityList[index].isComplete = true
+                    val programEntityFromLocalDB = listFromLocalDB
+                        .firstOrNull { it.programId == programEntity.programId }
+                    if (programEntityFromLocalDB != null) {
+                        programEntityList[index].apply {
+                            isComplete = programEntityFromLocalDB.isComplete
+                            completionDateInMillis = programEntityFromLocalDB.completionDateInMillis
+                        }
                     }
                 }
                 programEntityList
+                
             }
         }
     }

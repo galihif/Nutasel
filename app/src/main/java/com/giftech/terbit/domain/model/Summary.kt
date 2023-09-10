@@ -1,8 +1,6 @@
-package com.giftech.terbit.ui.pages.home
+package com.giftech.terbit.domain.model
 
-import com.giftech.terbit.domain.model.Program
-
-data class HomeState(
+data class Summary(
     val userName: String,
     val bmiCategory: String,
     val monitoringLevel: String,

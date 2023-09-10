@@ -25,17 +25,6 @@ class FfqListViewModel @Inject constructor(
     
     fun onEvent(event: FfqListEvent) {
         when (event) {
-            is FfqListEvent.AddNewFood -> {
-                if (event.foodName.isNotEmpty()) {
-                    viewModelScope.launch {
-                        addFfqFoodUseCase(
-                            foodName = event.foodName,
-                            foodCategoryId = event.foodCategoryId,
-                        )
-                    }
-                }
-            }
-            
             is FfqListEvent.Init -> {
                 viewModelScope.launch {
                     getFfqQuestionByFoodCategoryUseCase(
@@ -55,6 +44,17 @@ class FfqListViewModel @Inject constructor(
                             it.foodCategoryId == event.foodCategoryId
                         },
                     )
+                }
+            }
+            
+            is FfqListEvent.AddNewFood -> {
+                if (event.foodName.isNotEmpty()) {
+                    viewModelScope.launch {
+                        addFfqFoodUseCase(
+                            foodName = event.foodName,
+                            foodCategoryId = event.foodCategoryId,
+                        )
+                    }
                 }
             }
             

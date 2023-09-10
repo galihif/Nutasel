@@ -7,35 +7,48 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowRight
-import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material.icons.rounded.AccessTime
+import androidx.compose.material.icons.rounded.ArrowRight
+import androidx.compose.material.icons.rounded.CheckBox
+import androidx.compose.material.icons.rounded.NotificationsNone
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.giftech.terbit.R
+import com.giftech.terbit.domain.model.FillOutAsaq
+import com.giftech.terbit.domain.model.FillOutFfq
+import com.giftech.terbit.domain.model.ReadArticle
+import com.giftech.terbit.domain.util.idFormat
+import com.giftech.terbit.ui.components.enums.KategoriIMTEnum
+import com.giftech.terbit.ui.components.molecules.Alerts
 import com.giftech.terbit.ui.route.Screen
-import com.giftech.terbit.ui.theme.CustomColor1
 import com.giftech.terbit.ui.theme.CustomColor2
 import com.giftech.terbit.ui.theme.CustomColor3
 import com.giftech.terbit.ui.theme.light_onCustomColor2
@@ -46,8 +59,12 @@ import com.giftech.terbit.ui.theme.light_onCustomColor3
 fun HomeScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
+    viewModel: HomeViewModel = hiltViewModel(),
 ) {
+    val state = viewModel.state.collectAsState().value
+    
     HomeContent(
+        state = state,
         navController = navController,
         modifier = modifier,
     )
@@ -55,43 +72,87 @@ fun HomeScreen(
 
 @Composable
 private fun HomeContent(
+    state: HomeState,
     navController: NavController,
     modifier: Modifier = Modifier,
 ) {
-    Column(
+    LazyColumn(
+        contentPadding = PaddingValues(24.dp),
         modifier = modifier
-            .fillMaxWidth()
-            .verticalScroll(rememberScrollState())
-            .padding(24.dp),
+            .fillMaxWidth(),
     ) {
-        HeaderSection(
-            navController = navController,
-        )
+        item {
+            HeaderSection(
+                state = state,
+                navController = navController,
+            )
+            
+            Spacer(modifier = Modifier.height(32.dp))
+            
+            InitialConditionsSection(
+                state = state,
+            )
+            
+            if (state.isAllWeeklyProgramDone && !state.isPostTestDone) {
+                Spacer(modifier = Modifier.height(32.dp))
+                
+                PostTestSection(
+                    state = state,
+                    navController = navController,
+                )
+            }
+            
+            Spacer(modifier = Modifier.height(32.dp))
+            
+            NutritionistAssistanceSection(
+                navController = navController,
+            )
+            
+            if (state.nextDayProgramList.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(32.dp))
+                
+                HeaderOfActivityToDoSection()
+            }
+        }
         
-        Spacer(modifier = Modifier.height(32.dp))
+        items(
+            items = state.nextDayProgramList,
+            key = { it.programId },
+        ) { program ->
+            ActivityToDoItem(
+                programName = when (program) {
+                    is FillOutAsaq -> "Pantau Sedentari"
+                    is FillOutFfq -> "Pantau Pola Makan"
+                    is ReadArticle -> "Baca Artikel"
+                },
+                dayOfWeek = "Hari ${program.dayOfWeek}",
+                onClick = {
+                    navController.navigate(
+                        when (program) {
+                            is FillOutAsaq -> Screen.WeeklyAsaq.createRoute(programId = program.programId)
+                            is FillOutFfq -> Screen.FfqMain.createRoute(programId = program.programId)
+                            // TODO: Article screen is not ready
+                            is ReadArticle -> Screen.Article.route
+                        }
+                    )
+                    
+                },
+            )
+        }
         
-        InitialConditionsSection()
-        
-        Spacer(modifier = Modifier.height(32.dp))
-        
-        NutritionistAssistanceSection(
-            navController = navController,
-        )
-        
-        Spacer(modifier = Modifier.height(32.dp))
-        
-        ActivityToDoSection(
-            navController = navController,
-        )
-        
-        Spacer(modifier = Modifier.height(32.dp))
-        
-        ProgressSection()
+        item {
+            Spacer(modifier = Modifier.height(32.dp))
+            
+            ProgressSection(
+                state = state,
+            )
+        }
     }
 }
 
 @Composable
 private fun HeaderSection(
+    state: HomeState,
     navController: NavController,
 ) {
     Row {
@@ -105,7 +166,7 @@ private fun HeaderSection(
                 style = MaterialTheme.typography.bodyMedium,
             )
             Text(
-                text = "Nama User",
+                text = state.userName,
                 style = MaterialTheme.typography.titleLarge,
             )
         }
@@ -115,18 +176,21 @@ private fun HeaderSection(
             },
         ) {
             Icon(
-                imageVector = Icons.Filled.Notifications,
+                imageVector = Icons.Rounded.NotificationsNone,
                 contentDescription = "Notifikasi",
+                tint = MaterialTheme.colorScheme.primary,
             )
         }
     }
 }
 
 @Composable
-private fun InitialConditionsSection() {
+private fun InitialConditionsSection(
+    state: HomeState,
+) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(
-            space = 16.dp,
+            space = 12.dp,
             alignment = Alignment.CenterHorizontally,
         ),
         modifier = Modifier
@@ -139,26 +203,68 @@ private fun InitialConditionsSection() {
     ) {
         InitialConditionContainer(
             title = "Kategori",
-            value = "Kurus",
-            valueBackgroundColor = CustomColor1,
+            value = state.bmiCategory,
+            valueTextColor = MaterialTheme.colorScheme.onPrimary,
+            valueBackgroundColor = KategoriIMTEnum.fromTitle(state.bmiCategory).color,
             modifier = Modifier
                 .weight(1f),
         )
         InitialConditionContainer(
             title = "Sedenter",
-            value = "Sedang",
-            valueBackgroundColor = MaterialTheme.colorScheme.secondaryContainer,
+            value = state.monitoringLevel,
             modifier = Modifier
                 .weight(1f),
         )
         InitialConditionContainer(
             title = "IMT",
-            value = "17,0",
-            valueBackgroundColor = MaterialTheme.colorScheme.secondaryContainer,
+            value = state.bmiValue.idFormat(),
             modifier = Modifier
                 .weight(1f),
         )
     }
+}
+
+@Composable
+private fun PostTestSection(
+    state: HomeState,
+    navController: NavController,
+) {
+    if (!state.isPostTestAvailable) {
+        Alerts(
+            text = "Post test dibuka mulai tanggal ${state.postTestOpeningDate}",
+            icon = Icons.Rounded.AccessTime,
+        )
+        
+        Spacer(modifier = Modifier.height(24.dp))
+    }
+    
+    Text(
+        text = "Jangan lupa post test ya",
+        style = MaterialTheme.typography.titleMedium,
+    )
+    
+    Spacer(modifier = Modifier.height(24.dp))
+    
+    GeneralContainer(
+        title = "Post test",
+        desc = "Pantau pola hidup barumu",
+        imageRes = R.drawable.img_fill_out_asaq_icon_224,
+        nextIcon = if (state.isPostTestAvailable) {
+            if (state.isPostTestDone) {
+                Icons.Rounded.CheckBox
+            } else {
+                Icons.Rounded.ArrowRight
+            }
+        } else {
+            Icons.Outlined.Lock
+        },
+        onClick = if (state.isPostTestAvailable) {
+            // TODO: Navigate with last ASAQ id
+            { navController.navigate(Screen.ASAQ.route) }
+        } else {
+            null
+        },
+    )
 }
 
 @Composable
@@ -172,10 +278,11 @@ private fun NutritionistAssistanceSection(
     
     Spacer(modifier = Modifier.height(24.dp))
     
-    NutritionistAssistanceContainer(
+    GeneralContainer(
         title = "Butuh bantuan?",
         desc = "Konsultasi dengan ahli gizi di sini",
         imageRes = R.drawable.img_nutritionist_assistance_168,
+        nextIcon = Icons.Rounded.ArrowRight,
         onClick = {
             navController.navigate(Screen.Profesional.route)
         },
@@ -183,27 +290,19 @@ private fun NutritionistAssistanceSection(
 }
 
 @Composable
-private fun ActivityToDoSection(
-    navController: NavController,
-) {
+private fun HeaderOfActivityToDoSection() {
     Text(
         text = "Aktivitas mingguan kamu",
         style = MaterialTheme.typography.titleMedium,
     )
     
     Spacer(modifier = Modifier.height(24.dp))
-    
-    ActivityToDoItem(
-        programName = "Pantau Sedentari",
-        dayOfWeek = "Hari 1",
-        onClick = {
-            navController.navigate(Screen.ASAQ.route)
-        },
-    )
 }
 
 @Composable
-private fun ProgressSection() {
+private fun ProgressSection(
+    state: HomeState,
+) {
     Text(
         text = "Perjalananmu sejauh ini",
         style = MaterialTheme.typography.titleMedium,
@@ -218,8 +317,8 @@ private fun ProgressSection() {
     ) {
         ProgressContainer(
             title = "Total Program Selesai",
-            value = "3",
-            desc = "3 / 36 Program",
+            value = state.totalCompletedProgram.toString(),
+            desc = "${state.totalCompletedProgram} / ${state.totalProgram} Program",
             backgroundColor = CustomColor3,
             textColor = light_onCustomColor3,
             modifier = Modifier
@@ -227,8 +326,8 @@ private fun ProgressSection() {
         )
         ProgressContainer(
             title = "Hari Ke",
-            value = "2",
-            desc = "Minggu ke-1",
+            value = state.totalCompletedDaysInWeek.toString(),
+            desc = "Minggu ke-${state.currentWeek}",
             backgroundColor = MaterialTheme.colorScheme.tertiary,
             textColor = MaterialTheme.colorScheme.onTertiary,
             modifier = Modifier
@@ -245,8 +344,8 @@ private fun ProgressSection() {
     ) {
         ProgressContainer(
             title = "Persentase Program",
-            value = "1%",
-            desc = "3 / 36 Program",
+            value = "${state.programProgressPercentage}%",
+            desc = "${state.totalCompletedProgram} / ${state.totalProgram} Program",
             backgroundColor = MaterialTheme.colorScheme.primary,
             textColor = MaterialTheme.colorScheme.onPrimary,
             modifier = Modifier
@@ -254,8 +353,8 @@ private fun ProgressSection() {
         )
         ProgressContainer(
             title = "Program Mingguan",
-            value = "3",
-            desc = "3 / 9 Program Selesai",
+            value = state.totalCompletedWeek.toString(),
+            desc = "${state.totalCompletedWeek} / ${state.totalWeek} Program Selesai",
             backgroundColor = CustomColor2,
             textColor = light_onCustomColor2,
             modifier = Modifier
@@ -268,15 +367,16 @@ private fun ProgressSection() {
 private fun InitialConditionContainer(
     title: String,
     value: String,
-    valueBackgroundColor: Color,
     modifier: Modifier = Modifier,
+    valueTextColor: Color = MaterialTheme.colorScheme.onSurface,
+    valueBackgroundColor: Color = MaterialTheme.colorScheme.secondaryContainer,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .clip(MaterialTheme.shapes.small)
             .background(MaterialTheme.colorScheme.surface)
-            .padding(8.dp),
+            .padding(6.dp),
     ) {
         Text(
             text = title,
@@ -286,24 +386,26 @@ private fun InitialConditionContainer(
         Text(
             text = value,
             style = MaterialTheme.typography.labelMedium,
+            color = valueTextColor,
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .background(
                     color = valueBackgroundColor,
                     shape = RoundedCornerShape(percent = 100),
                 )
-                .padding(horizontal = 8.dp, vertical = 4.dp)
+                .padding(4.dp)
                 .fillMaxWidth(),
         )
     }
 }
 
 @Composable
-private fun NutritionistAssistanceContainer(
+private fun GeneralContainer(
     title: String,
     desc: String,
     @DrawableRes imageRes: Int,
-    onClick: () -> Unit,
+    nextIcon: ImageVector,
+    onClick: (() -> Unit)?,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -315,7 +417,7 @@ private fun NutritionistAssistanceContainer(
                 color = MaterialTheme.colorScheme.outlineVariant,
                 shape = MaterialTheme.shapes.medium,
             )
-            .clickable { onClick() }
+            .clickable(enabled = onClick != null) { onClick!!() }
             .padding(
                 horizontal = 16.dp,
                 vertical = 12.dp,
@@ -325,7 +427,8 @@ private fun NutritionistAssistanceContainer(
             painter = painterResource(imageRes),
             contentDescription = null,
             modifier = Modifier
-                .clip(MaterialTheme.shapes.small),
+                .clip(MaterialTheme.shapes.small)
+                .size(56.dp),
         )
         Spacer(modifier = Modifier.width(16.dp))
         Column(
@@ -344,7 +447,7 @@ private fun NutritionistAssistanceContainer(
         }
         Spacer(modifier = Modifier.width(16.dp))
         Icon(
-            imageVector = Icons.Filled.ArrowRight,
+            imageVector = nextIcon,
             contentDescription = null,
         )
     }

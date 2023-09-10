@@ -16,21 +16,28 @@ class ProgramRepository @Inject constructor(
     private val programLocalDataSource: ProgramLocalDataSource,
     private val programDao: ProgramDao,
     private val programMapper: ProgramMapper,
-): IProgramRepository {
+) : IProgramRepository {
     
     override fun getAll(): Flow<List<Program>> {
-        return programLocalDataSource.getAll().map {
-            programMapper.mapToDomain(it)
-        }
+        return programLocalDataSource.getAll()
+            .map {
+                programMapper.mapToDomain(it)
+            }
     }
     
-    override suspend fun insert(programId: Int, isComplete: Boolean) {
+    override suspend fun insert(
+        programId: Int,
+        isComplete: Boolean,
+        completionDateInMillis: Long,
+    ) {
         val programEntity = ProgramEntity(
             programId = programId,
             isComplete = isComplete,
+            completionDateInMillis = completionDateInMillis,
             week = null, // Ignored
             dayOfWeek = null, // Ignored
             type = "", // Ignored
+            tag = "", // Ignored
         )
         programDao.insert(programEntity)
     }

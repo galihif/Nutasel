@@ -26,6 +26,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -44,7 +45,9 @@ fun FfqMainScreen(
     viewModel: FfqMainViewModel = hiltViewModel(),
 ) {
     viewModel.onEvent(
-        FfqMainEvent.Init(programId = programId)
+        FfqMainEvent.Init(
+            programId = programId,
+        )
     )
     val state = viewModel.state.collectAsState().value
     
@@ -148,10 +151,16 @@ private fun FfqFoodCategoryItem(
 ) {
     Card(
         shape = RoundedCornerShape(12.dp),
-        elevation = CardDefaults.cardElevation(8.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface,
+        ),
         onClick = onClick,
         modifier = modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .shadow(
+                elevation = 12.dp,
+                shape = RoundedCornerShape(12.dp),
+            ),
     ) {
         Image(
             painter = painterResource(image),

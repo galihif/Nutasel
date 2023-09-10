@@ -1,10 +1,14 @@
 package com.giftech.terbit.domain.model
 
+import com.giftech.terbit.domain.enums.ProgramTag
+
 sealed interface Program {
     val programId: Int
     val week: Int?
     val dayOfWeek: Int?
     val isComplete: Boolean
+    val completionDateInMillis: Long?
+    val tag: ProgramTag
 }
 
 class FillOutAsaq(
@@ -12,6 +16,8 @@ class FillOutAsaq(
     override val week: Int?,
     override val dayOfWeek: Int?,
     override val isComplete: Boolean,
+    override val completionDateInMillis: Long?,
+    override val tag: ProgramTag,
 ) : Program
 
 class FillOutFfq(
@@ -19,6 +25,8 @@ class FillOutFfq(
     override val week: Int?,
     override val dayOfWeek: Int?,
     override val isComplete: Boolean,
+    override val completionDateInMillis: Long?,
+    override val tag: ProgramTag,
 ) : Program
 
 class ReadArticle(
@@ -26,4 +34,6 @@ class ReadArticle(
     override val week: Int?,
     override val dayOfWeek: Int?,
     override val isComplete: Boolean,
+    override val completionDateInMillis: Long?,
+    override val tag: ProgramTag,
 ) : Program
