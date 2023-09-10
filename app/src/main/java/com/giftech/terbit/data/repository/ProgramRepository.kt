@@ -27,12 +27,12 @@ class ProgramRepository @Inject constructor(
     override suspend fun insert(
         programId: Int,
         isComplete: Boolean,
-        completionDateInMilis: Long,
+        completionDateInMillis: Long,
     ) {
         val programEntity = ProgramEntity(
             programId = programId,
             isComplete = isComplete,
-            completionDateInMillis = completionDateInMilis,
+            completionDateInMillis = completionDateInMillis,
             week = null, // Ignored
             dayOfWeek = null, // Ignored
             type = "", // Ignored
