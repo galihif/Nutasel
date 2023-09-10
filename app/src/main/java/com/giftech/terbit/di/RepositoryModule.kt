@@ -2,12 +2,14 @@ package com.giftech.terbit.di
 
 import com.giftech.terbit.data.repository.ArticleRepository
 import com.giftech.terbit.data.repository.AsaqRepository
+import com.giftech.terbit.data.repository.AsaqResponseRepository
 import com.giftech.terbit.data.repository.FfqFoodCategoryRepository
 import com.giftech.terbit.data.repository.FfqQuestionRepository
 import com.giftech.terbit.data.repository.ProgramRepository
 import com.giftech.terbit.data.repository.UserRepository
 import com.giftech.terbit.domain.repository.IArticleRepository
 import com.giftech.terbit.domain.repository.IAsaqRepository
+import com.giftech.terbit.domain.repository.IAsaqResponseRepository
 import com.giftech.terbit.domain.repository.IFfqFoodCategoryRepository
 import com.giftech.terbit.domain.repository.IFfqQuestionRepository
 import com.giftech.terbit.domain.repository.IProgramRepository
@@ -20,6 +22,21 @@ import dagger.hilt.components.SingletonComponent
 @Module(includes = [DatabaseModule::class, DataStoreModule::class])
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
+    
+    @Binds
+    abstract fun provideArticleRepository(
+        articleRepository: ArticleRepository,
+    ): IArticleRepository
+    
+    @Binds
+    abstract fun provideAsaqRepository(
+        asaqRepository: AsaqRepository,
+    ): IAsaqRepository
+    
+    @Binds
+    abstract fun provideAsaqResponseRepository(
+        asaqResponseRepository: AsaqResponseRepository,
+    ): IAsaqResponseRepository
     
     @Binds
     abstract fun provideFfqFoodCategoryRepository(
@@ -35,21 +52,10 @@ abstract class RepositoryModule {
     abstract fun provideProgramRepository(
         programRepository: ProgramRepository,
     ): IProgramRepository
-
+    
     @Binds
     abstract fun provideUserRepository(
         userRepository: UserRepository,
     ): IUserRepository
-
-    @Binds
-    abstract fun provideAsaqRepository(
-        asaqRepository: AsaqRepository,
-    ): IAsaqRepository
-
-    @Binds
-    abstract fun provideArticleRepository(
-        articleRepository: ArticleRepository,
-    ): IArticleRepository
-
     
 }

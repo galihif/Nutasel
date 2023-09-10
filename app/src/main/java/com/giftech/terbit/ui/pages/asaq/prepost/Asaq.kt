@@ -1,4 +1,4 @@
-package com.giftech.terbit.ui.pages.asaq
+package com.giftech.terbit.ui.pages.asaq.prepost
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

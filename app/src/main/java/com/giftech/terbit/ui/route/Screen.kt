@@ -47,9 +47,13 @@ sealed class Screen(val route: String) {
     object Profesional : Screen("Profesional")
     
     object MonitoringDetails : Screen("MonitoringDetails")
-
-    object Article : Screen("Article/{${Constants.EXTRAS.WEEK}}/{${Constants.EXTRAS.DAY}}"){
-        fun createRoute(week:Int,day:Int) = "Article/$week/$day"
+    
+    object Article : Screen("Article/{${Constants.EXTRAS.WEEK}}/{${Constants.EXTRAS.DAY}}") {
+        fun createRoute(week: Int, day: Int) = "Article/$week/$day"
+    }
+    
+    object WeeklyAsaq : Screen("WeeklyAsaq/{${Constants.EXTRAS.PROGRAM_ID}}") {
+        fun createRoute(programId: Int) = "WeeklyAsaq/$programId"
     }
     
 }
