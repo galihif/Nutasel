@@ -68,10 +68,9 @@ fun TerbitApp(
     ) { innerPadding ->
         NavHost(
             navController = navHostController,
-            startDestination = Screen.Article.route,
+            startDestination = Screen.Home.route,
             modifier = Modifier.padding(innerPadding)
         ) {
-            // TODO: change start destination to default route
             // Input Data Diri
             composable(Screen.InputDataDiri.route) {
                 InputDataDiriScreen(
@@ -285,8 +284,7 @@ fun TerbitApp(
             ) {
                 val week = it.arguments?.getInt(Constants.EXTRAS.WEEK) ?: -1
                 val day = it.arguments?.getInt(Constants.EXTRAS.DAY) ?: -1
-                ArticleScreen(4, 7)
-                // TODO: change week day in param 
+                ArticleScreen(week, day)
             }
         }
     }

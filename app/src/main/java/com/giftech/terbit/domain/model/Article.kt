@@ -1,13 +1,10 @@
 package com.giftech.terbit.domain.model
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
-
 data class Article(
     val articleId:Int,
     val week:Int,
     val day:Int,
-    val title:String,
+    val title:Int,
     val imageRes:Int,
     val readDuration:Int,
     val category:List<String>,
