@@ -6,7 +6,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface IFfqQuestionRepository {
     
-    fun getByProgramId(programId: Int): Flow<List<FfqQuestion>>
+    fun getByProgramId(
+        programId: Int,
+    ): Flow<List<FfqQuestion>>
     
     // Insert a new food or response the question
     suspend fun insert(
@@ -14,15 +16,8 @@ interface IFfqQuestionRepository {
         foodCategoryId: Int,
     )
     
-    // Insert the response of question
+    // Insert or update the response of question
     suspend fun insert(
-        programId: Int,
-        foodId: Int,
-        freq: FfqFrequency,
-    )
-    
-    // Update the response
-    suspend fun update(
         programId: Int,
         foodId: Int,
         freq: FfqFrequency,

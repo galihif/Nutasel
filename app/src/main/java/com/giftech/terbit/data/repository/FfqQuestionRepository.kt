@@ -8,6 +8,7 @@ import com.giftech.terbit.data.source.local.room.entity.FfqResponseEntity
 import com.giftech.terbit.domain.enums.FfqFrequency
 import com.giftech.terbit.domain.model.FfqQuestion
 import com.giftech.terbit.domain.repository.IFfqQuestionRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.mapLatest
@@ -22,10 +23,11 @@ class FfqQuestionRepository @Inject constructor(
 ) : IFfqQuestionRepository {
     
     // The user responses of an FFQ can be empty
+    @OptIn(ExperimentalCoroutinesApi::class)
     override fun getByProgramId(programId: Int): Flow<List<FfqQuestion>> {
-        return ffqFoodLocalDataSource.getAll().flatMapLatest { ffqFood ->
-            ffqResponseLocalDataSource.getAll().mapLatest { ffqResponse ->
-                ffqQuestionMapper.mapToDomain(programId, ffqFood, ffqResponse)
+        return ffqFoodLocalDataSource.getAll().flatMapLatest { ffqFoodEntityList ->
+            ffqResponseLocalDataSource.getAll().mapLatest { ffqResponseEntityList ->
+                ffqQuestionMapper.mapToDomain(programId, ffqFoodEntityList, ffqResponseEntityList)
             }
         }
     }
@@ -47,15 +49,5 @@ class FfqQuestionRepository @Inject constructor(
         )
         ffqResponseLocalDataSource.insert(ffqResponseEntity)
     }
-    
-    override suspend fun update(programId: Int, foodId: Int, freq: FfqFrequency) {
-        val ffqResponseEntity = FfqResponseEntity(
-            programId = programId,
-            foodId = foodId,
-            freq = freq.freqId,
-        )
-        ffqResponseLocalDataSource.update(ffqResponseEntity)
-    }
-    
     
 }
