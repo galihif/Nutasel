@@ -1,6 +1,6 @@
 package com.giftech.terbit.domain.model
 
-data class Summary(
+data class HomeSummary(
     val userName: String,
     val bmiCategory: String,
     val monitoringLevel: String,
@@ -10,6 +10,7 @@ data class Summary(
     val isPostTestDone: Boolean,
     val isAllWeeklyProgramDone: Boolean,
     val nextDayProgramList: List<Program>,
+    val isNextDayProgramAvailable: Boolean,
     val totalProgram: Int,
     val totalCompletedProgram: Int,
     val programProgressPercentage: Int,
