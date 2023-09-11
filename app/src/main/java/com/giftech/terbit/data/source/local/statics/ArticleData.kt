@@ -62,14 +62,14 @@ class ArticleData @Inject constructor() {
     )
 
     private val titleList = listOf(
-        "Love-Hate Relationship : Makanan Pokok dan Lauknya",
-        "Get the Glow Up : Sayur dan Buah",
-        "Make It Simple : Selingan dan Minuman Jadi",
-        "What’s on My Plate? : Frekuensi Makan dan Batasan Porsinya",
-        "Sedentary Lifestyle : Kenalan dengan Kegiatannya",
-        "Sedentary Lifestyle : Durasi Kegiatannya",
-        "Sedentary Lifestyle : Potensi Risikonya pada Kesehatan",
-        "Sedentary Lifestyle : Tips Mengatasi Kebiasaannya"
+        R.string.title_week_1_3,
+        R.string.title_week_2_3,
+        R.string.title_week_3_3,
+        R.string.title_week_4_3,
+        R.string.title_week_1_7,
+        R.string.title_week_2_7,
+        R.string.title_week_3_7,
+        R.string.title_week_4_7,
     )
 
     private val imageList = listOf(
@@ -107,13 +107,13 @@ class ArticleData @Inject constructor() {
 
     private val contentList = listOf(
         R.string.article_week_1_3,
-        R.string.article_week_1_3,
-        R.string.article_week_1_3,
-        R.string.article_week_1_3,
-        R.string.article_week_1_3,
-        R.string.article_week_1_3,
-        R.string.article_week_1_3,
-        R.string.article_week_1_3,
+        R.string.article_week_2_3,
+        R.string.article_week_3_3,
+        R.string.article_week_4_3,
+        R.string.article_week_1_7,
+        R.string.article_week_2_7,
+        R.string.article_week_3_7,
+        R.string.article_week_4_7,
     )
 
     private val referenceList = listOf(
@@ -121,20 +121,20 @@ class ArticleData @Inject constructor() {
         "Direktorat Jenderal Bina Gizi dan Kesehatan Ibu dan Anak. (2014). Pedoman Gizi Seimbang. Kementerian Kesehatan Republik Indonesia.",
         "Direktorat Jenderal Bina Gizi dan Kesehatan Ibu dan Anak. (2014). Pedoman Gizi Seimbang. Kementerian Kesehatan Republik Indonesia.",
         "Direktorat Jenderal Bina Gizi dan Kesehatan Ibu dan Anak. (2014). Pedoman Gizi Seimbang. Kementerian Kesehatan Republik Indonesia.",
-        "Direktorat Jenderal Bina Gizi dan Kesehatan Ibu dan Anak. (2014). Pedoman Gizi Seimbang. Kementerian Kesehatan Republik Indonesia.",
-        "Direktorat Jenderal Bina Gizi dan Kesehatan Ibu dan Anak. (2014). Pedoman Gizi Seimbang. Kementerian Kesehatan Republik Indonesia.",
-        "Direktorat Jenderal Bina Gizi dan Kesehatan Ibu dan Anak. (2014). Pedoman Gizi Seimbang. Kementerian Kesehatan Republik Indonesia.",
-        "Direktorat Jenderal Bina Gizi dan Kesehatan Ibu dan Anak. (2014). Pedoman Gizi Seimbang. Kementerian Kesehatan Republik Indonesia.",
+        "Benarkah Sedentary Lifestyle Punya Dampak Buruk Bagi Kesehatan? (2022). SDGs Youth Hub. August 26, 2023, https://sdgsyouthhub.id/berita-blog/blog/benarkah-sedentary-lifestyle-punya-dampak-buruk-bagi-kesehatan/",
+        "Benarkah Sedentary Lifestyle Punya Dampak Buruk Bagi Kesehatan? (2022). SDGs Youth Hub. August 26, 2023, https://sdgsyouthhub.id/berita-blog/blog/benarkah-sedentary-lifestyle-punya-dampak-buruk-bagi-kesehatan/",
+        "Benarkah Sedentary Lifestyle Punya Dampak Buruk Bagi Kesehatan? (2022). SDGs Youth Hub. August 26, 2023, https://sdgsyouthhub.id/berita-blog/blog/benarkah-sedentary-lifestyle-punya-dampak-buruk-bagi-kesehatan/",
+        "Benarkah Sedentary Lifestyle Punya Dampak Buruk Bagi Kesehatan? (2022). SDGs Youth Hub. August 26, 2023, https://sdgsyouthhub.id/berita-blog/blog/benarkah-sedentary-lifestyle-punya-dampak-buruk-bagi-kesehatan/",
     )
 
     private val imageSourceList = listOf(
         "Unsplash.com",
         "Unsplash.com",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
+        "Unsplash.com",
+        "Kementrian Kesehatan RI",
+        "Unsplash.com",
+        "Unsplash.com",
+        "Unsplash.com",
+        "Unsplash.com",
     )
 }

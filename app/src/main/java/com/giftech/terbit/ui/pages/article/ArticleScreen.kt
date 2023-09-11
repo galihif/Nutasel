@@ -34,13 +34,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.giftech.terbit.ui.theme.light_CustomColor2
 import com.giftech.terbit.ui.theme.light_onCustomColor2
 import com.giftech.terbit.ui.theme.md_theme_light_tertiary
+import com.giftech.terbit.ui.utils.annotatedStringResource
 
 @ExperimentalMaterial3Api
 @Composable
@@ -49,7 +49,7 @@ fun ArticleScreen(
     day: Int,
     viewModel: ArticleViewModel = hiltViewModel()
 ) {
-    LaunchedEffect(week,day) {
+    LaunchedEffect(week, day) {
         viewModel.getArticleByWeekDay(week, day)
     }
     val article by remember {
@@ -88,9 +88,9 @@ fun ArticleScreen(
                                 .fillMaxWidth(),
                         ) {
                             Text(
-                                text = article!!.title,
+                                text = annotatedStringResource(id = article!!.title),
                                 modifier = Modifier.padding(12.dp),
-                                style = MaterialTheme.typography.titleMedium
+                                style = MaterialTheme.typography.titleMedium,
                             )
                             Image(
                                 painter = painterResource(id = article!!.imageRes),
@@ -117,7 +117,7 @@ fun ArticleScreen(
                                     RoundedCornerShape(64.dp)
                                 )
                                 .background(
-                                    if (day ==3) light_CustomColor2 else md_theme_light_tertiary
+                                    if (day == 3) light_CustomColor2 else md_theme_light_tertiary
                                 )
                                 .padding(horizontal = 8.dp, vertical = 4.dp),
                             color = light_onCustomColor2,
@@ -127,7 +127,7 @@ fun ArticleScreen(
                     }
                 }
                 Text(
-                    text = stringResource(id = article!!.content, "Galih"),
+                    text = annotatedStringResource(id = article!!.content, "Galih"),
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Justify
@@ -166,5 +166,4 @@ fun ArticleScreen(
             }
         }
     }
-
 }
