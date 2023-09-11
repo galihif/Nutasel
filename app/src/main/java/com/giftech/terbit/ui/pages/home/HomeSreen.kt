@@ -30,7 +30,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -54,14 +53,13 @@ import com.giftech.terbit.ui.theme.CustomColor3
 import com.giftech.terbit.ui.theme.light_onCustomColor2
 import com.giftech.terbit.ui.theme.light_onCustomColor3
 
-// TODO: Logic menyusul
 @Composable
 fun HomeScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
-    val state = viewModel.state.collectAsState().value
+    val state = viewModel.state.value
     
     HomeContent(
         state = state,

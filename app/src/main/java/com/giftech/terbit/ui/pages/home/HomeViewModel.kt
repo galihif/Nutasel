@@ -1,11 +1,11 @@
 package com.giftech.terbit.ui.pages.home
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.giftech.terbit.domain.usecase.GetSummaryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -14,7 +14,7 @@ class HomeViewModel @Inject constructor(
     private val getSummaryUseCase: GetSummaryUseCase,
 ) : ViewModel() {
     
-    private val _state = MutableStateFlow(
+    private val _state = mutableStateOf(
         HomeState(
             userName = "",
             bmiCategory = "",
@@ -34,7 +34,7 @@ class HomeViewModel @Inject constructor(
             totalWeek = 0,
         )
     )
-    val state = _state.asStateFlow()
+    val state: State<HomeState> = _state
     
     init {
         getSummary()
