@@ -22,11 +22,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -38,6 +38,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.giftech.terbit.domain.util.LOCALE_INDONESIAN
 import com.kizitonwose.calendar.compose.CalendarLayoutInfo
 import com.kizitonwose.calendar.compose.CalendarState
 import com.kizitonwose.calendar.compose.HorizontalCalendar
@@ -48,23 +49,39 @@ import com.kizitonwose.calendar.core.DayPosition
 import com.kizitonwose.calendar.core.daysOfWeek
 import com.kizitonwose.calendar.core.nextMonth
 import com.kizitonwose.calendar.core.previousMonth
+import com.kizitonwose.calendar.core.yearMonth
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
+import java.time.LocalDate
 import java.time.Month
 import java.time.YearMonth
 import java.time.format.TextStyle
-import java.util.Locale
 
 @Composable
-fun Calendar(adjacentMonths: Long = 500) {
-    val currentMonth = remember { YearMonth.now() }
-    val startMonth = remember { currentMonth.minusMonths(adjacentMonths) }
-    val endMonth = remember { currentMonth.plusMonths(adjacentMonths) }
-    val selections = remember { mutableStateListOf<CalendarDay>() }
+fun ActivityCalendar(
+    dateList: List<LocalDate>,
+    modifier: Modifier = Modifier,
+    adjacentMonths: Long = 1,
+) {
+    val currentMonth = remember {
+        dateList.lastOrNull()?.yearMonth ?: YearMonth.now()
+    }
+    val startMonth = remember {
+        currentMonth.minusMonths(adjacentMonths)
+    }
+    val endMonth = remember {
+        currentMonth.plusMonths(adjacentMonths)
+    }
+    val selections = remember {
+        dateList.map {
+            CalendarDay(it, DayPosition.MonthDate)
+        }.toMutableStateList()
+    }
     val daysOfWeek = remember { daysOfWeek() }
+    
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .background(
                 color = MaterialTheme.colorScheme.primaryContainer,
@@ -97,13 +114,7 @@ fun Calendar(adjacentMonths: Long = 500) {
             modifier = Modifier.testTag("Calendar"),
             state = state,
             dayContent = { day ->
-                Day(day, isSelected = selections.contains(day)) { clicked ->
-                    if (selections.contains(clicked)) {
-                        selections.remove(clicked)
-                    } else {
-                        selections.add(clicked)
-                    }
-                }
+                Day(day, isSelected = selections.contains(day)) {}
             },
             monthHeader = {
                 MonthHeader(daysOfWeek = daysOfWeek)
@@ -113,7 +124,9 @@ fun Calendar(adjacentMonths: Long = 500) {
 }
 
 @Composable
-private fun MonthHeader(daysOfWeek: List<DayOfWeek>) {
+private fun MonthHeader(
+    daysOfWeek: List<DayOfWeek>,
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -132,7 +145,11 @@ private fun MonthHeader(daysOfWeek: List<DayOfWeek>) {
 }
 
 @Composable
-private fun Day(day: CalendarDay, isSelected: Boolean, onClick: (CalendarDay) -> Unit) {
+private fun Day(
+    day: CalendarDay,
+    isSelected: Boolean,
+    onClick: (CalendarDay) -> Unit,
+) {
     Box(
         modifier = Modifier
             .aspectRatio(1f) // This is important for square-sizing!
@@ -246,24 +263,22 @@ private fun CalendarLayoutInfo.firstMostVisibleMonth(viewportPercent: Float = 50
     }
 }
 
-private val localeIndonesian = Locale("in", "ID")
-
-fun YearMonth.displayText(short: Boolean = false): String {
+private fun YearMonth.displayText(short: Boolean = false): String {
     return "${this.month.displayText(short = short)} ${this.year}"
 }
 
-fun Month.displayText(short: Boolean = true): String {
+private fun Month.displayText(short: Boolean = true): String {
     val style = if (short) TextStyle.SHORT else TextStyle.FULL
-    return getDisplayName(style, localeIndonesian)
+    return getDisplayName(style, LOCALE_INDONESIAN)
 }
 
-fun DayOfWeek.displayText(uppercase: Boolean = false): String {
-    return getDisplayName(TextStyle.NARROW, localeIndonesian).let { value ->
-        if (uppercase) value.uppercase(localeIndonesian) else value
+private fun DayOfWeek.displayText(uppercase: Boolean = false): String {
+    return getDisplayName(TextStyle.NARROW, LOCALE_INDONESIAN).let { value ->
+        if (uppercase) value.uppercase(LOCALE_INDONESIAN) else value
     }
 }
 
-fun Modifier.clickable(
+private fun Modifier.clickable(
     enabled: Boolean = true,
     showRipple: Boolean = true,
     onClickLabel: String? = null,
