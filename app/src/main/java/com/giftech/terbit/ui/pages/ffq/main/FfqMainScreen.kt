@@ -24,7 +24,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
@@ -49,7 +48,7 @@ fun FfqMainScreen(
             programId = programId,
         )
     )
-    val state = viewModel.state.collectAsState().value
+    val state = viewModel.state.value
     
     FfqMainContent(
         state = state,

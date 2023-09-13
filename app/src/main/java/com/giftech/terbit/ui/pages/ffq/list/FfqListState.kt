@@ -4,7 +4,7 @@ import com.giftech.terbit.domain.model.FfqFoodCategory
 import com.giftech.terbit.domain.model.FfqQuestion
 
 data class FfqListState(
-    val programId: Int = -1,
-    val selectedFoodCategory: FfqFoodCategory? = null,
-    val questionListBySelectedFoodCategory: List<FfqQuestion> = emptyList(),
+    val programId: Int,
+    val selectedFoodCategory: FfqFoodCategory?,
+    val questionListBySelectedFoodCategory: List<FfqQuestion>,
 )

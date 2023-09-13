@@ -23,14 +23,13 @@ import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.rounded.AccessTime
 import androidx.compose.material.icons.rounded.ArrowRight
 import androidx.compose.material.icons.rounded.CheckBox
+import androidx.compose.material.icons.rounded.CheckBoxOutlineBlank
 import androidx.compose.material.icons.rounded.NotificationsNone
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -54,14 +53,13 @@ import com.giftech.terbit.ui.theme.CustomColor3
 import com.giftech.terbit.ui.theme.light_onCustomColor2
 import com.giftech.terbit.ui.theme.light_onCustomColor3
 
-// TODO: Logic menyusul
 @Composable
 fun HomeScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
-    val state = viewModel.state.collectAsState().value
+    val state = viewModel.state.value
     
     HomeContent(
         state = state,
@@ -126,17 +124,27 @@ private fun HomeContent(
                     is ReadArticle -> "Baca Artikel"
                 },
                 dayOfWeek = "Hari ${program.dayOfWeek}",
-                onClick = {
-                    navController.navigate(
-                        when (program) {
-                            is FillOutAsaq -> Screen.WeeklyAsaq.createRoute(programId = program.programId)
-                            is FillOutFfq -> Screen.FfqMain.createRoute(programId = program.programId)
-                            // TODO: Article screen is not ready
-                            is ReadArticle -> Screen.Article.route
-                        }
-                    )
-                    
-                },
+                isAvailable = state.isNextDayProgramAvailable,
+                onClick = if (state.isNextDayProgramAvailable) {
+                    {
+                        navController.navigate(
+                            when (program) {
+                                is FillOutAsaq -> Screen.WeeklyAsaq.createRoute(
+                                    programId = program.programId,
+                                )
+                                
+                                is FillOutFfq -> Screen.FfqMain.createRoute(
+                                    programId = program.programId,
+                                )
+                                
+                                is ReadArticle -> Screen.Article.createRoute(
+                                    week = program.week!!,
+                                    day = program.dayOfWeek!!,
+                                )
+                            }
+                        )
+                    }
+                } else null,
             )
         }
         
@@ -457,14 +465,15 @@ private fun GeneralContainer(
 private fun ActivityToDoItem(
     programName: String,
     dayOfWeek: String,
-    onClick: () -> Unit,
+    isAvailable: Boolean,
+    onClick: (() -> Unit)?,
     modifier: Modifier = Modifier,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .clip(MaterialTheme.shapes.medium)
-            .clickable { onClick() }
+            .clickable(enabled = onClick != null) { onClick!!() }
             .padding(8.dp),
     ) {
         Column(
@@ -482,9 +491,11 @@ private fun ActivityToDoItem(
             )
         }
         Spacer(modifier = Modifier.width(16.dp))
-        Checkbox(
-            checked = false,
-            onCheckedChange = null,
+        Icon(
+            imageVector = if (isAvailable) Icons.Rounded.CheckBoxOutlineBlank
+            else Icons.Outlined.Lock,
+            contentDescription = if (isAvailable) "Belum dikerjakan"
+            else "Belum tersedia",
         )
     }
 }

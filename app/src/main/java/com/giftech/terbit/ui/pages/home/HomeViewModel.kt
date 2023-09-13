@@ -1,20 +1,20 @@
 package com.giftech.terbit.ui.pages.home
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.giftech.terbit.domain.usecase.GetSummaryUseCase
+import com.giftech.terbit.domain.usecase.GetHomeSummaryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getSummaryUseCase: GetSummaryUseCase,
+    private val getHomeSummaryUseCase: GetHomeSummaryUseCase,
 ) : ViewModel() {
     
-    private val _state = MutableStateFlow(
+    private val _state = mutableStateOf(
         HomeState(
             userName = "",
             bmiCategory = "",
@@ -25,6 +25,7 @@ class HomeViewModel @Inject constructor(
             isPostTestDone = false,
             isAllWeeklyProgramDone = false,
             nextDayProgramList = emptyList(),
+            isNextDayProgramAvailable = false,
             totalProgram = 0,
             totalCompletedProgram = 0,
             programProgressPercentage = 0,
@@ -34,7 +35,7 @@ class HomeViewModel @Inject constructor(
             totalWeek = 0,
         )
     )
-    val state = _state.asStateFlow()
+    val state: State<HomeState> = _state
     
     init {
         getSummary()
@@ -42,8 +43,8 @@ class HomeViewModel @Inject constructor(
     
     private fun getSummary() {
         viewModelScope.launch {
-            getSummaryUseCase().collect { summary ->
-                _state.value = _state.value.copy(
+            getHomeSummaryUseCase().collect { summary ->
+                _state.value = HomeState(
                     userName = summary.userName,
                     bmiCategory = summary.bmiCategory,
                     monitoringLevel = summary.monitoringLevel,
@@ -53,6 +54,7 @@ class HomeViewModel @Inject constructor(
                     isPostTestDone = summary.isPostTestDone,
                     isAllWeeklyProgramDone = summary.isAllWeeklyProgramDone,
                     nextDayProgramList = summary.nextDayProgramList,
+                    isNextDayProgramAvailable = summary.isNextDayProgramAvailable,
                     totalProgram = summary.totalProgram,
                     totalCompletedProgram = summary.totalCompletedProgram,
                     programProgressPercentage = summary.programProgressPercentage,
