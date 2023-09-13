@@ -129,10 +129,18 @@ private fun HomeContent(
                     {
                         navController.navigate(
                             when (program) {
-                                is FillOutAsaq -> Screen.WeeklyAsaq.createRoute(programId = program.programId)
-                                is FillOutFfq -> Screen.FfqMain.createRoute(programId = program.programId)
-                                // TODO: Article screen is not ready
-                                is ReadArticle -> Screen.Article.route
+                                is FillOutAsaq -> Screen.WeeklyAsaq.createRoute(
+                                    programId = program.programId,
+                                )
+                                
+                                is FillOutFfq -> Screen.FfqMain.createRoute(
+                                    programId = program.programId,
+                                )
+                                
+                                is ReadArticle -> Screen.Article.createRoute(
+                                    week = program.week!!,
+                                    day = program.dayOfWeek!!,
+                                )
                             }
                         )
                     }
