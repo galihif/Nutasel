@@ -51,15 +51,22 @@ class GetHomeSummaryUseCase @Inject constructor(
                     if (isWeeklyProgramAvailable) {
                         val lastCompletedWeek = lastCompletedProgram?.week
                         val lastCompletedDayOfWeek = lastCompletedProgram?.dayOfWeek
-                        nextDayProgramList = programList.filter {
-                            if (lastCompletedProgram == null) {
-                                it.week == 1 && it.dayOfWeek == 1
-                            } else {
-                                if (lastCompletedDayOfWeek == 7) {
-                                    it.week == lastCompletedWeek!! + 1 && it.dayOfWeek == 1
-                                } else {
-                                    it.week == lastCompletedWeek && it.dayOfWeek == lastCompletedDayOfWeek!! + 1
-                                }
+                        
+                        nextDayProgramList = when {
+                            lastCompletedProgram == null -> {
+                                weeklyProgramList.filter { it.week == 1 && it.dayOfWeek == 1 }
+                            }
+                            
+                            weeklyProgramList.any { it.week == lastCompletedWeek && it.dayOfWeek == lastCompletedDayOfWeek && !it.isComplete } -> {
+                                weeklyProgramList.filter { it.week == lastCompletedWeek && it.dayOfWeek == lastCompletedDayOfWeek && !it.isComplete }
+                            }
+                            
+                            lastCompletedDayOfWeek == 7 -> {
+                                weeklyProgramList.filter { it.week == lastCompletedWeek!! + 1 && it.dayOfWeek == 1 }
+                            }
+                            
+                            else -> {
+                                weeklyProgramList.filter { it.week == lastCompletedWeek && it.dayOfWeek == lastCompletedDayOfWeek!! + 1 }
                             }
                         }
                         
