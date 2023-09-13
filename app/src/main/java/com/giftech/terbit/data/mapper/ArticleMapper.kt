@@ -26,6 +26,8 @@ class ArticleMapper @Inject constructor() {
             content = input.content,
             reference = input.reference,
             imageSource = input.imageSource,
+            completeBody = input.completeBody,
+            completeTitle = input.completeTitle
         )
     }
 }
