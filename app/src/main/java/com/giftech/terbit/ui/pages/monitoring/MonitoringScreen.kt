@@ -1,8 +1,9 @@
 package com.giftech.terbit.ui.pages.monitoring
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,9 +11,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.rounded.AccessTime
@@ -28,23 +29,24 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.giftech.terbit.ui.components.molecules.ActivityCalendar
 import com.giftech.terbit.ui.components.molecules.Alerts
-import com.giftech.terbit.ui.components.molecules.Calendar
-import com.giftech.terbit.ui.components.molecules.clickable
 import com.giftech.terbit.ui.route.Screen
 import com.giftech.terbit.ui.theme.CustomColor2
-import com.giftech.terbit.ui.theme.dark_onCustomColor3
-import com.giftech.terbit.ui.theme.light_CustomColor3Container
 import com.giftech.terbit.ui.theme.light_onCustomColor2
 
-// TODO: Logic menyusul
 @Composable
 fun MonitoringScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
+    viewModel: MonitoringViewModel = hiltViewModel(),
 ) {
+    val state = viewModel.state.value
+    
     MonitoringContent(
+        state = state,
         navController = navController,
         modifier = modifier,
     )
@@ -52,68 +54,79 @@ fun MonitoringScreen(
 
 @Composable
 private fun MonitoringContent(
+    state: MonitoringState,
     navController: NavController,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier
-            .verticalScroll(rememberScrollState())
-            .padding(24.dp),
+    LazyColumn(
+        contentPadding = PaddingValues(24.dp),
+        modifier = modifier,
     ) {
-        Text(
-            text = "Pantau Tingkat Aktivitas Kamu!",
-            style = MaterialTheme.typography.titleMedium,
-        )
-        
-        Spacer(modifier = Modifier.height(24.dp))
-        
-        Calendar()
-        Spacer(modifier = Modifier.height(16.dp))
-        CalendarLegend(
-            text = "Mengerjakan aktivitas",
-            color = MaterialTheme.colorScheme.primary,
-        )
-        
-        Spacer(modifier = Modifier.height(24.dp))
-        
-        Alerts(
-            text = "Program dimulai pada 15 - 10 - 2023",
-            icon = Icons.Rounded.AccessTime,
-        )
-        
-        Spacer(modifier = Modifier.height(24.dp))
-        
-        MonitoringItem(
-            text = "Minggu Kesatu",
-            status = MonitoringStatus.Done,
-            onClick = {
-                navController.navigate(
-                    Screen.MonitoringDetails.route
+        item {
+            Text(
+                text = "Pantau Tingkat Aktivitas Kamu!",
+                style = MaterialTheme.typography.titleMedium,
+            )
+            
+            Spacer(modifier = Modifier.height(24.dp))
+            
+            ActivityCalendar(
+                dateList = state.completedDayList,
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            CalendarLegend(
+                text = "Mengerjakan aktivitas",
+                color = MaterialTheme.colorScheme.primary,
+            )
+            
+            if (state.isWeeklyProgramAvailable.not()) {
+                Spacer(modifier = Modifier.height(24.dp))
+                
+                Alerts(
+                    text = "Program dimulai pada ${state.weeklyProgramOpeningDate}",
+                    icon = Icons.Rounded.AccessTime,
                 )
-            },
-        )
-        Spacer(modifier = Modifier.height(12.dp))
-        MonitoringItem(
-            text = "Minggu Kedua",
-            status = MonitoringStatus.NotDone,
-            onClick = {
-                navController.navigate(
-                    Screen.MonitoringDetails.route
-                )
-            },
-        )
-        Spacer(modifier = Modifier.height(12.dp))
-        MonitoringItem(
-            text = "Minggu Ketiga",
-            status = MonitoringStatus.NotAvailable,
-            onClick = null,
-        )
-        Spacer(modifier = Modifier.height(12.dp))
-        MonitoringItem(
-            text = "Minggu Keempat",
-            status = MonitoringStatus.NotAvailable,
-            onClick = null,
-        )
+            }
+            
+            Spacer(modifier = Modifier.height(24.dp))
+        }
+        
+        items(
+            items = state.weeklyProgramList.keys.toList(),
+            key = { it },
+        ) { week ->
+            val status = when {
+                state.isWeeklyProgramAvailable.not() -> MonitoringStatus.NotAvailable
+                
+                state.weeklyProgramList[week]!!.all { it.isComplete } -> MonitoringStatus.Done
+    
+                // If not done:
+                week == state.weeklyProgramList.keys.first() -> MonitoringStatus.NotDone
+                
+                week != state.weeklyProgramList.keys.first() &&
+                        state.weeklyProgramList[week - 1]!!.all { it.isComplete } -> MonitoringStatus.NotDone
+    
+                week != state.weeklyProgramList.keys.first() &&
+                        state.weeklyProgramList[week - 1]!!.any { !it.isComplete } -> MonitoringStatus.NotAvailable
+                
+                
+                else -> MonitoringStatus.NotAvailable
+            }
+            MonitoringItem(
+                text = "Minggu $week",
+                status = status,
+                onClick = if (status == MonitoringStatus.NotAvailable) {
+                    null
+                } else {
+                    {
+                        navController.navigate(
+                            Screen.MonitoringDetails.route
+                        )
+                    }
+                },
+            )
+            Spacer(modifier = Modifier.height(14.dp))
+        }
     }
 }
 
@@ -213,14 +226,14 @@ private fun MonitoringItemBase(
             .clip(MaterialTheme.shapes.small)
             .background(backgroundColor)
             .clickable(enabled = onClick != null) { onClick!!() }
-            .padding(horizontal = 16.dp, vertical = 12.dp),
+            .padding(horizontal = 24.dp, vertical = 14.dp),
     ) {
         Icon(
             imageVector = icon,
             contentDescription = contentDescription,
             tint = color,
         )
-        Spacer(modifier = Modifier.width(12.dp))
+        Spacer(modifier = Modifier.width(16.dp))
         Text(
             text = text,
             style = MaterialTheme.typography.bodyLarge,

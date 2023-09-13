@@ -39,7 +39,7 @@ fun FfqResponseBottomSheet(
             verticalArrangement = Arrangement.spacedBy(10.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(12.dp),
+                .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 64.dp),
         ) {
             FfqFrequency.values().forEach { ffqFrequency ->
                 MyFilterChips(

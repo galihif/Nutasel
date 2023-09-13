@@ -55,7 +55,7 @@ enum class KategoriIMTEnum(val title: String, val desc: (String) -> String) {
         
         fun fromTitle(title: String): KategoriIMTEnum {
             return values().firstOrNull { it.title == title }
-                ?: SANGAT_KURUS
+                ?: NORMAL
         }
         
     }

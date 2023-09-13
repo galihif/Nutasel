@@ -12,6 +12,7 @@ data class HomeState(
     val isPostTestDone: Boolean,
     val isAllWeeklyProgramDone: Boolean,
     val nextDayProgramList: List<Program>,
+    val isNextDayProgramAvailable: Boolean,
     val totalProgram: Int,
     val totalCompletedProgram: Int,
     val programProgressPercentage: Int,

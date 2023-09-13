@@ -52,10 +52,10 @@ fun FfqListScreen(
             foodCategoryId = foodCategoryId,
         )
     )
-    val state = viewModel.state.collectAsState()
+    val state = viewModel.state.value
     
     FfqListContent(
-        state = state.value,
+        state = state,
         viewModel = viewModel,
         navController = navController,
         modifier = modifier,

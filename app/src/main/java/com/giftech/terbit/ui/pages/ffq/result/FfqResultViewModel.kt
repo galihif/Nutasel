@@ -14,7 +14,12 @@ class FfqResultViewModel @Inject constructor(
     private val getFfqResult: GetFfqResultUseCase,
 ) : ViewModel() {
     
-    private val _state = mutableStateOf(FfqResultState())
+    private val _state = mutableStateOf(
+        FfqResultState(
+            programId = -1,
+            result = null,
+        )
+    )
     val state: State<FfqResultState> = _state
     
     fun onEvent(event: FfqResultEvent) {
@@ -24,7 +29,7 @@ class FfqResultViewModel @Inject constructor(
                     getFfqResult(
                         programId = event.programId,
                     ).collect { result ->
-                        _state.value = _state.value.copy(
+                        _state.value = FfqResultState(
                             programId = event.programId,
                             result = result,
                         )

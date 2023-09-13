@@ -14,7 +14,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
@@ -39,7 +38,7 @@ fun WeeklyAsaqScreen(
             programId = programId,
         )
     )
-    val state = viewModel.state.collectAsState().value
+    val state = viewModel.state.value
     
     WeeklyAsaqContent(
         state = state,
