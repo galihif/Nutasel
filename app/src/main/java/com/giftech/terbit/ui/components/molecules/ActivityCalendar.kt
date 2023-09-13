@@ -63,21 +63,13 @@ fun ActivityCalendar(
     modifier: Modifier = Modifier,
     adjacentMonths: Long = 1,
 ) {
-    val currentMonth = remember {
-        dateList.lastOrNull()?.yearMonth ?: YearMonth.now()
-    }
-    val startMonth = remember {
-        currentMonth.minusMonths(adjacentMonths)
-    }
-    val endMonth = remember {
-        currentMonth.plusMonths(adjacentMonths)
-    }
-    val selections = remember {
-        dateList.map {
-            CalendarDay(it, DayPosition.MonthDate)
-        }.toMutableStateList()
-    }
-    val daysOfWeek = remember { daysOfWeek() }
+    val currentMonth = dateList.lastOrNull()?.yearMonth ?: YearMonth.now()
+    val startMonth = currentMonth.minusMonths(adjacentMonths)
+    val endMonth = currentMonth.plusMonths(adjacentMonths)
+    val selections = dateList
+        .map { CalendarDay(it, DayPosition.MonthDate) }
+        .toMutableList()
+    val daysOfWeek = daysOfWeek()
     
     Column(
         modifier = modifier
