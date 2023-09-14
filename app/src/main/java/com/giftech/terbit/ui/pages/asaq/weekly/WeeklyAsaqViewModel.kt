@@ -43,8 +43,14 @@ class WeeklyAsaqViewModel @Inject constructor(
                     getAsaqResponseUseCase(
                         programId = event.programId
                     ).collect { asaqResponseList ->
+                        val currentQuestion = _state.value.currentQuestion
+                        val freq = asaqResponseList.firstOrNull { response ->
+                            response.questionId == currentQuestion.questionId
+                        }?.freq
                         _state.value = _state.value.copy(
                             responseList = asaqResponseList,
+                            hoursFreq = freq?.div(60),
+                            minutesFreq = freq?.rem(60),
                         )
                     }
                 }
@@ -99,6 +105,16 @@ class WeeklyAsaqViewModel @Inject constructor(
             }
             
             is WeeklyAsaqEvent.NextQuestion -> {
+                val nextQuestionNumber = event.currentQuestion.ordinal + 1
+                val nextQuestion = AsaqQuestions.values().first {
+                    it.ordinal == nextQuestionNumber
+                }
+                _state.value = _state.value.copy(
+                    currentQuestion = nextQuestion,
+                    isFirstQuestion = false,
+                    isLastQuestion = nextQuestionNumber == AsaqQuestions.values().lastIndex,
+                )
+                
                 viewModelScope.launch {
                     val hoursFreq = event.hoursFreq ?: 0
                     val minutesFreq = event.minutesFreq ?: 0
@@ -108,21 +124,6 @@ class WeeklyAsaqViewModel @Inject constructor(
                         freq = hoursFreq * 60 + minutesFreq,
                     )
                 }
-                
-                val nextQuestionNumber = event.currentQuestion.ordinal + 1
-                val nextQuestion = AsaqQuestions.values().first {
-                    it.ordinal == nextQuestionNumber
-                }
-                val freq = _state.value.responseList.firstOrNull { response ->
-                    response.questionId == nextQuestion.questionId
-                }?.freq
-                _state.value = _state.value.copy(
-                    currentQuestion = nextQuestion,
-                    hoursFreq = freq?.div(60),
-                    minutesFreq = freq?.rem(60),
-                    isFirstQuestion = false,
-                    isLastQuestion = nextQuestionNumber == AsaqQuestions.values().lastIndex,
-                )
             }
             
             is WeeklyAsaqEvent.PreviousQuestion -> {
