@@ -17,6 +17,7 @@ import com.giftech.terbit.ui.components.enums.HeroEnum
 import com.giftech.terbit.ui.components.molecules.BottomNavigation
 import com.giftech.terbit.ui.components.templates.OnboardLoading
 import com.giftech.terbit.ui.components.templates.Onboarding
+import com.giftech.terbit.ui.pages.activity_complete.ActivityCompleteScreen
 import com.giftech.terbit.ui.pages.article.ArticleCompleteScreen
 import com.giftech.terbit.ui.pages.article.ArticleScreen
 import com.giftech.terbit.ui.pages.asaq.prepost.AsaqScreen
@@ -73,6 +74,7 @@ fun TerbitApp(
             startDestination = Screen.Home.route,
             modifier = Modifier.padding(innerPadding)
         ) {
+
             // Input Data Diri
             composable(Screen.InputDataDiri.route) {
                 InputDataDiriScreen(
@@ -302,6 +304,18 @@ fun TerbitApp(
                     onNext = {
                         //on next
                     }
+                )
+            }
+            composable(
+                route = Screen.ActivityComplete.route,
+                arguments = listOf(
+                    navArgument(Constants.EXTRAS.WEEK) { type = NavType.IntType },
+                ),
+            ) {
+                val week = it.arguments?.getInt(Constants.EXTRAS.WEEK) ?: -1
+                ActivityCompleteScreen(
+                    week = week,
+                    onNext = {}
                 )
             }
 
