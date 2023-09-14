@@ -53,7 +53,11 @@ sealed class Screen(val route: String) {
     }
 
     object ArticleComplete : Screen("ArticleComplete/{${Constants.EXTRAS.WEEK}}/{${Constants.EXTRAS.DAY}}") {
-        fun createRoute(week: Int, day: Int) = "Article/$week/$day"
+        fun createRoute(week: Int, day: Int) = "ArticleComplete/$week/$day"
+    }
+
+    object ActivityComplete : Screen("ActivityComplete/{${Constants.EXTRAS.WEEK}}") {
+        fun createRoute(week: Int) = "ActivityComplete/$week"
     }
 
 
