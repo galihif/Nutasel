@@ -22,35 +22,58 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.giftech.terbit.R
-import com.giftech.terbit.domain.enums.ProgramTag
 import com.giftech.terbit.domain.model.FillOutAsaq
+import com.giftech.terbit.domain.model.FillOutFfq
 import com.giftech.terbit.domain.model.Program
 import com.giftech.terbit.domain.model.ReadArticle
-import com.giftech.terbit.ui.components.atoms.PrimaryButton
 import com.giftech.terbit.ui.components.molecules.AppBar
 import com.giftech.terbit.ui.route.Screen
 
 // TODO: Logic menyusul
 @Composable
 fun MonitoringDetailsScreen(
+    week: Int,
     navController: NavController,
     modifier: Modifier = Modifier,
+    viewModel: MonitoringDetailsViewModel = hiltViewModel(),
 ) {
+    LaunchedEffect(week) {
+        viewModel.onEvent(
+            MonitoringDetailsEvent.Init(
+                week = week,
+            )
+        )
+    }
+    val state = viewModel.state.value
+    
     MonitoringDetailsContent(
+        state = state,
         navController = navController,
         modifier = modifier,
     )
+    
+    LaunchedEffect(state.needLaunchFinishScreen) {
+        if (state.needLaunchFinishScreen) {
+            // TODO: Change to finish screen
+            navController.navigate(
+                Screen.Profesional.route
+            )
+        }
+    }
 }
 
 @Composable
 private fun MonitoringDetailsContent(
+    state: MonitoringDetailsState,
     navController: NavController,
     modifier: Modifier = Modifier,
 ) {
@@ -72,7 +95,7 @@ private fun MonitoringDetailsContent(
             item {
                 Column {
                     Text(
-                        text = "Minggu Kedua",
+                        text = "Minggu ${state.week}",
                         style = MaterialTheme.typography.headlineLarge,
                     )
                     Spacer(modifier = Modifier.height(12.dp))
@@ -90,112 +113,36 @@ private fun MonitoringDetailsContent(
                 }
             }
             
-            
-            val dummyProgramList = listOf(
-                FillOutAsaq(
-                    programId = 3,
-                    week = 1,
-                    dayOfWeek = 1,
-                    isComplete = true,
-                    completionDateInMillis = null,
-                    tag = ProgramTag.WEEKLY_PROGRAM,
-                ),
-                FillOutAsaq(
-                    programId = 4,
-                    week = 1,
-                    dayOfWeek = 2,
-                    isComplete = false,
-                    completionDateInMillis = null,
-                    tag = ProgramTag.WEEKLY_PROGRAM,
-                ),
-                FillOutAsaq(
-                    programId = 5,
-                    week = 1,
-                    dayOfWeek = 3,
-                    isComplete = false,
-                    completionDateInMillis = null,
-                    tag = ProgramTag.WEEKLY_PROGRAM,
-                ),
-                ReadArticle(
-                    programId = 10,
-                    week = 1,
-                    dayOfWeek = 3,
-                    isComplete = false,
-                    completionDateInMillis = null,
-                    tag = ProgramTag.WEEKLY_PROGRAM,
-                ),
-                FillOutAsaq(
-                    programId = 6,
-                    week = 1,
-                    dayOfWeek = 4,
-                    isComplete = false,
-                    completionDateInMillis = null,
-                    tag = ProgramTag.WEEKLY_PROGRAM,
-                ),
-                FillOutAsaq(
-                    programId = 7,
-                    week = 1,
-                    dayOfWeek = 5,
-                    isComplete = false,
-                    completionDateInMillis = null,
-                    tag = ProgramTag.WEEKLY_PROGRAM,
-                ),
-                FillOutAsaq(
-                    programId = 8,
-                    week = 1,
-                    dayOfWeek = 6,
-                    isComplete = false,
-                    completionDateInMillis = null,
-                    tag = ProgramTag.WEEKLY_PROGRAM,
-                ),
-                FillOutAsaq(
-                    programId = 9,
-                    week = 1,
-                    dayOfWeek = 7,
-                    isComplete = false,
-                    completionDateInMillis = null,
-                    tag = ProgramTag.WEEKLY_PROGRAM,
-                ),
-                ReadArticle(
-                    programId = 11,
-                    week = 1,
-                    dayOfWeek = 7,
-                    isComplete = false,
-                    completionDateInMillis = null,
-                    tag = ProgramTag.WEEKLY_PROGRAM,
-                ),
-            )
-            
             items(
-                items = dummyProgramList,
+                items = state.programList,
                 key = { it.programId },
-            ) { item ->
+            ) { program ->
                 ProgramItem(
-                    program = item,
-                    isPrevProgramComplete = dummyProgramList
-                        .firstOrNull { it.programId == item.programId - 1 }
-                        ?.isComplete,
+                    program = program,
+                    isAvailable = program.isCompleted ||
+                            (state.currentWeek >= program.week!! &&
+                                    state.currentDayOfWeek >= program.dayOfWeek!! &&
+                                    state.programList
+                                        .filter { it.dayOfWeek!! == program.dayOfWeek!! - 1 }
+                                        .all { it.isCompleted }),
                     onClick = {
                         navController.navigate(
-                            Screen.ASAQ.route
+                            when (program) {
+                                is FillOutAsaq -> Screen.WeeklyAsaq.createRoute(
+                                    programId = program.programId,
+                                )
+                                
+                                is FillOutFfq -> Screen.FfqMain.createRoute(
+                                    programId = program.programId,
+                                )
+                                
+                                is ReadArticle -> Screen.Article.createRoute(
+                                    week = program.week!!,
+                                    day = program.dayOfWeek!!,
+                                )
+                            }
                         )
                     })
-            }
-            
-            item {
-                Spacer(modifier = Modifier.height(24.dp))
-                
-                PrimaryButton(
-                    text = "Selesai",
-                    onClick = {
-                        navController.apply {
-                            navController.popBackStack()
-                        }
-                    },
-                    enabled = dummyProgramList.all { it.isComplete },
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                )
             }
         }
     }
@@ -204,7 +151,7 @@ private fun MonitoringDetailsContent(
 @Composable
 private fun ProgramItem(
     program: Program,
-    isPrevProgramComplete: Boolean?,
+    isAvailable: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -213,7 +160,7 @@ private fun ProgramItem(
         modifier = modifier
             .fillMaxWidth()
             .clip(MaterialTheme.shapes.small)
-            .clickable(enabled = program.isComplete || isPrevProgramComplete == true) {
+            .clickable(enabled = isAvailable) {
                 onClick()
             }
             .padding(vertical = 8.dp, horizontal = 16.dp),
@@ -252,10 +199,10 @@ private fun ProgramItem(
         }
         Spacer(modifier = Modifier.width(16.dp))
         Icon(
-            imageVector = if (program.isComplete) {
+            imageVector = if (program.isCompleted) {
                 Icons.Rounded.CheckBox
             } else {
-                if (isPrevProgramComplete == true) {
+                if (isAvailable) {
                     Icons.Rounded.CheckBoxOutlineBlank
                 } else {
                     Icons.Outlined.Lock

@@ -120,7 +120,9 @@ private fun MonitoringContent(
                 } else {
                     {
                         navController.navigate(
-                            Screen.MonitoringDetails.route
+                            Screen.MonitoringDetails.createRoute(
+                                week = week,
+                            )
                         )
                     }
                 },

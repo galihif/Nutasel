@@ -226,8 +226,15 @@ fun TerbitApp(
                 ProfesionalScreen()
             }
             
-            composable(Screen.MonitoringDetails.route) {
+            composable(
+                route = Screen.MonitoringDetails.route,
+                arguments = listOf(
+                    navArgument(Constants.EXTRAS.WEEK) { type = NavType.IntType }
+                ),
+            ) {
+                val week = it.arguments?.getInt(Constants.EXTRAS.WEEK) ?: -1
                 MonitoringDetailsScreen(
+                    week = week,
                     navController = navHostController,
                 )
             }
