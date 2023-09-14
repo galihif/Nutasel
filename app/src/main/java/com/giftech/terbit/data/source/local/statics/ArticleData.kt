@@ -22,6 +22,8 @@ class ArticleData @Inject constructor() {
                     content = contentList[i],
                     reference = referenceList[i],
                     imageSource = imageSourceList[i],
+                    completeTitle = completeTitleList[i],
+                    completeBody = completeBodyList[i]
                 )
             )
         }
@@ -137,4 +139,25 @@ class ArticleData @Inject constructor() {
         "Unsplash.com",
         "Unsplash.com",
     )
+    private val completeTitleList = listOf(
+        "Ilmu adalah kunci!",
+        "Semakin tahu!",
+        "Pengetahuan tak terbatas!",
+        "Inspirasi sekitar!",
+        "Ilmu adalah kunci!",
+        "Semakin tahu!",
+        "Pengetahuan tak terbatas!",
+        "Inspirasi sekitar!",
+    )
+    private val completeBodyList = listOf(
+        "Selamat kamu telah selesai membaca artikel, jangan lupa, membaca adalah tanda bahwa kamu peduli dengan perkembangan dirimu sendiri!",
+        "Kamu telah selesai membaca  artikel minggu kedua, informasi adalah sesuatu yang berharga, terus semangat membaca!",
+        "Kamu telah selesai membaca artikel minggu ketiga, setiap kata yang kamu baca adalah langkah menuju impianmu!",
+        "Selamat, kamu telah menyelesaikan program membaca artikel, kamu sangat menginspirasi sekitar, jangan stop disini, teruslah membaca dan teruslah berkembang!",
+        "Selamat kamu telah selesai membaca artikel, jangan lupa, membaca adalah tanda bahwa kamu peduli dengan perkembangan dirimu sendiri!",
+        "Kamu telah selesai membaca  artikel minggu kedua, informasi adalah sesuatu yang berharga, terus semangat membaca!",
+        "Kamu telah selesai membaca artikel minggu ketiga, setiap kata yang kamu baca adalah langkah menuju impianmu!",
+        "Selamat, kamu telah menyelesaikan program membaca artikel, kamu sangat menginspirasi sekitar, jangan stop disini, teruslah membaca dan teruslah berkembang!",
+    )
+
 }

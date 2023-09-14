@@ -17,6 +17,8 @@ import com.giftech.terbit.ui.components.enums.HeroEnum
 import com.giftech.terbit.ui.components.molecules.BottomNavigation
 import com.giftech.terbit.ui.components.templates.OnboardLoading
 import com.giftech.terbit.ui.components.templates.Onboarding
+import com.giftech.terbit.ui.pages.activity_complete.ActivityCompleteScreen
+import com.giftech.terbit.ui.pages.article.ArticleCompleteScreen
 import com.giftech.terbit.ui.pages.article.ArticleScreen
 import com.giftech.terbit.ui.pages.asaq.prepost.AsaqScreen
 import com.giftech.terbit.ui.pages.asaq.weekly.WeeklyAsaqScreen
@@ -72,6 +74,7 @@ fun TerbitApp(
             startDestination = Screen.Home.route,
             modifier = Modifier.padding(innerPadding)
         ) {
+
             // Input Data Diri
             composable(Screen.InputDataDiri.route) {
                 InputDataDiriScreen(
@@ -294,6 +297,35 @@ fun TerbitApp(
                 val day = it.arguments?.getInt(Constants.EXTRAS.DAY) ?: -1
                 ArticleScreen(week, day)
             }
+            composable(
+                route = Screen.ArticleComplete.route,
+                arguments = listOf(
+                    navArgument(Constants.EXTRAS.WEEK) { type = NavType.IntType },
+                    navArgument(Constants.EXTRAS.DAY) { type = NavType.IntType },
+                ),
+            ) {
+                val week = it.arguments?.getInt(Constants.EXTRAS.WEEK) ?: -1
+                val day = it.arguments?.getInt(Constants.EXTRAS.DAY) ?: -1
+                ArticleCompleteScreen(
+                    week, day,
+                    onNext = {
+                        //on next
+                    }
+                )
+            }
+            composable(
+                route = Screen.ActivityComplete.route,
+                arguments = listOf(
+                    navArgument(Constants.EXTRAS.WEEK) { type = NavType.IntType },
+                ),
+            ) {
+                val week = it.arguments?.getInt(Constants.EXTRAS.WEEK) ?: -1
+                ActivityCompleteScreen(
+                    week = week,
+                    onNext = {}
+                )
+            }
+
             
             composable(
                 route = Screen.WeeklyAsaq.route,

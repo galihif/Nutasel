@@ -118,4 +118,24 @@ enum class HeroEnum(
         title = "Mengkalkulasikan tingkat pemantauan kamu",
         description = ""
     ),
+    ActComplete1(
+        image = R.drawable.vector_act_complete_1,
+        title = "Awalan yang bagus!",
+        description = "Kamu keren banget udah menyelesaikan task minggu pertama, terus semangat dan konsisten kamu pasti bisa!"
+    ),
+    ActComplete2(
+        image = R.drawable.vector_act_complete_2,
+        title = "Mendekati Puncak!",
+        description = "Konsistenmu untuk menyelesaikan program minggu ke dua luar biasa, kamu semakin mendekati puncak tujuanmu, terus pertahankan!"
+    ),
+    ActComplete3(
+        image = R.drawable.vector_act_complete_3,
+        title = "Tidak Tergoyahkan!",
+        description = "Kamu adalah bukti nyata bahwa terus fokus dan konsisten akan membawakan hasil, tetap fokus dan tak ada yang bisa menghalangimu meraih tujuan!"
+    ),
+    ActComplete4(
+        image = R.drawable.vector_act_complete_4,
+        title = "Pencapaian Besar!",
+        description = "Hebat sekali, kamu telah melewati banyak tantangan dan mencapai target akhir, jadikan pencapaian ini sebagai momentum untuk meraih hal besar lainnya!"
+    ),
 }

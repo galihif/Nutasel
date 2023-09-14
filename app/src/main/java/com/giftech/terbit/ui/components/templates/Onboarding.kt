@@ -70,6 +70,55 @@ fun Onboarding(
             )
         }
     }
+}@ExperimentalMaterial3Api
+@Composable
+fun Onboarding(
+    modifier: Modifier = Modifier,
+    onBack: (() -> Unit)? = null,
+    onNext: () -> Unit,
+    hero:HeroEnum,
+    imageHeight: Int? = null,
+    content: @Composable () -> Unit
+) {
+    Scaffold(
+        topBar = {
+            if (onBack != null) {
+                TopAppBar(
+                    title = {},
+                    navigationIcon = {
+                        IconButton(onClick = onBack) {
+                            Icon(
+                                imageVector = Icons.Filled.ArrowBack,
+                                contentDescription = "Back"
+                            )
+                        }
+                    }
+                )
+            }
+        },
+        modifier = modifier,
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
+                .padding(24.dp),
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            HeroColumn(
+                title = hero.title,
+                description = hero.description,
+                imageRes = hero.image,
+                imageHeight = imageHeight
+            )
+            content()
+            PrimaryButton(
+                text = "Selanjutnya",
+                onClick = onNext,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+    }
 }
 
 

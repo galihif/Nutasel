@@ -14,4 +14,6 @@ data class ArticleEntity(
     @StringRes val content:Int,
     val reference:String,
     val imageSource : String,
+    var completeTitle:String="",
+    var completeBody:String="",
 )
