@@ -126,8 +126,6 @@ private fun FfqResultContent(
             text = stringResource(R.string.btn_next_ffqresult),
             onClick = {
                 navController.apply {
-                    // Nanti disimpan ke database
-                    currentBackStackEntry?.savedStateHandle?.set("total_score", 0)
                     navigate(Screen.OnboardingTingkatPemantauan.route)
                 }
             },
