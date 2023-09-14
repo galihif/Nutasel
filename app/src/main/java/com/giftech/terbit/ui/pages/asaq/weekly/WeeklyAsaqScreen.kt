@@ -14,6 +14,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
@@ -33,11 +34,13 @@ fun WeeklyAsaqScreen(
     modifier: Modifier = Modifier,
     viewModel: WeeklyAsaqViewModel = hiltViewModel(),
 ) {
-    viewModel.onEvent(
-        WeeklyAsaqEvent.Init(
-            programId = programId,
+    LaunchedEffect(programId) {
+        viewModel.onEvent(
+            WeeklyAsaqEvent.Init(
+                programId = programId,
+            )
         )
-    )
+    }
     val state = viewModel.state.value
     
     WeeklyAsaqContent(

@@ -24,6 +24,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
@@ -43,11 +44,13 @@ fun FfqMainScreen(
     modifier: Modifier = Modifier,
     viewModel: FfqMainViewModel = hiltViewModel(),
 ) {
-    viewModel.onEvent(
-        FfqMainEvent.Init(
-            programId = programId,
+    LaunchedEffect(programId) {
+        viewModel.onEvent(
+            FfqMainEvent.Init(
+                programId = programId,
+            )
         )
-    )
+    }
     val state = viewModel.state.value
     
     FfqMainContent(

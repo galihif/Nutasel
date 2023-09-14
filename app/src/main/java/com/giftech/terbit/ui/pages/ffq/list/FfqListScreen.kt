@@ -25,7 +25,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -46,12 +46,14 @@ fun FfqListScreen(
     modifier: Modifier = Modifier,
     viewModel: FfqListViewModel = hiltViewModel(),
 ) {
-    viewModel.onEvent(
-        FfqListEvent.Init(
-            programId = programId,
-            foodCategoryId = foodCategoryId,
+    LaunchedEffect(programId, foodCategoryId) {
+        viewModel.onEvent(
+            FfqListEvent.Init(
+                programId = programId,
+                foodCategoryId = foodCategoryId,
+            )
         )
-    )
+    }
     val state = viewModel.state.value
     
     FfqListContent(
@@ -147,7 +149,7 @@ fun FfqListContent(
                     key = { it.foodId },
                 ) { item ->
                     val showResponseBottomSheet = remember { mutableStateOf(false) }
-    
+                    
                     FfqFoodItem(
                         name = item.foodName,
                         isChecked = item.freq != null,

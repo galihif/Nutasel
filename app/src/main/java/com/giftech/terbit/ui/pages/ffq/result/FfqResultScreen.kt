@@ -15,6 +15,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,11 +36,13 @@ fun FfqResultScreen(
     modifier: Modifier = Modifier,
     viewModel: FfqResultViewModel = hiltViewModel(),
 ) {
-    viewModel.onEvent(
-        FfqResultEvent.Init(
-            programId = programId,
+    LaunchedEffect(programId) {
+        viewModel.onEvent(
+            FfqResultEvent.Init(
+                programId = programId,
+            )
         )
-    )
+    }
     val state = viewModel.state.value
     
     FfqResultContent(
