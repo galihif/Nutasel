@@ -32,7 +32,7 @@ class GetMonitoringSummaryUseCase @Inject constructor(
                     .completionDateInMillis.toLocalDateTime().toLocalDate()
                     .plusDays(7)
                 val completedDayList = weeklyProgramList
-                    .filter { it.isComplete }
+                    .filter { it.isCompleted }
                     .map {
                         LocalDate.of(
                             firstDayDate.year,

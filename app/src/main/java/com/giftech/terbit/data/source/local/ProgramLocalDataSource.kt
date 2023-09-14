@@ -30,7 +30,7 @@ class ProgramLocalDataSource @Inject constructor(
                         .firstOrNull { it.programId == programEntity.programId }
                     if (programEntityFromLocalDB != null) {
                         programEntityList[index].apply {
-                            isComplete = programEntityFromLocalDB.isComplete
+                            isCompleted = programEntityFromLocalDB.isCompleted
                             completionDateInMillis = programEntityFromLocalDB.completionDateInMillis
                         }
                     }

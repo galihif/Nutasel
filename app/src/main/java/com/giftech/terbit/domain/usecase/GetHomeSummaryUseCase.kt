@@ -45,7 +45,8 @@ class GetHomeSummaryUseCase @Inject constructor(
                         .plusDays(7)
                     val isWeeklyProgramAvailable = LocalDate.now() >= programFirstDayDate
                     
-                    val lastCompletedProgram = weeklyProgramList.lastOrNull { it.isComplete }
+                    val lastCompletedProgram = weeklyProgramList
+                        .lastOrNull { it.isCompleted }
                     var nextDayProgramList = emptyList<Program>()
                     var isNextDayProgramAvailable = false
                     if (isWeeklyProgramAvailable) {
@@ -57,16 +58,30 @@ class GetHomeSummaryUseCase @Inject constructor(
                                 weeklyProgramList.filter { it.week == 1 && it.dayOfWeek == 1 }
                             }
                             
-                            weeklyProgramList.any { it.week == lastCompletedWeek && it.dayOfWeek == lastCompletedDayOfWeek && !it.isComplete } -> {
-                                weeklyProgramList.filter { it.week == lastCompletedWeek && it.dayOfWeek == lastCompletedDayOfWeek && !it.isComplete }
+                            weeklyProgramList.any {
+                                it.week == lastCompletedWeek &&
+                                        it.dayOfWeek == lastCompletedDayOfWeek &&
+                                        !it.isCompleted
+                            } -> {
+                                weeklyProgramList.filter {
+                                    it.week == lastCompletedWeek
+                                            && it.dayOfWeek == lastCompletedDayOfWeek
+                                            && !it.isCompleted
+                                }
                             }
                             
                             lastCompletedDayOfWeek == 7 -> {
-                                weeklyProgramList.filter { it.week == lastCompletedWeek!! + 1 && it.dayOfWeek == 1 }
+                                weeklyProgramList.filter {
+                                    it.week == lastCompletedWeek!! + 1 &&
+                                            it.dayOfWeek == 1
+                                }
                             }
                             
                             else -> {
-                                weeklyProgramList.filter { it.week == lastCompletedWeek && it.dayOfWeek == lastCompletedDayOfWeek!! + 1 }
+                                weeklyProgramList.filter {
+                                    it.week == lastCompletedWeek &&
+                                            it.dayOfWeek == lastCompletedDayOfWeek!! + 1
+                                }
                             }
                         }
                         
@@ -90,7 +105,8 @@ class GetHomeSummaryUseCase @Inject constructor(
                             weeklyProgramList.last().dayOfWeek!!).toLong()
                     val breakDayAfterPreTest = 7L
                     val breakDayBeforePostTest = 7L
-                    val preTestCompletionDate = programList.last { it.tag == ProgramTag.PRE_TEST }
+                    val preTestCompletionDate = programList
+                        .last { it.tag == ProgramTag.PRE_TEST }
                         .completionDateInMillis.toLocalDateTime().toLocalDate()
                     
                     val postTestOpeningDate = preTestCompletionDate
@@ -101,12 +117,12 @@ class GetHomeSummaryUseCase @Inject constructor(
                         .plusDays(breakDayBeforePostTest)
                         .toString(Constants.DatePattern.READABLE_DEFAULT)
                     
-                    val isPostTestAvailable = weeklyProgramList.all { it.isComplete }
+                    val isPostTestAvailable = weeklyProgramList.all { it.isCompleted }
                     val isPostTestDone =
-                        programList.all { it.tag == ProgramTag.POST_TEST && it.isComplete }
-                    val isAllWeeklyProgramDone = weeklyProgramList.all { it.isComplete }
+                        programList.all { it.tag == ProgramTag.POST_TEST && it.isCompleted }
+                    val isAllWeeklyProgramDone = weeklyProgramList.all { it.isCompleted }
                     val totalProgram = weeklyProgramList.size
-                    val totalCompletedProgram = weeklyProgramList.count { it.isComplete }
+                    val totalCompletedProgram = weeklyProgramList.count { it.isCompleted }
                     val programProgressPercentage =
                         percentageOf(totalCompletedProgram, totalProgram)
                     val totalCompletedDaysInWeek = lastCompletedProgram?.dayOfWeek ?: 0

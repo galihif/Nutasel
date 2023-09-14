@@ -1,5 +1,6 @@
 package com.giftech.terbit.data.source.local.room.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
@@ -10,17 +11,17 @@ data class ProgramEntity(
     @Ignore val week: Int?,
     @Ignore val dayOfWeek: Int?,
     @Ignore val type: String,
-    var isComplete: Boolean = false,
+    @ColumnInfo(name = "isComplete") var isCompleted: Boolean = false,
     var completionDateInMillis: Long? = null,
     @Ignore val tag: String,
 ) {
     
-    constructor(programId: Int, isComplete: Boolean, completionDateInMillis: Long?) : this(
+    constructor(programId: Int, isCompleted: Boolean, completionDateInMillis: Long?) : this(
         programId = programId,
         week = null,
         dayOfWeek = null,
         type = "",
-        isComplete = isComplete,
+        isCompleted = isCompleted,
         completionDateInMillis = completionDateInMillis,
         tag = "",
     )

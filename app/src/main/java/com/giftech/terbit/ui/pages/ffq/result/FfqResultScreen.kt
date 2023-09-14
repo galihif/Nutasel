@@ -113,9 +113,11 @@ private fun FfqResultContent(
             )
         }
         
-        Spacer(modifier = Modifier
-            .height(48.dp)
-            .weight(1f))
+        Spacer(
+            modifier = Modifier
+                .height(48.dp)
+                .weight(1f)
+        )
         
         PrimaryButton(
             text = stringResource(R.string.btn_next_ffqresult),

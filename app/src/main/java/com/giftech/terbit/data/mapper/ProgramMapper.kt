@@ -26,7 +26,7 @@ class ProgramMapper @Inject constructor() {
                     programId = input.programId,
                     week = input.week,
                     dayOfWeek = input.dayOfWeek,
-                    isComplete = input.isComplete,
+                    isCompleted = input.isCompleted,
                     completionDateInMillis = input.completionDateInMillis,
                     tag = ProgramTag.fromTagId(input.tag),
                 )
@@ -37,7 +37,7 @@ class ProgramMapper @Inject constructor() {
                     programId = input.programId,
                     week = input.week,
                     dayOfWeek = input.dayOfWeek,
-                    isComplete = input.isComplete,
+                    isCompleted = input.isCompleted,
                     completionDateInMillis = input.completionDateInMillis,
                     tag = ProgramTag.fromTagId(input.tag),
                 )
@@ -48,13 +48,15 @@ class ProgramMapper @Inject constructor() {
                     programId = input.programId,
                     week = input.week,
                     dayOfWeek = input.dayOfWeek,
-                    isComplete = input.isComplete,
+                    isCompleted = input.isCompleted,
                     completionDateInMillis = input.completionDateInMillis,
                     tag = ProgramTag.fromTagId(input.tag),
                 )
             }
             
-            else -> throw IllegalArgumentException("Unknown program type")
+            else -> {
+                throw IllegalArgumentException("Unknown program type")
+            }
         }
     }
     
