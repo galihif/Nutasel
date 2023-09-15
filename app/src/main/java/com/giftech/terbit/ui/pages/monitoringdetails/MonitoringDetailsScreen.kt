@@ -38,7 +38,6 @@ import com.giftech.terbit.domain.model.ReadArticle
 import com.giftech.terbit.ui.components.molecules.AppBar
 import com.giftech.terbit.ui.route.Screen
 
-// TODO: Logic menyusul
 @Composable
 fun MonitoringDetailsScreen(
     week: Int,
@@ -120,11 +119,13 @@ private fun MonitoringDetailsContent(
                 ProgramItem(
                     program = program,
                     isAvailable = program.isCompleted ||
-                            (state.currentWeek >= program.week!! &&
-                                    state.currentDayOfWeek >= program.dayOfWeek!! &&
-                                    state.programList
-                                        .filter { it.dayOfWeek!! == program.dayOfWeek!! - 1 }
-                                        .all { it.isCompleted }),
+                            (if (state.currentWeek == program.week) {
+                                state.currentDayOfWeek >= program.dayOfWeek!!
+                            } else {
+                                state.currentWeek > program.week!!
+                            } && state.programList
+                                .filter { it.dayOfWeek!! == program.dayOfWeek!! - 1 }
+                                .all { it.isCompleted }),
                     onClick = {
                         navController.navigate(
                             when (program) {
