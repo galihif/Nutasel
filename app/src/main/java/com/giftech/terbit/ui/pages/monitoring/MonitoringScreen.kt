@@ -98,16 +98,16 @@ private fun MonitoringContent(
             val status = when {
                 state.isWeeklyProgramAvailable.not() -> MonitoringStatus.NotAvailable
                 
-                state.weeklyProgramList[week]!!.all { it.isComplete } -> MonitoringStatus.Done
-    
+                state.weeklyProgramList[week]!!.all { it.isCompleted } -> MonitoringStatus.Done
+                
                 // If not done:
                 week == state.weeklyProgramList.keys.first() -> MonitoringStatus.NotDone
                 
                 week != state.weeklyProgramList.keys.first() &&
-                        state.weeklyProgramList[week - 1]!!.all { it.isComplete } -> MonitoringStatus.NotDone
-    
+                        state.weeklyProgramList[week - 1]!!.all { it.isCompleted } -> MonitoringStatus.NotDone
+                
                 week != state.weeklyProgramList.keys.first() &&
-                        state.weeklyProgramList[week - 1]!!.any { !it.isComplete } -> MonitoringStatus.NotAvailable
+                        state.weeklyProgramList[week - 1]!!.any { !it.isCompleted } -> MonitoringStatus.NotAvailable
                 
                 
                 else -> MonitoringStatus.NotAvailable
@@ -120,7 +120,9 @@ private fun MonitoringContent(
                 } else {
                     {
                         navController.navigate(
-                            Screen.MonitoringDetails.route
+                            Screen.MonitoringDetails.createRoute(
+                                week = week,
+                            )
                         )
                     }
                 },

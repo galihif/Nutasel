@@ -10,7 +10,7 @@ interface IProgramRepository {
     // Insert to save completion status
     suspend fun insert(
         programId: Int,
-        isComplete: Boolean,
+        isCompleted: Boolean,
         completionDateInMillis: Long,
     )
     

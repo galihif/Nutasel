@@ -15,7 +15,7 @@ class CompleteProgramUseCase @Inject constructor(
         val completionDate = LocalDateTime.now()
         programRepository.insert(
             programId = programId,
-            isComplete = true,
+            isCompleted = true,
             completionDateInMillis = completionDate.toMillis(),
         )
     }

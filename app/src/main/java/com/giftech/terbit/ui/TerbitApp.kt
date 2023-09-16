@@ -20,6 +20,7 @@ import com.giftech.terbit.ui.components.templates.Onboarding
 import com.giftech.terbit.ui.pages.activity_complete.ActivityCompleteScreen
 import com.giftech.terbit.ui.pages.article.ArticleCompleteScreen
 import com.giftech.terbit.ui.pages.article.ArticleScreen
+import com.giftech.terbit.ui.pages.asaq.complete.WeeklyAsaqCompleteScreen
 import com.giftech.terbit.ui.pages.asaq.prepost.AsaqScreen
 import com.giftech.terbit.ui.pages.asaq.weekly.WeeklyAsaqScreen
 import com.giftech.terbit.ui.pages.ffq.list.FfqListScreen
@@ -74,7 +75,6 @@ fun TerbitApp(
             startDestination = Screen.Home.route,
             modifier = Modifier.padding(innerPadding)
         ) {
-
             // Input Data Diri
             composable(Screen.InputDataDiri.route) {
                 InputDataDiriScreen(
@@ -229,8 +229,15 @@ fun TerbitApp(
                 ProfesionalScreen()
             }
             
-            composable(Screen.MonitoringDetails.route) {
+            composable(
+                route = Screen.MonitoringDetails.route,
+                arguments = listOf(
+                    navArgument(Constants.EXTRAS.WEEK) { type = NavType.IntType }
+                ),
+            ) {
+                val week = it.arguments?.getInt(Constants.EXTRAS.WEEK) ?: -1
                 MonitoringDetailsScreen(
+                    week = week,
                     navController = navHostController,
                 )
             }
@@ -282,14 +289,22 @@ fun TerbitApp(
             composable(
                 route = Screen.Article.route,
                 arguments = listOf(
+                    navArgument(Constants.EXTRAS.PROGRAM_ID) { type = NavType.IntType },
                     navArgument(Constants.EXTRAS.WEEK) { type = NavType.IntType },
                     navArgument(Constants.EXTRAS.DAY) { type = NavType.IntType },
                 ),
             ) {
+                val programId = it.arguments?.getInt(Constants.EXTRAS.PROGRAM_ID) ?: -1
                 val week = it.arguments?.getInt(Constants.EXTRAS.WEEK) ?: -1
                 val day = it.arguments?.getInt(Constants.EXTRAS.DAY) ?: -1
-                ArticleScreen(week, day)
+                ArticleScreen(
+                    programId = programId,
+                    week = week,
+                    day = day,
+                    navController = navHostController,
+                )
             }
+            
             composable(
                 route = Screen.ArticleComplete.route,
                 arguments = listOf(
@@ -302,10 +317,11 @@ fun TerbitApp(
                 ArticleCompleteScreen(
                     week, day,
                     onNext = {
-                        //on next
+                        navHostController.popBackStack()
                     }
                 )
             }
+            
             composable(
                 route = Screen.ActivityComplete.route,
                 arguments = listOf(
@@ -315,10 +331,11 @@ fun TerbitApp(
                 val week = it.arguments?.getInt(Constants.EXTRAS.WEEK) ?: -1
                 ActivityCompleteScreen(
                     week = week,
-                    onNext = {}
+                    onNext = {
+                        navHostController.popBackStack()
+                    }
                 )
             }
-
             
             composable(
                 route = Screen.WeeklyAsaq.route,
@@ -329,6 +346,12 @@ fun TerbitApp(
                 val programId = it.arguments?.getInt(Constants.EXTRAS.PROGRAM_ID) ?: -1
                 WeeklyAsaqScreen(
                     programId = programId,
+                    navController = navHostController,
+                )
+            }
+            
+            composable(Screen.WeeklyAsaqComplete.route) {
+                WeeklyAsaqCompleteScreen(
                     navController = navHostController,
                 )
             }

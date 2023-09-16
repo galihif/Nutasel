@@ -128,6 +128,11 @@ private fun HomeContent(
                 onClick = if (state.isNextDayProgramAvailable) {
                     {
                         navController.navigate(
+                            Screen.MonitoringDetails.createRoute(
+                                week = program.week!!,
+                            )
+                        )
+                        navController.navigate(
                             when (program) {
                                 is FillOutAsaq -> Screen.WeeklyAsaq.createRoute(
                                     programId = program.programId,
@@ -138,6 +143,7 @@ private fun HomeContent(
                                 )
                                 
                                 is ReadArticle -> Screen.Article.createRoute(
+                                    programId = program.programId,
                                     week = program.week!!,
                                     day = program.dayOfWeek!!,
                                 )

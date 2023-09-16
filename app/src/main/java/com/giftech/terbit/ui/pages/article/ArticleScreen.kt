@@ -1,5 +1,6 @@
 package com.giftech.terbit.ui.pages.article
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -37,6 +38,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import com.giftech.terbit.ui.route.Screen
 import com.giftech.terbit.ui.theme.light_CustomColor2
 import com.giftech.terbit.ui.theme.light_onCustomColor2
 import com.giftech.terbit.ui.theme.md_theme_light_tertiary
@@ -45,16 +48,34 @@ import com.giftech.terbit.ui.utils.annotatedStringResource
 @ExperimentalMaterial3Api
 @Composable
 fun ArticleScreen(
+    programId: Int,
     week: Int,
     day: Int,
-    viewModel: ArticleViewModel = hiltViewModel()
+    navController: NavController,
+    viewModel: ArticleViewModel = hiltViewModel(),
 ) {
     LaunchedEffect(week, day) {
         viewModel.getArticleByWeekDay(week, day)
     }
+    
     val article by remember {
         viewModel.article
     }
+    
+    val onBack = {
+        viewModel.complete(programId)
+        navController.popBackStack()
+        navController.navigate(
+            Screen.ArticleComplete.createRoute(
+                week = week,
+                day = day,
+            )
+        )
+    }
+    BackHandler {
+        onBack()
+    }
+    
     if (article != null) {
         Scaffold(
             topBar = {
@@ -63,7 +84,7 @@ fun ArticleScreen(
                         Text(text = "Artikel")
                     },
                     navigationIcon = {
-                        IconButton(onClick = { /*TODO*/ }) {
+                        IconButton(onClick = onBack) {
                             Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "")
                         }
                     }
@@ -146,7 +167,7 @@ fun ArticleScreen(
                         textAlign = TextAlign.Justify
                     )
                 }
-
+                
                 if (article!!.imageSource.isNotEmpty()) {
                     Column {
                         Text(
@@ -166,4 +187,5 @@ fun ArticleScreen(
             }
         }
     }
+    
 }

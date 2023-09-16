@@ -14,6 +14,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
@@ -25,6 +26,7 @@ import com.giftech.terbit.ui.components.atoms.MyOutlinedTextField
 import com.giftech.terbit.ui.components.atoms.PrimaryButton
 import com.giftech.terbit.ui.components.molecules.AppBar
 import com.giftech.terbit.ui.components.molecules.HeroColumn
+import com.giftech.terbit.ui.route.Screen
 
 @Composable
 fun WeeklyAsaqScreen(
@@ -33,11 +35,13 @@ fun WeeklyAsaqScreen(
     modifier: Modifier = Modifier,
     viewModel: WeeklyAsaqViewModel = hiltViewModel(),
 ) {
-    viewModel.onEvent(
-        WeeklyAsaqEvent.Init(
-            programId = programId,
+    LaunchedEffect(programId) {
+        viewModel.onEvent(
+            WeeklyAsaqEvent.Init(
+                programId = programId,
+            )
         )
-    )
+    }
     val state = viewModel.state.value
     
     WeeklyAsaqContent(
@@ -94,9 +98,11 @@ fun WeeklyAsaqContent(
                 viewModel = viewModel,
             )
             
-            Spacer(modifier = Modifier
-                .heightIn(min = 24.dp)
-                .weight(1f))
+            Spacer(
+                modifier = Modifier
+                    .heightIn(min = 24.dp)
+                    .weight(1f)
+            )
             
             NavigationSection(
                 state = state,
@@ -191,9 +197,11 @@ private fun NavigationSection(
                     )
                 )
                 navController.popBackStack()
+                navController.navigate(
+                    Screen.WeeklyAsaqComplete.route
+                )
             }
         },
-        enabled = state.hoursFreq != null || state.minutesFreq != null,
         modifier = Modifier
             .fillMaxWidth(),
     )
