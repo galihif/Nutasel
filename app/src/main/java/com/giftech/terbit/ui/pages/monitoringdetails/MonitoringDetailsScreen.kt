@@ -62,9 +62,10 @@ fun MonitoringDetailsScreen(
     
     LaunchedEffect(state.needLaunchFinishScreen) {
         if (state.needLaunchFinishScreen) {
-            // TODO: Change to finish screen
             navController.navigate(
-                Screen.Profesional.route
+                Screen.ActivityComplete.createRoute(
+                    week = week,
+                )
             )
         }
     }

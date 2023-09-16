@@ -39,7 +39,8 @@ class MonitoringDetailsViewModel @Inject constructor(
                         _state.value = _state.value.copy(
                             week = event.week,
                             programList = programList,
-                            needLaunchFinishScreen = weekCompletionHistory.any { false },
+                            needLaunchFinishScreen = weekCompletionHistory.size > 1 &&
+                                    !weekCompletionHistory.first() && weekCompletionHistory.last(),
                         )
                     }
                 }

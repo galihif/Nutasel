@@ -331,7 +331,9 @@ fun TerbitApp(
                 val week = it.arguments?.getInt(Constants.EXTRAS.WEEK) ?: -1
                 ActivityCompleteScreen(
                     week = week,
-                    onNext = {}
+                    onNext = {
+                        navHostController.popBackStack()
+                    }
                 )
             }
             
