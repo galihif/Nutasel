@@ -61,7 +61,7 @@ import java.time.format.TextStyle
 fun ActivityCalendar(
     dateList: List<LocalDate>,
     modifier: Modifier = Modifier,
-    adjacentMonths: Long = 1,
+    adjacentMonths: Long = 50,
 ) {
     val currentMonth = dateList.lastOrNull()?.yearMonth ?: YearMonth.now()
     val startMonth = currentMonth.minusMonths(adjacentMonths)
