@@ -74,7 +74,6 @@ fun TerbitApp(
             startDestination = Screen.Home.route,
             modifier = Modifier.padding(innerPadding)
         ) {
-
             // Input Data Diri
             composable(Screen.InputDataDiri.route) {
                 InputDataDiriScreen(
@@ -289,14 +288,22 @@ fun TerbitApp(
             composable(
                 route = Screen.Article.route,
                 arguments = listOf(
+                    navArgument(Constants.EXTRAS.PROGRAM_ID) { type = NavType.IntType },
                     navArgument(Constants.EXTRAS.WEEK) { type = NavType.IntType },
                     navArgument(Constants.EXTRAS.DAY) { type = NavType.IntType },
                 ),
             ) {
+                val programId = it.arguments?.getInt(Constants.EXTRAS.PROGRAM_ID) ?: -1
                 val week = it.arguments?.getInt(Constants.EXTRAS.WEEK) ?: -1
                 val day = it.arguments?.getInt(Constants.EXTRAS.DAY) ?: -1
-                ArticleScreen(week, day)
+                ArticleScreen(
+                    programId = programId,
+                    week = week,
+                    day = day,
+                    navController = navHostController,
+                )
             }
+            
             composable(
                 route = Screen.ArticleComplete.route,
                 arguments = listOf(
@@ -309,10 +316,11 @@ fun TerbitApp(
                 ArticleCompleteScreen(
                     week, day,
                     onNext = {
-                        //on next
+                        navHostController.popBackStack()
                     }
                 )
             }
+            
             composable(
                 route = Screen.ActivityComplete.route,
                 arguments = listOf(

@@ -138,6 +138,7 @@ private fun MonitoringDetailsContent(
                                 )
                                 
                                 is ReadArticle -> Screen.Article.createRoute(
+                                    programId = program.programId,
                                     week = program.week!!,
                                     day = program.dayOfWeek!!,
                                 )
