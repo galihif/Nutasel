@@ -34,12 +34,14 @@ class GetMonitoringSummaryUseCase @Inject constructor(
                 val completedDayList = weeklyProgramList
                     .filter { it.isCompleted }
                     .map {
-                        LocalDate.of(
-                            firstDayDate.year,
-                            firstDayDate.month,
-                            firstDayDate.dayOfMonth + it.dayOfWeek!! - 1
-                        )
+                        val programDay = if (it.week == 1) {
+                            it.dayOfWeek!!
+                        } else {
+                            it.dayOfWeek!! + (it.week!! - 1) * 7
+                        }.toLong()
+                        firstDayDate.plusDays(programDay - 1)
                     }
+                    .distinct()
                 
                 val weeklyProgramOpeningDate = firstDayDate
                     .toString(Constants.DatePattern.READABLE_DEFAULT)
