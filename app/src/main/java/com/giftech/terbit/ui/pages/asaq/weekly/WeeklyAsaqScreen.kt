@@ -26,6 +26,7 @@ import com.giftech.terbit.ui.components.atoms.MyOutlinedTextField
 import com.giftech.terbit.ui.components.atoms.PrimaryButton
 import com.giftech.terbit.ui.components.molecules.AppBar
 import com.giftech.terbit.ui.components.molecules.HeroColumn
+import com.giftech.terbit.ui.route.Screen
 
 @Composable
 fun WeeklyAsaqScreen(
@@ -97,9 +98,11 @@ fun WeeklyAsaqContent(
                 viewModel = viewModel,
             )
             
-            Spacer(modifier = Modifier
-                .heightIn(min = 24.dp)
-                .weight(1f))
+            Spacer(
+                modifier = Modifier
+                    .heightIn(min = 24.dp)
+                    .weight(1f)
+            )
             
             NavigationSection(
                 state = state,
@@ -194,9 +197,11 @@ private fun NavigationSection(
                     )
                 )
                 navController.popBackStack()
+                navController.navigate(
+                    Screen.WeeklyAsaqComplete.route
+                )
             }
         },
-        enabled = state.hoursFreq != null || state.minutesFreq != null,
         modifier = Modifier
             .fillMaxWidth(),
     )

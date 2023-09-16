@@ -20,6 +20,7 @@ import com.giftech.terbit.ui.components.templates.Onboarding
 import com.giftech.terbit.ui.pages.activity_complete.ActivityCompleteScreen
 import com.giftech.terbit.ui.pages.article.ArticleCompleteScreen
 import com.giftech.terbit.ui.pages.article.ArticleScreen
+import com.giftech.terbit.ui.pages.asaq.complete.WeeklyAsaqCompleteScreen
 import com.giftech.terbit.ui.pages.asaq.prepost.AsaqScreen
 import com.giftech.terbit.ui.pages.asaq.weekly.WeeklyAsaqScreen
 import com.giftech.terbit.ui.pages.ffq.list.FfqListScreen
@@ -333,7 +334,6 @@ fun TerbitApp(
                     onNext = {}
                 )
             }
-
             
             composable(
                 route = Screen.WeeklyAsaq.route,
@@ -344,6 +344,12 @@ fun TerbitApp(
                 val programId = it.arguments?.getInt(Constants.EXTRAS.PROGRAM_ID) ?: -1
                 WeeklyAsaqScreen(
                     programId = programId,
+                    navController = navHostController,
+                )
+            }
+            
+            composable(Screen.WeeklyAsaqComplete.route) {
+                WeeklyAsaqCompleteScreen(
                     navController = navHostController,
                 )
             }

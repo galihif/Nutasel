@@ -70,5 +70,6 @@ sealed class Screen(val route: String) {
         fun createRoute(programId: Int) = "WeeklyAsaq/$programId"
     }
     
+    object WeeklyAsaqComplete : Screen("WeeklyAsaqComplete")
     
 }
