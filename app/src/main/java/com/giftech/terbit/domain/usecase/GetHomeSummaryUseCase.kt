@@ -115,19 +115,24 @@ class GetHomeSummaryUseCase @Inject constructor(
                         // First day (day one) of weekly program is 7 days after pre-test
                         .plusDays(-1 + weeklyProgramTotalDays)
                         .plusDays(breakDayBeforePostTest)
+                    val postTestOpeningDateString = postTestOpeningDate
                         .toString(Constants.DatePattern.READABLE_DEFAULT)
-                    
-                    val isPostTestAvailable = weeklyProgramList.all { it.isCompleted }
                     val isPostTestDone =
                         programList.all { it.tag == ProgramTag.POST_TEST && it.isCompleted }
                     val isAllWeeklyProgramDone = weeklyProgramList.all { it.isCompleted }
+                    val isPostTestAvailable = isAllWeeklyProgramDone &&
+                            LocalDate.now() >= postTestOpeningDate
+                    
                     val totalProgram = weeklyProgramList.size
                     val totalCompletedProgram = weeklyProgramList.count { it.isCompleted }
                     val programProgressPercentage =
                         percentageOf(totalCompletedProgram, totalProgram)
                     val totalCompletedDaysInWeek = lastCompletedProgram?.dayOfWeek ?: 0
                     val currentWeek = lastCompletedProgram?.week ?: 1
-                    val totalCompletedWeek = lastCompletedProgram?.week?.minus(1) ?: 0
+                    val totalCompletedWeek = lastCompletedProgram?.week?.minus(
+                        if (lastCompletedProgram.dayOfWeek == 7) 0
+                        else 1
+                    ) ?: 0
                     val totalWeek = weeklyProgramList.lastOrNull()?.week ?: 0
                     
                     HomeSummary(
@@ -135,7 +140,7 @@ class GetHomeSummaryUseCase @Inject constructor(
                         bmiCategory = bmiCategory,
                         monitoringLevel = monitoringLevel,
                         bmiValue = bmiValue,
-                        postTestOpeningDate = postTestOpeningDate,
+                        postTestOpeningDate = postTestOpeningDateString,
                         isPostTestAvailable = isPostTestAvailable,
                         isPostTestDone = isPostTestDone,
                         isAllWeeklyProgramDone = isAllWeeklyProgramDone,
