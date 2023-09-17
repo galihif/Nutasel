@@ -18,6 +18,7 @@ class AsaqViewModel
     private val asaqUseCase: AsaqUseCase
 ) : ViewModel() {
 
+    var isPreTest: Boolean = true
     private var _listAsaq = MutableStateFlow(DataProvider.asaqList())
 
     private var _currentNumber = MutableStateFlow(1)
@@ -29,8 +30,6 @@ class AsaqViewModel
     private var _currentQuestion = MutableStateFlow(AsaqQuestions.values()[_currentNumber.value])
     val currentQuestion = _currentQuestion
 
-    private var _totalScore = MutableStateFlow(0)
-    val totalScore = _totalScore
 
     fun prevQuestion() {
         if (_currentNumber.value > 1) {
@@ -57,7 +56,11 @@ class AsaqViewModel
 
     fun saveAsaq(){
         viewModelScope.launch {
-            asaqUseCase.insertPreTestAsaq(_listAsaq.value)
+            if (isPreTest) {
+                asaqUseCase.insertPreTestAsaq(_listAsaq.value)
+            } else {
+                asaqUseCase.insertPostTestAsaq(_listAsaq.value)
+            }
         }
     }
 }

@@ -27,8 +27,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.giftech.terbit.R
 import com.giftech.terbit.ui.components.enums.ProfMenuEnum
 import com.giftech.terbit.ui.components.molecules.KTRDialog
@@ -38,7 +40,11 @@ import com.giftech.terbit.ui.components.molecules.SegmentedButtonRow
 
 @ExperimentalMaterial3Api
 @Composable
-fun ProfesionalScreen() {
+fun ProfesionalScreen(
+    onBack: () -> Unit,
+    viewModel: ProfesionalViewModel = hiltViewModel()
+) {
+    val context = LocalContext.current
     var selectedMenu by remember {
         mutableStateOf(ProfMenuEnum.INFO)
     }
@@ -58,7 +64,7 @@ fun ProfesionalScreen() {
                     Text("Profesional", style = MaterialTheme.typography.headlineSmall)
                 },
                 navigationIcon = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = onBack) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "")
                     }
                 },
@@ -103,7 +109,11 @@ fun ProfesionalScreen() {
             )
             when (selectedMenu) {
                 ProfMenuEnum.INFO -> {
-                    ProfInfoColumn()
+                    ProfInfoColumn(
+                        onContactClick = {
+                            viewModel.contactProfesionalByWhatsapp(context)
+                        }
+                    )
                 }
 
                 ProfMenuEnum.KREDIBILITAS -> {

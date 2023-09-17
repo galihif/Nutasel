@@ -38,9 +38,13 @@ import com.giftech.terbit.ui.utils.Constants
 @Composable
 fun AsaqScreen(
     viewModel: AsaqViewModel = hiltViewModel(),
+    isPreTest: Boolean,
     onBack: () -> Unit,
-    onNext: (score: Int) -> Unit
+    onNext: () -> Unit
 ) {
+    LaunchedEffect(isPreTest) {
+        viewModel.isPreTest = isPreTest
+    }
     val currentAsaq by remember {
         viewModel.currentAsaq
     }.collectAsState()
@@ -153,7 +157,7 @@ fun AsaqScreen(
                     )
                     if (currentNumber == Constants.TOTAL_ASAQ) {
                         viewModel.saveAsaq()
-                        onNext(viewModel.totalScore.value)
+                        onNext()
                     }
                 },
                 modifier = Modifier.fillMaxWidth(),
