@@ -273,8 +273,7 @@ private fun PostTestSection(
             Icons.Outlined.Lock
         },
         onClick = if (state.isPostTestAvailable) {
-            // TODO: Navigate with last ASAQ id
-            { navController.navigate(Screen.ASAQ.route) }
+            {  navController.navigate(Screen.ASAQ.createRoute(1))}
         } else {
             null
         },

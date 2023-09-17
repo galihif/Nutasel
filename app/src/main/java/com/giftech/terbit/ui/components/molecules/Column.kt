@@ -67,7 +67,9 @@ fun HeroColumn(
 }
 
 @Composable
-fun ProfInfoColumn() {
+fun ProfInfoColumn(
+    onContactClick : () -> Unit
+) {
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
@@ -97,7 +99,7 @@ fun ProfInfoColumn() {
         }
         Spacer(modifier = Modifier.weight(1f))
         Button(
-            onClick = { /*TODO*/ },
+            onClick = onContactClick,
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(
                 containerColor = light_CustomColor2,

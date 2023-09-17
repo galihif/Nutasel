@@ -9,6 +9,7 @@ object Constants {
         const val FFQ_FOOD_CATEGORY_ID = "ffq_food_category_id"
         const val WEEK = "week"
         const val DAY = "day"
+        const val TEST_TYPE = "test_type"
     }
     
 }
