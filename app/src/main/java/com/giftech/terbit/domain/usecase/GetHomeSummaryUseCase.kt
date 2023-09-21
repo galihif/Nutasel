@@ -40,7 +40,7 @@ class GetHomeSummaryUseCase @Inject constructor(
                     
                     // The weekly program opens after 7 days of pre-test
                     val programFirstDayDate = programList
-                        .last { it.tag == ProgramTag.PRE_TEST }
+                        .first { it.tag == ProgramTag.PRE_TEST }
                         .completionDateInMillis.toLocalDateTime().toLocalDate()
                         .plusDays(7)
                     val isWeeklyProgramAvailable = LocalDate.now() >= programFirstDayDate

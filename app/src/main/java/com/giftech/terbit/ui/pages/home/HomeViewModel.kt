@@ -5,13 +5,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.giftech.terbit.domain.usecase.GetHomeSummaryUseCase
+import com.giftech.terbit.domain.usecase.MonitorNotificationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getHomeSummaryUseCase: GetHomeSummaryUseCase,
+    private val monitorNotificationUseCase: MonitorNotificationUseCase,
 ) : ViewModel() {
     
     private val _state = mutableStateOf(
@@ -39,6 +42,7 @@ class HomeViewModel @Inject constructor(
     
     init {
         getSummary()
+        monitoringNotification()
     }
     
     private fun getSummary() {
@@ -64,6 +68,12 @@ class HomeViewModel @Inject constructor(
                     totalWeek = summary.totalWeek,
                 )
             }
+        }
+    }
+    
+    private fun monitoringNotification() {
+        viewModelScope.launch {
+            monitorNotificationUseCase().collect()
         }
     }
     

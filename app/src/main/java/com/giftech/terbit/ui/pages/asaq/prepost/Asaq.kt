@@ -34,13 +34,14 @@ import com.giftech.terbit.ui.components.enums.HariEnum
 import com.giftech.terbit.ui.components.molecules.HeroColumn
 import com.giftech.terbit.ui.utils.Constants
 
+// TODO Arief: Simpan progres ke ProgramEntity + route post test belum sama FFQ
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AsaqScreen(
     viewModel: AsaqViewModel = hiltViewModel(),
     isPreTest: Boolean,
     onBack: () -> Unit,
-    onNext: () -> Unit
+    onNext: () -> Unit,
 ) {
     LaunchedEffect(isPreTest) {
         viewModel.isPreTest = isPreTest
@@ -48,15 +49,15 @@ fun AsaqScreen(
     val currentAsaq by remember {
         viewModel.currentAsaq
     }.collectAsState()
-
+    
     val currentQuestion by remember {
         viewModel.currentQuestion
     }.collectAsState()
-
+    
     val currentNumber by remember {
         viewModel.currentNumber
     }.collectAsState()
-
+    
     var jam by remember {
         mutableStateOf("")
     }
@@ -85,12 +86,12 @@ fun AsaqScreen(
                 jam = (durasiHariKerja / 60).toString()
                 menit = (durasiHariKerja % 60).toString()
             }
-
+            
             HariEnum.HARI_LIBUR -> {
                 jam = (durasiHariLibur / 60).toString()
                 menit = (durasiHariLibur % 60).toString()
             }
-
+            
             else -> {}
         }
     }
@@ -171,7 +172,7 @@ fun AsaqScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(12.dp),
+                        .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 64.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     MyOutlinedTextField(
@@ -204,17 +205,17 @@ fun AsaqScreen(
                                 HariEnum.HARI_KERJA -> {
                                     durasiHariKerja = jam.toInt() * 60 + menit.toInt()
                                 }
-
+                                
                                 HariEnum.HARI_LIBUR -> {
                                     durasiHariLibur = jam.toInt() * 60 + menit.toInt()
                                 }
-
+                                
                                 else -> {}
                             }
                         },
                         modifier = Modifier.fillMaxWidth(),
                         enabled = jam.isNotBlank() && menit.isNotBlank() && jam.toInt() <= 24 && menit.toInt() <= 60
-
+                    
                     )
                 }
             }

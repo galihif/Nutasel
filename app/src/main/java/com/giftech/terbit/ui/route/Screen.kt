@@ -2,7 +2,7 @@ package com.giftech.terbit.ui.route
 
 import com.giftech.terbit.ui.utils.Constants
 
-sealed class Screen(val route: String) {
+sealed class Screen(val route: String, val deepLink: String? = null) {
     
     object InputDataDiri : Screen("InputDataDiri")
     object OnboardingIMT : Screen("OnboardingIMT")
@@ -68,8 +68,12 @@ sealed class Screen(val route: String) {
     }
     
     
-    object WeeklyAsaq : Screen("WeeklyAsaq/{${Constants.EXTRAS.PROGRAM_ID}}") {
+    object WeeklyAsaq : Screen(
+        route = "WeeklyAsaq/{${Constants.EXTRAS.PROGRAM_ID}}",
+        deepLink = "https://terbiasafit.com/program/weekly_asaq/{${Constants.EXTRAS.PROGRAM_ID}}"
+    ) {
         fun createRoute(programId: Int) = "WeeklyAsaq/$programId"
+        fun createDeepLink(programId: Int) = "https://terbiasafit.com/program/weekly_asaq/$programId"
     }
     
     object WeeklyAsaqComplete : Screen("WeeklyAsaqComplete")
