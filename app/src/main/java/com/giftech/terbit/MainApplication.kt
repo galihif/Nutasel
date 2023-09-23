@@ -23,7 +23,7 @@ class MainApplication : Application() {
                 NotificationType.values().toMutableList().forEach {
                     createChannel(
                         id = it.typeId,
-                        name = it.name,
+                        name = it.channelName,
                     )
                 }
                 
