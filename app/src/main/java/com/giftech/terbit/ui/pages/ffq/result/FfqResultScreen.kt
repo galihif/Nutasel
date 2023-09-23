@@ -134,9 +134,8 @@ private fun FfqResultContent(
                 } else {
                     navController.apply {
                         navigate(Screen.Home.route) {
-                            popUpTo(Screen.FfqResult.route) {
-                                inclusive = true
-                            }
+                            popUpTo(Screen.Home.route)
+                            launchSingleTop = true
                         }
                     }
                 }
