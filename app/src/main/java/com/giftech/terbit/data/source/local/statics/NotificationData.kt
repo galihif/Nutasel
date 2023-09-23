@@ -19,7 +19,7 @@ class NotificationData @Inject constructor() {
         NotificationEntity(
             id = 2000,
             title = "",
-            message = "Program kamu akan dibuka pada {{dd-mm-yyyy}}",
+            message = "Program kamu akan dibuka pada {{dd_mm_yyyy}}",
             triggerTime = null,
             type = NotificationType.PROGRAM_REMINDER.typeId,
         ),
@@ -33,7 +33,7 @@ class NotificationData @Inject constructor() {
         NotificationEntity(
             id = 4000,
             title = "",
-            message = "Post test kamu akan dibuka pada {{dd-mm-yyyy}}",
+            message = "Post test kamu akan dibuka pada {{dd_mm_yyyy}}",
             triggerTime = null,
             type = NotificationType.PROGRAM_REMINDER.typeId,
         ),
@@ -44,12 +44,11 @@ class NotificationData @Inject constructor() {
             triggerTime = "08:00",
             type = NotificationType.PROGRAM_REMINDER.typeId,
         ),
-        
         NotificationEntity(
             id = 6000,
             title = "Yuk isi pemantauan hari ini!",
             message = "Pantau terus aktivitas dan jaga kesehatanmu dengan mudah dan menyenangkan, semangat sehat ",
-            triggerTime = "07:00",
+            triggerTime = "17:00",
             type = NotificationType.DAILY_TIPS.typeId,
         ),
         NotificationEntity(
@@ -72,27 +71,6 @@ class NotificationData @Inject constructor() {
             message = "Jangan biarkan rutinitas menyebabkan kebiasaan sedentari. Jadikan gerakan dan aktivitas sebagai bagian penting dalam gaya hidup sehatmu!",
             triggerTime = "12:30",
             type = NotificationType.DAILY_TIPS.typeId,
-        ),
-        NotificationEntity(
-            id = 10000,
-            title = "Ada program tertunda nih!",
-            message = "Jangan biarkan kesempatan berlalu begitu saja! Masih ada program mingguan yang belum dikerjakan. Saatnya beraksi dan mencapai tujuan kesehatanmu",
-            triggerTime = "09:00",
-            type = NotificationType.PROGRAM_REMINDER.typeId,
-        ),
-        NotificationEntity(
-            id = 11000,
-            title = "Yuk kerjakan program pertama kamu",
-            message = "Program kamu sudah dibuka nih, ayo dikerjakan",
-            triggerTime = "06:00",
-            type = NotificationType.PROGRAM_REMINDER.typeId,
-        ),
-        NotificationEntity(
-            id = 12000,
-            title = "Yuk kerjakan post test kamu",
-            message = "Selamat ya kamu telah berhasil menyelesaikan keseluruhan program, yuk isi perkembangan kamu",
-            triggerTime = "06:00",
-            type = NotificationType.PROGRAM_REMINDER.typeId,
         ),
     )
     

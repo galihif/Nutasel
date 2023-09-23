@@ -22,6 +22,12 @@ interface UserNotificationDao {
     @Query("UPDATE UserNotificationEntity SET activeStatus = :activeStatus WHERE notificationId = :notificationId AND idLink = :idLink")
     suspend fun updateActiveStatus(notificationId: Int, idLink: Int, activeStatus: Boolean)
     
+    @Query("UPDATE UserNotificationEntity SET schedulingStatus = :schedulingStatus WHERE notificationId = :notificationId AND idLink = :idLink")
+    suspend fun updateSchedulingStatus(notificationId: Int, idLink: Int, schedulingStatus: Boolean)
+    
+    @Query("UPDATE UserNotificationEntity SET shownStatus = :shownStatus WHERE notificationId = :notificationId AND idLink = :idLink")
+    suspend fun updateShownStatus(notificationId: Int, idLink: Int, shownStatus: Boolean)
+    
     @Query("DELETE FROM UserNotificationEntity WHERE notificationId = :notificationId AND idLink = :idLink")
     suspend fun delete(notificationId: Int, idLink: Int)
     

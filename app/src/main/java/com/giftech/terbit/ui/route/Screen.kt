@@ -10,24 +10,32 @@ sealed class Screen(val route: String, val deepLink: String? = null) {
     object OnboardingASAQ1 : Screen("OnboardingASAQ1")
     object OnboardingASAQ2 : Screen("OnboardingASAQ2")
     object OnboardingASAQ3 : Screen("OnboardingASAQ3")
-    object ASAQ : Screen("ASAQ/{${Constants.EXTRAS.TEST_TYPE}}") {
-        fun createRoute(testType: Int) = "ASAQ/$testType"
+    
+    object ASAQ : Screen(
+        route = "ASAQ/{${Constants.Extras.TEST_TYPE}}/{${Constants.Extras.PROGRAM_ID}}",
+        deepLink = "https://terbiasafit.com/program/preposttest_asaq/{${Constants.Extras.TEST_TYPE}}/{${Constants.Extras.PROGRAM_ID}}",
+    ) {
+        fun createRoute(testType: Int, programId: Int) = "ASAQ/$testType/$programId"
+        
+        fun createDeepLink(testType: Int, programId: Int) =
+            "https://terbiasafit.com/program/preposttest_asaq/$testType/$programId"
+        
     }
     
     // FFQ
     object FfqOnboarding : Screen("FfqOnboarding")
     
-    object FfqMain : Screen("FfqMain/{${Constants.EXTRAS.PROGRAM_ID}}") {
+    object FfqMain : Screen("FfqMain/{${Constants.Extras.PROGRAM_ID}}") {
         fun createRoute(programId: Int) = "FfqMain/${programId}"
     }
     
     object FfqList :
-        Screen("FfqList/{${Constants.EXTRAS.PROGRAM_ID}}/{${Constants.EXTRAS.FFQ_FOOD_CATEGORY_ID}}") {
+        Screen("FfqList/{${Constants.Extras.PROGRAM_ID}}/{${Constants.Extras.FFQ_FOOD_CATEGORY_ID}}") {
         fun createRoute(programId: Int, foodCategoryId: Int) =
             "FfqList/${programId}/${foodCategoryId}"
     }
     
-    object FfqResult : Screen("FfqResult/{${Constants.EXTRAS.PROGRAM_ID}}") {
+    object FfqResult : Screen("FfqResult/{${Constants.Extras.PROGRAM_ID}}") {
         fun createRoute(programId: Int) = "FfqResult/${programId}"
     }
     
@@ -44,36 +52,37 @@ sealed class Screen(val route: String, val deepLink: String? = null) {
     object Profile : Screen("Profile")
     object EditProfile : Screen("EditProfile")
     
-    object NotificationList : Screen("NotificationList")
+    object NotificationInbox : Screen("NotificationInbox")
     
     object Profesional : Screen("Profesional")
     
-    object MonitoringDetails : Screen("MonitoringDetails/{${Constants.EXTRAS.WEEK}}") {
+    object MonitoringDetails : Screen("MonitoringDetails/{${Constants.Extras.WEEK}}") {
         fun createRoute(week: Int) = "MonitoringDetails/$week"
     }
     
     object Article : Screen(
-        "Article/{${Constants.EXTRAS.PROGRAM_ID}}/{${Constants.EXTRAS.WEEK}}/{${Constants.EXTRAS.DAY}}"
+        "Article/{${Constants.Extras.PROGRAM_ID}}/{${Constants.Extras.WEEK}}/{${Constants.Extras.DAY}}"
     ) {
         fun createRoute(programId: Int, week: Int, day: Int) = "Article/$programId/$week/$day"
     }
     
     object ArticleComplete :
-        Screen("ArticleComplete/{${Constants.EXTRAS.WEEK}}/{${Constants.EXTRAS.DAY}}") {
+        Screen("ArticleComplete/{${Constants.Extras.WEEK}}/{${Constants.Extras.DAY}}") {
         fun createRoute(week: Int, day: Int) = "ArticleComplete/$week/$day"
     }
     
-    object ActivityComplete : Screen("ActivityComplete/{${Constants.EXTRAS.WEEK}}") {
+    object ActivityComplete : Screen("ActivityComplete/{${Constants.Extras.WEEK}}") {
         fun createRoute(week: Int) = "ActivityComplete/$week"
     }
     
     
     object WeeklyAsaq : Screen(
-        route = "WeeklyAsaq/{${Constants.EXTRAS.PROGRAM_ID}}",
-        deepLink = "https://terbiasafit.com/program/weekly_asaq/{${Constants.EXTRAS.PROGRAM_ID}}"
+        route = "WeeklyAsaq/{${Constants.Extras.PROGRAM_ID}}",
+        deepLink = "https://terbiasafit.com/program/weekly_asaq/{${Constants.Extras.PROGRAM_ID}}"
     ) {
         fun createRoute(programId: Int) = "WeeklyAsaq/$programId"
-        fun createDeepLink(programId: Int) = "https://terbiasafit.com/program/weekly_asaq/$programId"
+        fun createDeepLink(programId: Int) =
+            "https://terbiasafit.com/program/weekly_asaq/$programId"
     }
     
     object WeeklyAsaqComplete : Screen("WeeklyAsaqComplete")

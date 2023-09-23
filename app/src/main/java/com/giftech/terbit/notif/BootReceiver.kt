@@ -9,7 +9,7 @@ class BootReceiver : BroadcastReceiver() {
     // Restart reminder alarms when the user's device reboots.
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == "android.intent.action.BOOT_COMPLETED") {
-            startDailyTipsNotification(context)
+            context.startAlarmRebootService()
         }
     }
     

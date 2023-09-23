@@ -17,6 +17,8 @@ interface IUserNotificationRepository {
         triggerDateTimeInMillis: Long,
         notificationType: String,
         activeStatus: Boolean,
+        schedulingStatus: Boolean,
+        shownStatus: Boolean,
     )
     
     suspend fun updateReadStatus(
@@ -29,6 +31,18 @@ interface IUserNotificationRepository {
         notificationId: Int,
         idLink: Int,
         activeStatus: Boolean,
+    )
+    
+    suspend fun updateSchedulingStatus(
+        notificationId: Int,
+        idLink: Int,
+        schedulingStatus: Boolean,
+    )
+    
+    suspend fun updateShownStatus(
+        notificationId: Int,
+        idLink: Int,
+        shownStatus: Boolean,
     )
     
     suspend fun delete(

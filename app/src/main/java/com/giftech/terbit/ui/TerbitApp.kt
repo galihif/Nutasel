@@ -34,7 +34,7 @@ import com.giftech.terbit.ui.pages.home.HomeScreen
 import com.giftech.terbit.ui.pages.input_data_diri.InputDataDiriScreen
 import com.giftech.terbit.ui.pages.monitoring.MonitoringScreen
 import com.giftech.terbit.ui.pages.monitoringdetails.MonitoringDetailsScreen
-import com.giftech.terbit.ui.pages.notificationlist.NotificationListScreen
+import com.giftech.terbit.ui.pages.notificationinbox.NotificationInboxScreen
 import com.giftech.terbit.ui.pages.onboarding.FfqOnboardingScreen
 import com.giftech.terbit.ui.pages.profesional.ProfesionalScreen
 import com.giftech.terbit.ui.pages.profile.EditProfileScreen
@@ -42,6 +42,7 @@ import com.giftech.terbit.ui.pages.profile.ProfileScreen
 import com.giftech.terbit.ui.route.BottomNavItem
 import com.giftech.terbit.ui.route.Screen
 import com.giftech.terbit.ui.utils.Constants
+import com.giftech.terbit.domain.util.Constants as DomainConstants
 
 @ExperimentalMaterial3Api
 @Composable
@@ -73,7 +74,7 @@ fun TerbitApp(
     ) { innerPadding ->
         NavHost(
             navController = navHostController,
-            startDestination = Screen.InputDataDiri.route,
+            startDestination = Screen.Home.route,
             modifier = Modifier.padding(innerPadding)
         ) {
             // Input Data Diri
@@ -143,7 +144,12 @@ fun TerbitApp(
                         navHostController.popBackStack()
                     },
                     onNext = {
-                        navHostController.navigate(Screen.ASAQ.createRoute(0))
+                        navHostController.navigate(
+                            Screen.ASAQ.createRoute(
+                                testType = Constants.AsaqTestType.PRE_TEST,
+                                programId = DomainConstants.ProgramId.FIRST_ASAQ,
+                            )
+                        )
                     },
                     hero = HeroEnum.AsaqOnboard3
                 )
@@ -152,23 +158,21 @@ fun TerbitApp(
             // ASAQ
             composable(
                 route = Screen.ASAQ.route,
+                deepLinks = listOf(
+                    navDeepLink { uriPattern = Screen.ASAQ.deepLink }
+                ),
                 arguments = listOf(
-                    navArgument(Constants.EXTRAS.TEST_TYPE) { type = NavType.IntType }
+                    navArgument(Constants.Extras.TEST_TYPE) { type = NavType.IntType },
+                    navArgument(Constants.Extras.PROGRAM_ID) { type = NavType.IntType },
                 ),
             ) {
-                val testType = it.arguments?.getInt(Constants.EXTRAS.TEST_TYPE) ?: -1
+                val testType = it.arguments?.getInt(Constants.Extras.TEST_TYPE) ?: -1
+                val programId = it.arguments?.getInt(Constants.Extras.PROGRAM_ID) ?: -1
+                
                 AsaqScreen(
-                    onBack = {
-                        navHostController.popBackStack()
-                    },
-                    onNext = {
-                        if (testType == 0) {
-                            navHostController.navigate(Screen.FfqOnboarding.route)
-                        } else {
-                            navHostController.navigate(Screen.Home.route)
-                        }
-                    },
                     isPreTest = testType == 0,
+                    programId = programId,
+                    navController = navHostController,
                 )
             }
             
@@ -193,7 +197,11 @@ fun TerbitApp(
             composable(Screen.HasilTingkatPemantauan.route) {
                 HasilTPScreen(
                     onNext = {
-                        navHostController.navigate(Screen.Home.route)
+                        navHostController.navigate(Screen.Home.route) {
+                            popUpTo(Screen.HasilTingkatPemantauan.route) {
+                                inclusive = true
+                            }
+                        }
                     }
                 )
             }
@@ -231,8 +239,8 @@ fun TerbitApp(
                 )
             }
             
-            composable(Screen.NotificationList.route) {
-                NotificationListScreen(
+            composable(Screen.NotificationInbox.route) {
+                NotificationInboxScreen(
                     navController = navHostController,
                 )
             }
@@ -248,10 +256,10 @@ fun TerbitApp(
             composable(
                 route = Screen.MonitoringDetails.route,
                 arguments = listOf(
-                    navArgument(Constants.EXTRAS.WEEK) { type = NavType.IntType }
+                    navArgument(Constants.Extras.WEEK) { type = NavType.IntType }
                 ),
             ) {
-                val week = it.arguments?.getInt(Constants.EXTRAS.WEEK) ?: -1
+                val week = it.arguments?.getInt(Constants.Extras.WEEK) ?: -1
                 MonitoringDetailsScreen(
                     week = week,
                     navController = navHostController,
@@ -262,10 +270,10 @@ fun TerbitApp(
             composable(
                 route = Screen.FfqMain.route,
                 arguments = listOf(
-                    navArgument(Constants.EXTRAS.PROGRAM_ID) { type = NavType.IntType }
+                    navArgument(Constants.Extras.PROGRAM_ID) { type = NavType.IntType }
                 ),
             ) {
-                val programId = it.arguments?.getInt(Constants.EXTRAS.PROGRAM_ID) ?: -1
+                val programId = it.arguments?.getInt(Constants.Extras.PROGRAM_ID) ?: -1
                 FfqMainScreen(
                     programId = programId,
                     navController = navHostController,
@@ -275,13 +283,13 @@ fun TerbitApp(
             composable(
                 route = Screen.FfqList.route,
                 arguments = listOf(
-                    navArgument(Constants.EXTRAS.PROGRAM_ID) { type = NavType.IntType },
-                    navArgument(Constants.EXTRAS.FFQ_FOOD_CATEGORY_ID) { type = NavType.IntType },
+                    navArgument(Constants.Extras.PROGRAM_ID) { type = NavType.IntType },
+                    navArgument(Constants.Extras.FFQ_FOOD_CATEGORY_ID) { type = NavType.IntType },
                 ),
             ) {
-                val programId = it.arguments?.getInt(Constants.EXTRAS.PROGRAM_ID) ?: -1
+                val programId = it.arguments?.getInt(Constants.Extras.PROGRAM_ID) ?: -1
                 val foodCategoryId =
-                    it.arguments?.getInt(Constants.EXTRAS.FFQ_FOOD_CATEGORY_ID) ?: -1
+                    it.arguments?.getInt(Constants.Extras.FFQ_FOOD_CATEGORY_ID) ?: -1
                 FfqListScreen(
                     programId = programId,
                     foodCategoryId = foodCategoryId,
@@ -292,10 +300,10 @@ fun TerbitApp(
             composable(
                 route = Screen.FfqResult.route,
                 arguments = listOf(
-                    navArgument(Constants.EXTRAS.PROGRAM_ID) { type = NavType.IntType }
+                    navArgument(Constants.Extras.PROGRAM_ID) { type = NavType.IntType }
                 ),
             ) {
-                val programId = it.arguments?.getInt(Constants.EXTRAS.PROGRAM_ID) ?: -1
+                val programId = it.arguments?.getInt(Constants.Extras.PROGRAM_ID) ?: -1
                 FfqResultScreen(
                     programId = programId,
                     navController = navHostController,
@@ -305,14 +313,14 @@ fun TerbitApp(
             composable(
                 route = Screen.Article.route,
                 arguments = listOf(
-                    navArgument(Constants.EXTRAS.PROGRAM_ID) { type = NavType.IntType },
-                    navArgument(Constants.EXTRAS.WEEK) { type = NavType.IntType },
-                    navArgument(Constants.EXTRAS.DAY) { type = NavType.IntType },
+                    navArgument(Constants.Extras.PROGRAM_ID) { type = NavType.IntType },
+                    navArgument(Constants.Extras.WEEK) { type = NavType.IntType },
+                    navArgument(Constants.Extras.DAY) { type = NavType.IntType },
                 ),
             ) {
-                val programId = it.arguments?.getInt(Constants.EXTRAS.PROGRAM_ID) ?: -1
-                val week = it.arguments?.getInt(Constants.EXTRAS.WEEK) ?: -1
-                val day = it.arguments?.getInt(Constants.EXTRAS.DAY) ?: -1
+                val programId = it.arguments?.getInt(Constants.Extras.PROGRAM_ID) ?: -1
+                val week = it.arguments?.getInt(Constants.Extras.WEEK) ?: -1
+                val day = it.arguments?.getInt(Constants.Extras.DAY) ?: -1
                 ArticleScreen(
                     programId = programId,
                     week = week,
@@ -324,12 +332,12 @@ fun TerbitApp(
             composable(
                 route = Screen.ArticleComplete.route,
                 arguments = listOf(
-                    navArgument(Constants.EXTRAS.WEEK) { type = NavType.IntType },
-                    navArgument(Constants.EXTRAS.DAY) { type = NavType.IntType },
+                    navArgument(Constants.Extras.WEEK) { type = NavType.IntType },
+                    navArgument(Constants.Extras.DAY) { type = NavType.IntType },
                 ),
             ) {
-                val week = it.arguments?.getInt(Constants.EXTRAS.WEEK) ?: -1
-                val day = it.arguments?.getInt(Constants.EXTRAS.DAY) ?: -1
+                val week = it.arguments?.getInt(Constants.Extras.WEEK) ?: -1
+                val day = it.arguments?.getInt(Constants.Extras.DAY) ?: -1
                 ArticleCompleteScreen(
                     week, day,
                     onNext = {
@@ -341,10 +349,10 @@ fun TerbitApp(
             composable(
                 route = Screen.ActivityComplete.route,
                 arguments = listOf(
-                    navArgument(Constants.EXTRAS.WEEK) { type = NavType.IntType },
+                    navArgument(Constants.Extras.WEEK) { type = NavType.IntType },
                 ),
             ) {
-                val week = it.arguments?.getInt(Constants.EXTRAS.WEEK) ?: -1
+                val week = it.arguments?.getInt(Constants.Extras.WEEK) ?: -1
                 ActivityCompleteScreen(
                     week = week,
                     onNext = {
@@ -355,14 +363,14 @@ fun TerbitApp(
             
             composable(
                 route = Screen.WeeklyAsaq.route,
-                arguments = listOf(
-                    navArgument(Constants.EXTRAS.PROGRAM_ID) { type = NavType.IntType }
-                ),
                 deepLinks = listOf(
                     navDeepLink { uriPattern = Screen.WeeklyAsaq.deepLink }
                 ),
+                arguments = listOf(
+                    navArgument(Constants.Extras.PROGRAM_ID) { type = NavType.IntType }
+                ),
             ) {
-                val programId = it.arguments?.getInt(Constants.EXTRAS.PROGRAM_ID) ?: -1
+                val programId = it.arguments?.getInt(Constants.Extras.PROGRAM_ID) ?: -1
                 WeeklyAsaqScreen(
                     programId = programId,
                     navController = navHostController,

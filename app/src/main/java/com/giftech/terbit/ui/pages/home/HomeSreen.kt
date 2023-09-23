@@ -20,6 +20,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material.icons.outlined.NotificationsActive
 import androidx.compose.material.icons.rounded.AccessTime
 import androidx.compose.material.icons.rounded.ArrowRight
 import androidx.compose.material.icons.rounded.CheckBox
@@ -30,6 +31,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -52,6 +54,8 @@ import com.giftech.terbit.ui.theme.CustomColor2
 import com.giftech.terbit.ui.theme.CustomColor3
 import com.giftech.terbit.ui.theme.light_onCustomColor2
 import com.giftech.terbit.ui.theme.light_onCustomColor3
+import com.giftech.terbit.ui.utils.Constants
+import com.giftech.terbit.domain.util.Constants as DomainConstants
 
 @Composable
 fun HomeScreen(
@@ -66,6 +70,19 @@ fun HomeScreen(
         navController = navController,
         modifier = modifier,
     )
+    
+    LaunchedEffect(state.isPreTestDone) {
+        if (state.isPreTestDone.not()) {
+            // TODO: Kalau sudah ada app onboarding screen, route ke situ
+            navController.navigate(
+                Screen.InputDataDiri.route,
+            ) {
+                popUpTo(Screen.Home.route) {
+                    inclusive = true
+                }
+            }
+        }
+    }
 }
 
 @Composable
@@ -186,11 +203,15 @@ private fun HeaderSection(
         }
         IconButton(
             onClick = {
-                navController.navigate(Screen.NotificationList.route)
+                navController.navigate(Screen.NotificationInbox.route)
             },
         ) {
             Icon(
-                imageVector = Icons.Rounded.NotificationsNone,
+                imageVector = if (state.isNotificationEmpty) {
+                    Icons.Rounded.NotificationsNone
+                } else {
+                    Icons.Outlined.NotificationsActive
+                },
                 contentDescription = "Notifikasi",
                 tint = MaterialTheme.colorScheme.primary,
             )
@@ -273,7 +294,14 @@ private fun PostTestSection(
             Icons.Outlined.Lock
         },
         onClick = if (state.isPostTestAvailable) {
-            {  navController.navigate(Screen.ASAQ.createRoute(1))}
+            {
+                navController.navigate(
+                    Screen.ASAQ.createRoute(
+                        testType = Constants.AsaqTestType.POST_TEST,
+                        programId = DomainConstants.ProgramId.LAST_ASAQ,
+                    ),
+                )
+            }
         } else {
             null
         },

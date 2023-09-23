@@ -18,4 +18,5 @@ data class HomeSummary(
     val currentWeek: Int,
     val totalCompletedWeek: Int,
     val totalWeek: Int,
+    val isNotificationEmpty: Boolean,
 )

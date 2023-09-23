@@ -3,6 +3,7 @@ package com.giftech.terbit.ui.pages.home
 import com.giftech.terbit.domain.model.Program
 
 data class HomeState(
+    val isPreTestDone: Boolean,
     val userName: String,
     val bmiCategory: String,
     val monitoringLevel: String,
@@ -20,4 +21,5 @@ data class HomeState(
     val currentWeek: Int,
     val totalCompletedWeek: Int,
     val totalWeek: Int,
+    val isNotificationEmpty: Boolean,
 )

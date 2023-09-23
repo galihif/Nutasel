@@ -34,7 +34,6 @@ class FfqQuestionRepository @Inject constructor(
     
     override suspend fun insert(foodName: String, foodCategoryId: Int) {
         val ffqFoodEntity = FfqFoodEntity(
-            foodId = 0, // Auto-generated
             foodCategoryId = foodCategoryId,
             name = foodName,
         )

@@ -12,6 +12,8 @@ data class UserNotification(
     val triggerDateTimeInMillis: Long,
     val notificationType: NotificationType,
     val activeStatus: Boolean,
+    val schedulingStatus: Boolean,
+    val shownStatus: Boolean,
 ) {
     
     val reminderId

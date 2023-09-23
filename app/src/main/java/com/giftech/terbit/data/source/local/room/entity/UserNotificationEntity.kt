@@ -16,4 +16,6 @@ data class UserNotificationEntity(
     val triggerDateTimeInMillis: Long,
     val notificationType: String,
     val activeStatus: Boolean,
+    val schedulingStatus: Boolean,
+    val shownStatus: Boolean,
 )

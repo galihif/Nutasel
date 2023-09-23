@@ -34,4 +34,6 @@
     <string name="title_week_2_7"><i>Sedentary Lifestyle</i> : Durasi Kegiatannya</string>
     <string name="title_week_3_7"><i>Sedentary Lifestyle</i> : Potensi Risikonya pada Kesehatan</string>
     <string name="title_week_4_7"><i>Sedentary Lifestyle</i> : Tips Mengatasi Kebiasaannya</string>
+    <string name="notif_channel_id_systemchannel">system_channel</string>
+    <string name="notif_channel_name_systemchannel">System Channel</string>
 </resources>

@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.giftech.terbit.R
+import com.giftech.terbit.domain.util.Constants
 import com.giftech.terbit.ui.components.atoms.PrimaryButton
 import com.giftech.terbit.ui.route.Screen
 
@@ -125,8 +126,19 @@ private fun FfqResultContent(
         PrimaryButton(
             text = stringResource(R.string.btn_next_ffqresult),
             onClick = {
-                navController.apply {
-                    navigate(Screen.OnboardingTingkatPemantauan.route)
+                val isPreTest = state.programId == Constants.ProgramId.FIRST_FFQ
+                if (isPreTest) {
+                    navController.apply {
+                        navigate(Screen.OnboardingTingkatPemantauan.route)
+                    }
+                } else {
+                    navController.apply {
+                        navigate(Screen.Home.route) {
+                            popUpTo(Screen.FfqResult.route) {
+                                inclusive = true
+                            }
+                        }
+                    }
                 }
             },
             modifier = Modifier

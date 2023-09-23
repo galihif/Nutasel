@@ -1,5 +1,7 @@
-package com.giftech.terbit.ui.pages.notificationlist
+package com.giftech.terbit.ui.pages.notificationinbox
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -23,16 +25,24 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.giftech.terbit.R
 
 @Composable
-fun NotificationListScreen(
+fun NotificationInboxScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
+    viewModel: NotificationInboxViewModel = hiltViewModel(),
 ) {
-    NotificationListContent(
+    val state = viewModel.state.value
+    
+    NotificationInboxContent(
+        state = state,
+        viewModel = viewModel,
         navController = navController,
         modifier = modifier,
     )
@@ -40,7 +50,9 @@ fun NotificationListScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun NotificationListContent(
+private fun NotificationInboxContent(
+    state: NotificationInboxState,
+    viewModel: NotificationInboxViewModel,
     navController: NavController,
     modifier: Modifier = Modifier,
 ) {
@@ -66,18 +78,41 @@ private fun NotificationListContent(
         modifier = modifier,
     ) { contentPadding ->
         LazyColumn(
-            contentPadding = PaddingValues(16.dp),
+            contentPadding = PaddingValues(vertical = 16.dp),
             modifier = modifier
                 .padding(contentPadding),
         ) {
+            if (state.isEmpty) {
+                item {
+                    Text(
+                        text = "Tidak ada notifikasi",
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 32.dp),
+                    )
+                }
+            }
+            
             items(
-                items = listOf(
-                    "Pantau Sedentari hari 1 menunggu untuk dikerjakan!",
-                    "Pantau Sedentari hari 1 menunggu untuk dikerjakan!",
-                ),
-            ) { item ->
+                items = state.notificationList,
+                key = { it.reminderId }
+            ) { notification ->
                 NotificationItem(
-                    message = item,
+                    message = notification.message,
+                    readStatus = notification.readStatus,
+                    onClick = {
+                        viewModel.onEvent(
+                            NotificationInboxEvent.MarkAsRead(
+                                notificationId = notification.notificationId,
+                                idLink = notification.idLink,
+                            )
+                        )
+                        notification.deepLink?.toUri()?.let {
+                            navController.navigate(it)
+                        }
+                    },
                 )
             }
         }
@@ -87,17 +122,28 @@ private fun NotificationListContent(
 @Composable
 private fun NotificationItem(
     message: String,
+    readStatus: Boolean,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .background(
+                color = if (readStatus) {
+                    MaterialTheme.colorScheme.surface
+                } else {
+                    MaterialTheme.colorScheme.outlineVariant.copy(0.2f)
+                },
+            )
+            .clickable { onClick() }
+            .padding(horizontal = 16.dp),
     ) {
         Row(
             modifier = Modifier
                 .padding(
                     horizontal = 16.dp,
-                    vertical = 8.dp,
+                    vertical = 12.dp,
                 )
         ) {
             Icon(

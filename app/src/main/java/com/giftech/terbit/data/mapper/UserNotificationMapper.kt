@@ -26,6 +26,8 @@ class UserNotificationMapper @Inject constructor() {
             triggerDateTimeInMillis = input.triggerDateTimeInMillis,
             notificationType = NotificationType.fromTypeId(input.notificationType),
             activeStatus = input.activeStatus,
+            schedulingStatus = input.schedulingStatus,
+            shownStatus = input.shownStatus,
         )
     }
     

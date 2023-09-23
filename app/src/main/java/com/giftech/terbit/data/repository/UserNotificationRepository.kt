@@ -32,6 +32,8 @@ class UserNotificationRepository @Inject constructor(
         triggerDateTimeInMillis: Long,
         notificationType: String,
         activeStatus: Boolean,
+        schedulingStatus: Boolean,
+        shownStatus: Boolean,
     ) {
         val userNotificationEntity = UserNotificationEntity(
             notificationId = notificationId,
@@ -43,6 +45,8 @@ class UserNotificationRepository @Inject constructor(
             triggerDateTimeInMillis = triggerDateTimeInMillis,
             notificationType = notificationType,
             activeStatus = activeStatus,
+            schedulingStatus = schedulingStatus,
+            shownStatus = shownStatus,
         )
         userNotificationLocalDataSource.insert(userNotificationEntity)
     }
@@ -71,6 +75,29 @@ class UserNotificationRepository @Inject constructor(
         )
     }
     
+    override suspend fun updateSchedulingStatus(
+        notificationId: Int,
+        idLink: Int,
+        schedulingStatus: Boolean,
+    ) {
+        userNotificationLocalDataSource.updateSchedulingStatus(
+            notificationId = notificationId,
+            idLink = idLink,
+            schedulingStatus = schedulingStatus,
+        )
+    }
+    
+    override suspend fun updateShownStatus(
+        notificationId: Int,
+        idLink: Int,
+        shownStatus: Boolean,
+    ) {
+        userNotificationLocalDataSource.updateShownStatus(
+            notificationId = notificationId,
+            idLink = idLink,
+            shownStatus = shownStatus,
+        )
+    }
     
     override suspend fun delete(
         notificationId: Int,

@@ -26,25 +26,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.giftech.terbit.domain.model.Asaq
 import com.giftech.terbit.ui.components.atoms.MyFilterChips
 import com.giftech.terbit.ui.components.atoms.MyOutlinedTextField
 import com.giftech.terbit.ui.components.atoms.PrimaryButton
 import com.giftech.terbit.ui.components.enums.HariEnum
 import com.giftech.terbit.ui.components.molecules.HeroColumn
+import com.giftech.terbit.ui.route.Screen
 import com.giftech.terbit.ui.utils.Constants
+import com.giftech.terbit.domain.util.Constants as DomainConstants
 
-// TODO Arief: Simpan progres ke ProgramEntity + route post test belum sama FFQ
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AsaqScreen(
     viewModel: AsaqViewModel = hiltViewModel(),
     isPreTest: Boolean,
-    onBack: () -> Unit,
-    onNext: () -> Unit,
+    programId: Int,
+    navController: NavController,
 ) {
-    LaunchedEffect(isPreTest) {
+    LaunchedEffect(isPreTest, programId) {
         viewModel.isPreTest = isPreTest
+        viewModel.programId = programId
     }
     val currentAsaq by remember {
         viewModel.currentAsaq
@@ -106,7 +109,7 @@ fun AsaqScreen(
                         if (currentNumber > 1) {
                             viewModel.prevQuestion()
                         } else {
-                            onBack()
+                            navController.popBackStack()
                         }
                     }) {
                         Icon(Icons.Default.ArrowBack, "")
@@ -158,7 +161,15 @@ fun AsaqScreen(
                     )
                     if (currentNumber == Constants.TOTAL_ASAQ) {
                         viewModel.saveAsaq()
-                        onNext()
+                        if (isPreTest) {
+                            navController.navigate(Screen.FfqOnboarding.route)
+                        } else {
+                            navController.navigate(
+                                Screen.FfqMain.createRoute(
+                                    programId = DomainConstants.ProgramId.LAST_FFQ,
+                                )
+                            )
+                        }
                     }
                 },
                 modifier = Modifier.fillMaxWidth(),

@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
@@ -25,6 +26,7 @@
             android:theme="@style/Theme.Terbit">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
@@ -35,9 +37,8 @@
         </activity>
 
         <receiver
-            android:name=".notif.AlarmReceiver"
+            android:name=".notif.NotificationAlarmReceiver"
             android:enabled="true" />
-
         <receiver
             android:name=".notif.BootReceiver"
             android:enabled="true"
@@ -46,6 +47,11 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        <service
+            android:name=".notif.NotificationRestartService"
+            android:enabled="true"
+            android:exported="false" />
 
     </application>
 

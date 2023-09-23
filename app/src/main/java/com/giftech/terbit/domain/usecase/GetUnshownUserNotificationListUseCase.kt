@@ -6,20 +6,16 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class GetEligibleUserNotificationListUseCase @Inject constructor(
+class GetUnshownUserNotificationListUseCase @Inject constructor(
     private val userNotificationRepository: IUserNotificationRepository,
 ) {
     
     operator fun invoke(): Flow<List<UserNotification>> {
         return userNotificationRepository.getAll()
             .map { userNotificationList ->
-                userNotificationList
-                    .filter {
-                        it.activeStatus && it.shownStatus
-                    }
-                    .sortedByDescending {
-                        it.triggerDateTimeInMillis
-                    }
+                userNotificationList.filter {
+                    it.shownStatus.not() && it.activeStatus
+                }
             }
     }
     

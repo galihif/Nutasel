@@ -43,6 +43,30 @@ class UserNotificationLocalDataSource @Inject constructor(
         )
     }
     
+    suspend fun updateSchedulingStatus(
+        notificationId: Int,
+        idLink: Int,
+        schedulingStatus: Boolean,
+    ) {
+        userNotificationDao.updateSchedulingStatus(
+            notificationId = notificationId,
+            idLink = idLink,
+            schedulingStatus = schedulingStatus,
+        )
+    }
+    
+    suspend fun updateShownStatus(
+        notificationId: Int,
+        idLink: Int,
+        shownStatus: Boolean,
+    ) {
+        userNotificationDao.updateShownStatus(
+            notificationId = notificationId,
+            idLink = idLink,
+            shownStatus = shownStatus,
+        )
+    }
+    
     suspend fun delete(
         notificationId: Int,
         idLink: Int,
