@@ -1,5 +1,6 @@
 package com.giftech.terbit.domain.usecase
 
+import com.giftech.terbit.data.repository.UserNotificationRepository
 import com.giftech.terbit.domain.enums.ProgramTag
 import com.giftech.terbit.domain.model.HomeSummary
 import com.giftech.terbit.domain.model.Program
@@ -22,138 +23,146 @@ class GetHomeSummaryUseCase @Inject constructor(
     private val userRepository: IUserRepository,
     private val programRepository: IProgramRepository,
     private val asaqRepository: IAsaqRepository,
+    private val userNotificationRepository: UserNotificationRepository,
 ) {
     
     @OptIn(ExperimentalCoroutinesApi::class)
     operator fun invoke(): Flow<HomeSummary> {
         return userRepository.getUser().flatMapLatest { user ->
             asaqRepository.getSedenterType().flatMapLatest { sedenterType ->
-                programRepository.getAll().mapLatest { programList ->
-                    val weeklyProgramList = programList.filter {
-                        it.tag == ProgramTag.WEEKLY_PROGRAM
-                    }.sortedWith(
-                        compareBy(
-                            { it.week },
-                            { it.dayOfWeek },
-                        )
-                    )
-                    
-                    // The weekly program opens after 7 days of pre-test
-                    val programFirstDayDate = programList
-                        .last { it.tag == ProgramTag.PRE_TEST }
-                        .completionDateInMillis.toLocalDateTime().toLocalDate()
-                        .plusDays(7)
-                    val isWeeklyProgramAvailable = LocalDate.now() >= programFirstDayDate
-                    
-                    val lastCompletedProgram = weeklyProgramList
-                        .lastOrNull { it.isCompleted }
-                    var nextDayProgramList = emptyList<Program>()
-                    var isNextDayProgramAvailable = false
-                    if (isWeeklyProgramAvailable) {
-                        val lastCompletedWeek = lastCompletedProgram?.week
-                        val lastCompletedDayOfWeek = lastCompletedProgram?.dayOfWeek
-                        
-                        nextDayProgramList = when {
-                            lastCompletedProgram == null -> {
-                                weeklyProgramList.filter { it.week == 1 && it.dayOfWeek == 1 }
-                            }
-                            
-                            weeklyProgramList.any {
-                                it.week == lastCompletedWeek &&
-                                        it.dayOfWeek == lastCompletedDayOfWeek &&
-                                        !it.isCompleted
-                            } -> {
-                                weeklyProgramList.filter {
-                                    it.week == lastCompletedWeek
-                                            && it.dayOfWeek == lastCompletedDayOfWeek
-                                            && !it.isCompleted
-                                }
-                            }
-                            
-                            lastCompletedDayOfWeek == 7 -> {
-                                weeklyProgramList.filter {
-                                    it.week == lastCompletedWeek!! + 1 &&
-                                            it.dayOfWeek == 1
-                                }
-                            }
-                            
-                            else -> {
-                                weeklyProgramList.filter {
-                                    it.week == lastCompletedWeek &&
-                                            it.dayOfWeek == lastCompletedDayOfWeek!! + 1
-                                }
-                            }
-                        }
-                        
-                        if (nextDayProgramList.isNotEmpty()) {
-                            val nextDayDate = programFirstDayDate.plusDays(
-                                nextDayProgramList.first().let {
-                                    (it.week!! - 1) * 7 + (it.dayOfWeek!! - 1)
-                                }.toLong()
+                programRepository.getAll().flatMapLatest { programList ->
+                    userNotificationRepository.getAll().mapLatest { userNotification ->
+                        val weeklyProgramList = programList.filter {
+                            it.tag == ProgramTag.WEEKLY_PROGRAM
+                        }.sortedWith(
+                            compareBy(
+                                { it.week },
+                                { it.dayOfWeek },
                             )
-                            isNextDayProgramAvailable = LocalDate.now() >= nextDayDate
+                        )
+                        
+                        // The weekly program opens after 7 days of pre-test
+                        val programFirstDayDate = programList
+                            .first { it.tag == ProgramTag.PRE_TEST }
+                            .completionDateInMillis.toLocalDateTime().toLocalDate()
+                            .plusDays(7)
+                        val isWeeklyProgramAvailable = LocalDate.now() >= programFirstDayDate
+                        
+                        val lastCompletedProgram = weeklyProgramList
+                            .lastOrNull { it.isCompleted }
+                        var nextDayProgramList = emptyList<Program>()
+                        var isNextDayProgramAvailable = false
+                        if (isWeeklyProgramAvailable) {
+                            val lastCompletedWeek = lastCompletedProgram?.week
+                            val lastCompletedDayOfWeek = lastCompletedProgram?.dayOfWeek
+                            
+                            nextDayProgramList = when {
+                                lastCompletedProgram == null -> {
+                                    weeklyProgramList.filter { it.week == 1 && it.dayOfWeek == 1 }
+                                }
+                                
+                                weeklyProgramList.any {
+                                    it.week == lastCompletedWeek &&
+                                            it.dayOfWeek == lastCompletedDayOfWeek &&
+                                            !it.isCompleted
+                                } -> {
+                                    weeklyProgramList.filter {
+                                        it.week == lastCompletedWeek
+                                                && it.dayOfWeek == lastCompletedDayOfWeek
+                                                && !it.isCompleted
+                                    }
+                                }
+                                
+                                lastCompletedDayOfWeek == 7 -> {
+                                    weeklyProgramList.filter {
+                                        it.week == lastCompletedWeek!! + 1 &&
+                                                it.dayOfWeek == 1
+                                    }
+                                }
+                                
+                                else -> {
+                                    weeklyProgramList.filter {
+                                        it.week == lastCompletedWeek &&
+                                                it.dayOfWeek == lastCompletedDayOfWeek!! + 1
+                                    }
+                                }
+                            }
+                            
+                            if (nextDayProgramList.isNotEmpty()) {
+                                val nextDayDate = programFirstDayDate.plusDays(
+                                    nextDayProgramList.first().let {
+                                        (it.week!! - 1) * 7 + (it.dayOfWeek!! - 1)
+                                    }.toLong()
+                                )
+                                isNextDayProgramAvailable = LocalDate.now() >= nextDayDate
+                            }
                         }
+                        
+                        
+                        val userName = user.nama
+                        val bmiCategory = user.kategoriIMT.title
+                        val monitoringLevel = sedenterType.title
+                        val bmiValue = user.skorIMT.toSinglePrecision()
+                        
+                        val weeklyProgramTotalDays = ((weeklyProgramList.last().week!! - 1) * 7 +
+                                weeklyProgramList.last().dayOfWeek!!).toLong()
+                        val breakDayAfterPreTest = 7L
+                        val breakDayBeforePostTest = 7L
+                        val preTestCompletionDate = programList
+                            .last { it.tag == ProgramTag.PRE_TEST }
+                            .completionDateInMillis.toLocalDateTime().toLocalDate()
+                        
+                        val postTestOpeningDate = preTestCompletionDate
+                            .plusDays(breakDayAfterPreTest)
+                            // Intersects with 7 days after the pre-test
+                            // First day (day one) of weekly program is 7 days after pre-test
+                            .plusDays(-1 + weeklyProgramTotalDays)
+                            .plusDays(breakDayBeforePostTest)
+                        val postTestOpeningDateString = postTestOpeningDate
+                            .toString(Constants.DatePattern.READABLE_DEFAULT)
+                        val isPostTestDone =
+                            programList.all { it.tag == ProgramTag.POST_TEST && it.isCompleted }
+                        val isAllWeeklyProgramDone = weeklyProgramList.all { it.isCompleted }
+                        val isPostTestAvailable = isAllWeeklyProgramDone &&
+                                LocalDate.now() >= postTestOpeningDate
+                        
+                        val totalProgram = weeklyProgramList.size
+                        val totalCompletedProgram = weeklyProgramList.count { it.isCompleted }
+                        val programProgressPercentage =
+                            percentageOf(totalCompletedProgram, totalProgram)
+                        val totalCompletedDaysInWeek = lastCompletedProgram?.dayOfWeek ?: 0
+                        val currentWeek = lastCompletedProgram?.week ?: 1
+                        val totalCompletedWeek = lastCompletedProgram?.week?.minus(
+                            if (lastCompletedProgram.dayOfWeek == 7) 0
+                            else 1
+                        ) ?: 0
+                        val totalWeek = weeklyProgramList.lastOrNull()?.week ?: 0
+                        
+                        val isNotificationEmpty = userNotification.none {
+                            it.activeStatus && it.shownStatus
+                        }
+    
+                        HomeSummary(
+                            userName = userName,
+                            bmiCategory = bmiCategory,
+                            monitoringLevel = monitoringLevel,
+                            bmiValue = bmiValue,
+                            postTestOpeningDate = postTestOpeningDateString,
+                            isPostTestAvailable = isPostTestAvailable,
+                            isPostTestDone = isPostTestDone,
+                            isAllWeeklyProgramDone = isAllWeeklyProgramDone,
+                            nextDayProgramList = nextDayProgramList,
+                            isNextDayProgramAvailable = isNextDayProgramAvailable,
+                            totalProgram = totalProgram,
+                            totalCompletedProgram = totalCompletedProgram,
+                            programProgressPercentage = programProgressPercentage,
+                            totalCompletedDaysInWeek = totalCompletedDaysInWeek,
+                            currentWeek = currentWeek,
+                            totalCompletedWeek = totalCompletedWeek,
+                            totalWeek = totalWeek,
+                            isNotificationEmpty = isNotificationEmpty,
+                        )
                     }
-                    
-                    
-                    val userName = user.nama
-                    val bmiCategory = user.kategoriIMT.title
-                    val monitoringLevel = sedenterType.title
-                    val bmiValue = user.skorIMT.toSinglePrecision()
-                    
-                    val weeklyProgramTotalDays = ((weeklyProgramList.last().week!! - 1) * 7 +
-                            weeklyProgramList.last().dayOfWeek!!).toLong()
-                    val breakDayAfterPreTest = 7L
-                    val breakDayBeforePostTest = 7L
-                    val preTestCompletionDate = programList
-                        .last { it.tag == ProgramTag.PRE_TEST }
-                        .completionDateInMillis.toLocalDateTime().toLocalDate()
-                    
-                    val postTestOpeningDate = preTestCompletionDate
-                        .plusDays(breakDayAfterPreTest)
-                        // Intersects with 7 days after the pre-test
-                        // First day (day one) of weekly program is 7 days after pre-test
-                        .plusDays(-1 + weeklyProgramTotalDays)
-                        .plusDays(breakDayBeforePostTest)
-                    val postTestOpeningDateString = postTestOpeningDate
-                        .toString(Constants.DatePattern.READABLE_DEFAULT)
-                    val isPostTestDone =
-                        programList.all { it.tag == ProgramTag.POST_TEST && it.isCompleted }
-                    val isAllWeeklyProgramDone = weeklyProgramList.all { it.isCompleted }
-                    val isPostTestAvailable = isAllWeeklyProgramDone &&
-                            LocalDate.now() >= postTestOpeningDate
-                    
-                    val totalProgram = weeklyProgramList.size
-                    val totalCompletedProgram = weeklyProgramList.count { it.isCompleted }
-                    val programProgressPercentage =
-                        percentageOf(totalCompletedProgram, totalProgram)
-                    val totalCompletedDaysInWeek = lastCompletedProgram?.dayOfWeek ?: 0
-                    val currentWeek = lastCompletedProgram?.week ?: 1
-                    val totalCompletedWeek = lastCompletedProgram?.week?.minus(
-                        if (lastCompletedProgram.dayOfWeek == 7) 0
-                        else 1
-                    ) ?: 0
-                    val totalWeek = weeklyProgramList.lastOrNull()?.week ?: 0
-                    
-                    HomeSummary(
-                        userName = userName,
-                        bmiCategory = bmiCategory,
-                        monitoringLevel = monitoringLevel,
-                        bmiValue = bmiValue,
-                        postTestOpeningDate = postTestOpeningDateString,
-                        isPostTestAvailable = isPostTestAvailable,
-                        isPostTestDone = isPostTestDone,
-                        isAllWeeklyProgramDone = isAllWeeklyProgramDone,
-                        nextDayProgramList = nextDayProgramList,
-                        isNextDayProgramAvailable = isNextDayProgramAvailable,
-                        totalProgram = totalProgram,
-                        totalCompletedProgram = totalCompletedProgram,
-                        programProgressPercentage = programProgressPercentage,
-                        totalCompletedDaysInWeek = totalCompletedDaysInWeek,
-                        currentWeek = currentWeek,
-                        totalCompletedWeek = totalCompletedWeek,
-                        totalWeek = totalWeek,
-                    )
                 }
             }
         }

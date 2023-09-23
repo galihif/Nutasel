@@ -13,6 +13,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import com.giftech.terbit.ui.components.enums.HeroEnum
 import com.giftech.terbit.ui.components.molecules.BottomNavigation
 import com.giftech.terbit.ui.components.templates.OnboardLoading
@@ -33,7 +34,7 @@ import com.giftech.terbit.ui.pages.home.HomeScreen
 import com.giftech.terbit.ui.pages.input_data_diri.InputDataDiriScreen
 import com.giftech.terbit.ui.pages.monitoring.MonitoringScreen
 import com.giftech.terbit.ui.pages.monitoringdetails.MonitoringDetailsScreen
-import com.giftech.terbit.ui.pages.notificationlist.NotificationListScreen
+import com.giftech.terbit.ui.pages.notificationinbox.NotificationInboxScreen
 import com.giftech.terbit.ui.pages.onboarding.FfqOnboardingScreen
 import com.giftech.terbit.ui.pages.profesional.ProfesionalScreen
 import com.giftech.terbit.ui.pages.profile.EditProfileScreen
@@ -41,6 +42,7 @@ import com.giftech.terbit.ui.pages.profile.ProfileScreen
 import com.giftech.terbit.ui.route.BottomNavItem
 import com.giftech.terbit.ui.route.Screen
 import com.giftech.terbit.ui.utils.Constants
+import com.giftech.terbit.domain.util.Constants as DomainConstants
 
 @ExperimentalMaterial3Api
 @Composable
@@ -48,17 +50,17 @@ fun TerbitApp(
     modifier: Modifier = Modifier,
 ) {
     val navHostController = rememberNavController()
-
+    
     val navigationItems = listOf(
         BottomNavItem.Home,
         BottomNavItem.Monitoring,
         BottomNavItem.Graph,
         BottomNavItem.Profile,
     )
-
+    
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-
+    
     Scaffold(
         bottomBar = {
             if (currentRoute in navigationItems.map { it.screen.route }) {
@@ -83,7 +85,7 @@ fun TerbitApp(
                     }
                 )
             }
-
+            
             // Onboarding IMT
             composable(Screen.OnboardingIMT.route) {
                 OnboardLoading(
@@ -93,7 +95,7 @@ fun TerbitApp(
                     hero = HeroEnum.LoadingIMT
                 )
             }
-
+            
             // Hasil IMT
             composable(Screen.HasilIMT.route) {
                 HasilIMTScreen(
@@ -108,7 +110,7 @@ fun TerbitApp(
                     },
                 )
             }
-
+            
             // Onboarding ASAQ 1
             composable(Screen.OnboardingASAQ1.route) {
                 Onboarding(
@@ -121,7 +123,7 @@ fun TerbitApp(
                     hero = HeroEnum.AsaqOnboard1
                 )
             }
-
+            
             // Onboarding ASAQ 2
             composable(Screen.OnboardingASAQ2.route) {
                 Onboarding(
@@ -134,7 +136,7 @@ fun TerbitApp(
                     hero = HeroEnum.AsaqOnboard2
                 )
             }
-
+            
             // Onboarding ASAQ 3
             composable(Screen.OnboardingASAQ3.route) {
                 Onboarding(
@@ -142,42 +144,45 @@ fun TerbitApp(
                         navHostController.popBackStack()
                     },
                     onNext = {
-                        navHostController.navigate(Screen.ASAQ.createRoute(0))
+                        navHostController.navigate(
+                            Screen.ASAQ.createRoute(
+                                testType = Constants.AsaqTestType.PRE_TEST,
+                                programId = DomainConstants.ProgramId.FIRST_ASAQ,
+                            )
+                        )
                     },
                     hero = HeroEnum.AsaqOnboard3
                 )
             }
-
+            
             // ASAQ
             composable(
                 route = Screen.ASAQ.route,
+                deepLinks = listOf(
+                    navDeepLink { uriPattern = Screen.ASAQ.deepLink }
+                ),
                 arguments = listOf(
-                    navArgument(Constants.EXTRAS.TEST_TYPE) { type = NavType.IntType }
+                    navArgument(Constants.Extras.TEST_TYPE) { type = NavType.IntType },
+                    navArgument(Constants.Extras.PROGRAM_ID) { type = NavType.IntType },
                 ),
             ) {
-                val testType = it.arguments?.getInt(Constants.EXTRAS.TEST_TYPE) ?: -1
+                val testType = it.arguments?.getInt(Constants.Extras.TEST_TYPE) ?: -1
+                val programId = it.arguments?.getInt(Constants.Extras.PROGRAM_ID) ?: -1
+                
                 AsaqScreen(
-                    onBack = {
-                        navHostController.popBackStack()
-                    },
-                    onNext = {
-                        if (testType==0){
-                            navHostController.navigate(Screen.FfqOnboarding.route)
-                        }else{
-                            navHostController.navigate(Screen.Home.route)
-                        }
-                    },
                     isPreTest = testType == 0,
+                    programId = programId,
+                    navController = navHostController,
                 )
             }
-
+            
             // FFQ Onboarding
             composable(Screen.FfqOnboarding.route) {
                 FfqOnboardingScreen(
                     navController = navHostController,
                 )
             }
-
+            
             //Onboarding Tingkat Pemantauan
             composable(Screen.OnboardingTingkatPemantauan.route) {
                 OnboardLoading(
@@ -187,33 +192,37 @@ fun TerbitApp(
                     hero = HeroEnum.LoadingHasilTP
                 )
             }
-
+            
             //Hasil Tingkat Pemantauan
             composable(Screen.HasilTingkatPemantauan.route) {
                 HasilTPScreen(
                     onNext = {
-                        navHostController.navigate(Screen.Home.route)
+                        navHostController.navigate(Screen.Home.route) {
+                            popUpTo(Screen.InputDataDiri.route) {
+                                inclusive = true
+                            }
+                        }
                     }
                 )
             }
-
+            
             // Homepage
             composable(Screen.Home.route) {
                 HomeScreen(
                     navController = navHostController,
                 )
             }
-
+            
             composable(Screen.Monitoring.route) {
                 MonitoringScreen(
                     navController = navHostController,
                 )
             }
-
+            
             composable(Screen.Graph.route) {
                 GraphScreen()
             }
-
+            
             composable(Screen.Profile.route) {
                 ProfileScreen(
                     onEdit = {
@@ -221,7 +230,7 @@ fun TerbitApp(
                     }
                 )
             }
-
+            
             composable(Screen.EditProfile.route) {
                 EditProfileScreen(
                     onBack = {
@@ -229,13 +238,13 @@ fun TerbitApp(
                     }
                 )
             }
-
-            composable(Screen.NotificationList.route) {
-                NotificationListScreen(
+            
+            composable(Screen.NotificationInbox.route) {
+                NotificationInboxScreen(
                     navController = navHostController,
                 )
             }
-
+            
             composable(Screen.Profesional.route) {
                 ProfesionalScreen(
                     onBack = {
@@ -243,75 +252,75 @@ fun TerbitApp(
                     }
                 )
             }
-
+            
             composable(
                 route = Screen.MonitoringDetails.route,
                 arguments = listOf(
-                    navArgument(Constants.EXTRAS.WEEK) { type = NavType.IntType }
+                    navArgument(Constants.Extras.WEEK) { type = NavType.IntType }
                 ),
             ) {
-                val week = it.arguments?.getInt(Constants.EXTRAS.WEEK) ?: -1
+                val week = it.arguments?.getInt(Constants.Extras.WEEK) ?: -1
                 MonitoringDetailsScreen(
                     week = week,
                     navController = navHostController,
                 )
             }
-
+            
             // FFQ Main
             composable(
                 route = Screen.FfqMain.route,
                 arguments = listOf(
-                    navArgument(Constants.EXTRAS.PROGRAM_ID) { type = NavType.IntType }
+                    navArgument(Constants.Extras.PROGRAM_ID) { type = NavType.IntType }
                 ),
             ) {
-                val programId = it.arguments?.getInt(Constants.EXTRAS.PROGRAM_ID) ?: -1
+                val programId = it.arguments?.getInt(Constants.Extras.PROGRAM_ID) ?: -1
                 FfqMainScreen(
                     programId = programId,
                     navController = navHostController,
                 )
             }
-
+            
             composable(
                 route = Screen.FfqList.route,
                 arguments = listOf(
-                    navArgument(Constants.EXTRAS.PROGRAM_ID) { type = NavType.IntType },
-                    navArgument(Constants.EXTRAS.FFQ_FOOD_CATEGORY_ID) { type = NavType.IntType },
+                    navArgument(Constants.Extras.PROGRAM_ID) { type = NavType.IntType },
+                    navArgument(Constants.Extras.FFQ_FOOD_CATEGORY_ID) { type = NavType.IntType },
                 ),
             ) {
-                val programId = it.arguments?.getInt(Constants.EXTRAS.PROGRAM_ID) ?: -1
+                val programId = it.arguments?.getInt(Constants.Extras.PROGRAM_ID) ?: -1
                 val foodCategoryId =
-                    it.arguments?.getInt(Constants.EXTRAS.FFQ_FOOD_CATEGORY_ID) ?: -1
+                    it.arguments?.getInt(Constants.Extras.FFQ_FOOD_CATEGORY_ID) ?: -1
                 FfqListScreen(
                     programId = programId,
                     foodCategoryId = foodCategoryId,
                     navController = navHostController,
                 )
             }
-
+            
             composable(
                 route = Screen.FfqResult.route,
                 arguments = listOf(
-                    navArgument(Constants.EXTRAS.PROGRAM_ID) { type = NavType.IntType }
+                    navArgument(Constants.Extras.PROGRAM_ID) { type = NavType.IntType }
                 ),
             ) {
-                val programId = it.arguments?.getInt(Constants.EXTRAS.PROGRAM_ID) ?: -1
+                val programId = it.arguments?.getInt(Constants.Extras.PROGRAM_ID) ?: -1
                 FfqResultScreen(
                     programId = programId,
                     navController = navHostController,
                 )
             }
-
+            
             composable(
                 route = Screen.Article.route,
                 arguments = listOf(
-                    navArgument(Constants.EXTRAS.PROGRAM_ID) { type = NavType.IntType },
-                    navArgument(Constants.EXTRAS.WEEK) { type = NavType.IntType },
-                    navArgument(Constants.EXTRAS.DAY) { type = NavType.IntType },
+                    navArgument(Constants.Extras.PROGRAM_ID) { type = NavType.IntType },
+                    navArgument(Constants.Extras.WEEK) { type = NavType.IntType },
+                    navArgument(Constants.Extras.DAY) { type = NavType.IntType },
                 ),
             ) {
-                val programId = it.arguments?.getInt(Constants.EXTRAS.PROGRAM_ID) ?: -1
-                val week = it.arguments?.getInt(Constants.EXTRAS.WEEK) ?: -1
-                val day = it.arguments?.getInt(Constants.EXTRAS.DAY) ?: -1
+                val programId = it.arguments?.getInt(Constants.Extras.PROGRAM_ID) ?: -1
+                val week = it.arguments?.getInt(Constants.Extras.WEEK) ?: -1
+                val day = it.arguments?.getInt(Constants.Extras.DAY) ?: -1
                 ArticleScreen(
                     programId = programId,
                     week = week,
@@ -319,16 +328,16 @@ fun TerbitApp(
                     navController = navHostController,
                 )
             }
-
+            
             composable(
                 route = Screen.ArticleComplete.route,
                 arguments = listOf(
-                    navArgument(Constants.EXTRAS.WEEK) { type = NavType.IntType },
-                    navArgument(Constants.EXTRAS.DAY) { type = NavType.IntType },
+                    navArgument(Constants.Extras.WEEK) { type = NavType.IntType },
+                    navArgument(Constants.Extras.DAY) { type = NavType.IntType },
                 ),
             ) {
-                val week = it.arguments?.getInt(Constants.EXTRAS.WEEK) ?: -1
-                val day = it.arguments?.getInt(Constants.EXTRAS.DAY) ?: -1
+                val week = it.arguments?.getInt(Constants.Extras.WEEK) ?: -1
+                val day = it.arguments?.getInt(Constants.Extras.DAY) ?: -1
                 ArticleCompleteScreen(
                     week, day,
                     onNext = {
@@ -336,14 +345,14 @@ fun TerbitApp(
                     }
                 )
             }
-
+            
             composable(
                 route = Screen.ActivityComplete.route,
                 arguments = listOf(
-                    navArgument(Constants.EXTRAS.WEEK) { type = NavType.IntType },
+                    navArgument(Constants.Extras.WEEK) { type = NavType.IntType },
                 ),
             ) {
-                val week = it.arguments?.getInt(Constants.EXTRAS.WEEK) ?: -1
+                val week = it.arguments?.getInt(Constants.Extras.WEEK) ?: -1
                 ActivityCompleteScreen(
                     week = week,
                     onNext = {
@@ -351,20 +360,23 @@ fun TerbitApp(
                     }
                 )
             }
-
+            
             composable(
                 route = Screen.WeeklyAsaq.route,
+                deepLinks = listOf(
+                    navDeepLink { uriPattern = Screen.WeeklyAsaq.deepLink }
+                ),
                 arguments = listOf(
-                    navArgument(Constants.EXTRAS.PROGRAM_ID) { type = NavType.IntType }
+                    navArgument(Constants.Extras.PROGRAM_ID) { type = NavType.IntType }
                 ),
             ) {
-                val programId = it.arguments?.getInt(Constants.EXTRAS.PROGRAM_ID) ?: -1
+                val programId = it.arguments?.getInt(Constants.Extras.PROGRAM_ID) ?: -1
                 WeeklyAsaqScreen(
                     programId = programId,
                     navController = navHostController,
                 )
             }
-
+            
             composable(Screen.WeeklyAsaqComplete.route) {
                 WeeklyAsaqCompleteScreen(
                     navController = navHostController,

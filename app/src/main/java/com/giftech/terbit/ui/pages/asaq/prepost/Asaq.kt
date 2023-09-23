@@ -26,37 +26,41 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.giftech.terbit.domain.model.Asaq
 import com.giftech.terbit.ui.components.atoms.MyFilterChips
 import com.giftech.terbit.ui.components.atoms.MyOutlinedTextField
 import com.giftech.terbit.ui.components.atoms.PrimaryButton
 import com.giftech.terbit.ui.components.enums.HariEnum
 import com.giftech.terbit.ui.components.molecules.HeroColumn
+import com.giftech.terbit.ui.route.Screen
 import com.giftech.terbit.ui.utils.Constants
+import com.giftech.terbit.domain.util.Constants as DomainConstants
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AsaqScreen(
     viewModel: AsaqViewModel = hiltViewModel(),
     isPreTest: Boolean,
-    onBack: () -> Unit,
-    onNext: () -> Unit
+    programId: Int,
+    navController: NavController,
 ) {
-    LaunchedEffect(isPreTest) {
+    LaunchedEffect(isPreTest, programId) {
         viewModel.isPreTest = isPreTest
+        viewModel.programId = programId
     }
     val currentAsaq by remember {
         viewModel.currentAsaq
     }.collectAsState()
-
+    
     val currentQuestion by remember {
         viewModel.currentQuestion
     }.collectAsState()
-
+    
     val currentNumber by remember {
         viewModel.currentNumber
     }.collectAsState()
-
+    
     var jam by remember {
         mutableStateOf("")
     }
@@ -85,12 +89,12 @@ fun AsaqScreen(
                 jam = (durasiHariKerja / 60).toString()
                 menit = (durasiHariKerja % 60).toString()
             }
-
+            
             HariEnum.HARI_LIBUR -> {
                 jam = (durasiHariLibur / 60).toString()
                 menit = (durasiHariLibur % 60).toString()
             }
-
+            
             else -> {}
         }
     }
@@ -105,7 +109,7 @@ fun AsaqScreen(
                         if (currentNumber > 1) {
                             viewModel.prevQuestion()
                         } else {
-                            onBack()
+                            navController.popBackStack()
                         }
                     }) {
                         Icon(Icons.Default.ArrowBack, "")
@@ -157,7 +161,15 @@ fun AsaqScreen(
                     )
                     if (currentNumber == Constants.TOTAL_ASAQ) {
                         viewModel.saveAsaq()
-                        onNext()
+                        if (isPreTest) {
+                            navController.navigate(Screen.FfqOnboarding.route)
+                        } else {
+                            navController.navigate(
+                                Screen.FfqMain.createRoute(
+                                    programId = DomainConstants.ProgramId.LAST_FFQ,
+                                )
+                            )
+                        }
                     }
                 },
                 modifier = Modifier.fillMaxWidth(),
@@ -171,7 +183,7 @@ fun AsaqScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(12.dp),
+                        .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 64.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     MyOutlinedTextField(
@@ -204,17 +216,17 @@ fun AsaqScreen(
                                 HariEnum.HARI_KERJA -> {
                                     durasiHariKerja = jam.toInt() * 60 + menit.toInt()
                                 }
-
+                                
                                 HariEnum.HARI_LIBUR -> {
                                     durasiHariLibur = jam.toInt() * 60 + menit.toInt()
                                 }
-
+                                
                                 else -> {}
                             }
                         },
                         modifier = Modifier.fillMaxWidth(),
                         enabled = jam.isNotBlank() && menit.isNotBlank() && jam.toInt() <= 24 && menit.toInt() <= 60
-
+                    
                     )
                 }
             }

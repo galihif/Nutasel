@@ -5,14 +5,18 @@ import com.giftech.terbit.data.repository.AsaqRepository
 import com.giftech.terbit.data.repository.AsaqResponseRepository
 import com.giftech.terbit.data.repository.FfqFoodCategoryRepository
 import com.giftech.terbit.data.repository.FfqQuestionRepository
+import com.giftech.terbit.data.repository.NotificationRepository
 import com.giftech.terbit.data.repository.ProgramRepository
+import com.giftech.terbit.data.repository.UserNotificationRepository
 import com.giftech.terbit.data.repository.UserRepository
 import com.giftech.terbit.domain.repository.IArticleRepository
 import com.giftech.terbit.domain.repository.IAsaqRepository
 import com.giftech.terbit.domain.repository.IAsaqResponseRepository
 import com.giftech.terbit.domain.repository.IFfqFoodCategoryRepository
 import com.giftech.terbit.domain.repository.IFfqQuestionRepository
+import com.giftech.terbit.domain.repository.INotificationRepository
 import com.giftech.terbit.domain.repository.IProgramRepository
+import com.giftech.terbit.domain.repository.IUserNotificationRepository
 import com.giftech.terbit.domain.repository.IUserRepository
 import dagger.Binds
 import dagger.Module
@@ -49,6 +53,11 @@ abstract class RepositoryModule {
     ): IFfqQuestionRepository
     
     @Binds
+    abstract fun provideNotificationRepository(
+        notificationRepository: NotificationRepository,
+    ): INotificationRepository
+    
+    @Binds
     abstract fun provideProgramRepository(
         programRepository: ProgramRepository,
     ): IProgramRepository
@@ -57,5 +66,10 @@ abstract class RepositoryModule {
     abstract fun provideUserRepository(
         userRepository: UserRepository,
     ): IUserRepository
+    
+    @Binds
+    abstract fun provideUserNotificationRepository(
+        userNotificationRepository: UserNotificationRepository,
+    ): IUserNotificationRepository
     
 }
