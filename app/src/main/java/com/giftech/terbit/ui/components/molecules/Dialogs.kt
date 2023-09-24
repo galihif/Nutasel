@@ -11,7 +11,6 @@ import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
@@ -21,13 +20,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.giftech.terbit.R
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
 @ExperimentalMaterial3Api
 @Composable
 fun KTRDialog(
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -63,18 +63,20 @@ fun KTRDialog(
 @Composable
 fun MyDatePickerDialog(
     onDateSelected: (String) -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
 ) {
-    val datePickerState = rememberDatePickerState(selectableDates = object : SelectableDates {
-        override fun isSelectableDate(utcTimeMillis: Long): Boolean {
-            return utcTimeMillis <= System.currentTimeMillis()
-        }
-    })
-
+    val datePickerState = rememberDatePickerState(
+        initialDisplayedMonthMillis = Calendar.getInstance().apply {
+            set(Calendar.YEAR, 2006)
+            set(Calendar.MONDAY, 0)
+            set(Calendar.DAY_OF_MONTH, 1)
+        }.timeInMillis
+    )
+    
     val selectedDate = datePickerState.selectedDateMillis?.let {
         convertMillisToDate(it)
     } ?: ""
-
+    
     DatePickerDialog(
         onDismissRequest = { onDismiss() },
         confirmButton = {
@@ -82,7 +84,7 @@ fun MyDatePickerDialog(
                 onDateSelected(selectedDate)
                 onDismiss()
             }
-
+            
             ) {
                 Text(text = "OK")
             }
@@ -96,7 +98,10 @@ fun MyDatePickerDialog(
         }
     ) {
         DatePicker(
-            state = datePickerState
+            state = datePickerState,
+            dateValidator = { timestamp ->
+                timestamp <= System.currentTimeMillis()
+            }
         )
     }
 }
