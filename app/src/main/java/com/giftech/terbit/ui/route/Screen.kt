@@ -86,5 +86,6 @@ sealed class Screen(val route: String, val deepLink: String? = null) {
     }
     
     object WeeklyAsaqComplete : Screen("WeeklyAsaqComplete")
-    
+    object OnboardingPosttest : Screen("OnboardingPosttest")
+
 }

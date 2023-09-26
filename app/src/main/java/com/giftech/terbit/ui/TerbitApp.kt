@@ -36,6 +36,7 @@ import com.giftech.terbit.ui.pages.monitoring.MonitoringScreen
 import com.giftech.terbit.ui.pages.monitoringdetails.MonitoringDetailsScreen
 import com.giftech.terbit.ui.pages.notificationinbox.NotificationInboxScreen
 import com.giftech.terbit.ui.pages.onboarding.FfqOnboardingScreen
+import com.giftech.terbit.ui.pages.onboarding_posttest.OnboardingPosttestScreen
 import com.giftech.terbit.ui.pages.profesional.ProfesionalScreen
 import com.giftech.terbit.ui.pages.profile.EditProfileScreen
 import com.giftech.terbit.ui.pages.profile.ProfileScreen
@@ -380,6 +381,13 @@ fun TerbitApp(
             composable(Screen.WeeklyAsaqComplete.route) {
                 WeeklyAsaqCompleteScreen(
                     navController = navHostController,
+                )
+            }
+            composable(Screen.OnboardingPosttest.route){
+                OnboardingPosttestScreen(
+                    onNext = {
+                        //handle route
+                    }
                 )
             }
         }
