@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.giftech.terbit.R
@@ -37,7 +38,10 @@ fun HeroColumn(
     description:String,
     imageRes:Int,
     imageHeight: Int? = null,
-    textColor: Color = MaterialTheme.colorScheme.onSurface
+    titleColor: Color = MaterialTheme.colorScheme.onSurface,
+    descColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
+    titleStyle: TextStyle = MaterialTheme.typography.titleLarge,
+    descriptionStyle: TextStyle = MaterialTheme.typography.bodyMedium,
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -52,16 +56,16 @@ fun HeroColumn(
         )
         Text(
             text = title,
-            style = MaterialTheme.typography.titleLarge,
+            style = titleStyle,
             modifier = Modifier.padding(16.dp),
             textAlign = TextAlign.Center,
-            color = textColor
+            color = titleColor
         )
         Text(
             text = description.ifBlank { "" },
-            style = MaterialTheme.typography.bodyMedium,
+            style = descriptionStyle,
             textAlign = TextAlign.Center,
-            color = textColor
+            color = descColor
         )
     }
 }

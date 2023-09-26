@@ -138,4 +138,9 @@ enum class HeroEnum(
         title = "Pencapaian Besar!",
         description = "Hebat sekali, kamu telah melewati banyak tantangan dan mencapai target akhir, jadikan pencapaian ini sebagai momentum untuk meraih hal besar lainnya!"
     ),
+    OnboardPosttest(
+        image = R.drawable.vector_onboard_posttest,
+        title = "Saatnya Post Test",
+        description = "Mantap, kamu sudah konsisten menekuni program yang telah disajikan, selannjutnya mari kita lihat sejauh mana kamu menerapkan pola hidup yang sudah kamu latih sebelumnya"
+    ),
 }

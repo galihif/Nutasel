@@ -81,7 +81,7 @@ fun Hasil(
                 title = hero.title,
                 description = hero.description,
                 imageRes = hero.image,
-                textColor = Color.White,
+                titleColor = Color.White,
                 imageHeight = 200
             )
             Card(
