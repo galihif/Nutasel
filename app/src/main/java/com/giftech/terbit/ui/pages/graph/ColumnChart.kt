@@ -13,7 +13,6 @@ import com.patrykandpatrick.vico.compose.axis.horizontal.rememberBottomAxis
 import com.patrykandpatrick.vico.compose.axis.vertical.rememberEndAxis
 import com.patrykandpatrick.vico.compose.chart.Chart
 import com.patrykandpatrick.vico.compose.chart.column.columnChart
-import com.patrykandpatrick.vico.compose.chart.scroll.rememberChartScrollSpec
 import com.patrykandpatrick.vico.compose.style.ProvideChartStyle
 import com.patrykandpatrick.vico.core.axis.AxisItemPlacer
 import com.patrykandpatrick.vico.core.axis.AxisPosition
@@ -81,7 +80,6 @@ fun ColumnChart(
             marker = rememberMarker(
                 labelFormatter = labelFormatter,
             ),
-            chartScrollSpec = rememberChartScrollSpec(isScrollEnabled = false),
             diffAnimationSpec = snap(),
             modifier = modifier
                 .height(220.dp),

@@ -7,6 +7,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.unit.sp
 import com.giftech.terbit.ui.theme.dark_CustomColor2
 import com.giftech.terbit.ui.utils.toTypeface
 import com.patrykandpatrick.vico.compose.component.shape.shader.fromBrush
@@ -19,7 +20,12 @@ import com.patrykandpatrick.vico.core.component.shape.Shapes
 import com.patrykandpatrick.vico.core.component.shape.shader.DynamicShaders
 
 private val defaultChartColors =
-    @Composable { listOf(MaterialTheme.colorScheme.primary, dark_CustomColor2) }
+    @Composable {
+        listOf(
+            MaterialTheme.colorScheme.primary,
+            dark_CustomColor2,
+        )
+    }
 
 @Composable
 fun rememberChartStyle(
@@ -38,8 +44,10 @@ fun rememberChartStyle(
                 axisLineColor = colorScheme.outlineVariant,
                 axisTickColor = colorScheme.outlineVariant,
                 axisGuidelineColor = colorScheme.outlineVariant.copy(0.5f),
-
+                
                 axisLabelTypeface = typography.labelSmall,
+                
+                axisLabelTextSize = 10.sp,
             ),
             ChartStyle.ColumnChart(
                 chartColors.map { chartColor ->

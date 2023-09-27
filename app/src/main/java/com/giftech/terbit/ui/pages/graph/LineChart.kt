@@ -1,5 +1,6 @@
 package com.giftech.terbit.ui.pages.graph
 
+import android.text.TextUtils
 import androidx.compose.animation.core.snap
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
@@ -45,10 +46,12 @@ fun LineChart(
             guideline = null,
             label = axisLabelComponent(
                 verticalMargin = 4.dp,
+                ellipsize = TextUtils.TruncateAt.MARQUEE
             ),
             valueFormatter = { value, _ ->
                 xLabels[value.toInt()]
             },
+            labelRotationDegrees = 90f,
         )
         val yAxis = rememberEndAxis(
             axis = null,
