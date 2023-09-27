@@ -19,9 +19,9 @@ class GetPostTestAsaqChartUseCase @Inject constructor(
             }
             .mapLatest { asaqResponseList ->
                 val xLabels = asaqResponseList.map { "Q${it.questionId}" }
-                val maxFreq = asaqResponseList.maxOf {
+                val maxFreq = asaqResponseList.maxOfOrNull {
                     (it.durasiHariKerja.toDouble() * 5 + it.durasiHariLibur.toDouble() * 2) / 7 / 60
-                }
+                } ?: 0.0
                 val maxY = when {
                     maxFreq <= 4.0 -> 4
                     maxFreq <= 8.0 -> 8
