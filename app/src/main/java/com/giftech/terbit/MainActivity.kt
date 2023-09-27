@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.giftech.terbit.notif.RemindersManager.startReminder
 import com.giftech.terbit.notif.RemindersManager.stopReminder
 import com.giftech.terbit.ui.TerbitApp
@@ -19,11 +20,15 @@ class MainActivity : ComponentActivity() {
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        installSplashScreen()
+        
         setContent {
             TerbitTheme {
                 TerbitApp()
             }
         }
+        
         monitorNotification()
     }
     
