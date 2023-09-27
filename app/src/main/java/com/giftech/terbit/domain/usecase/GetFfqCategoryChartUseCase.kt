@@ -18,10 +18,11 @@ class GetFfqCategoryChartUseCase @Inject constructor(
     ): Flow<FfqCategoryChart> {
         return ffqQuestionRepository.getAll()
             .mapLatest { ffqResponseList ->
-                ffqResponseList.filter { it.programId == Constants.ProgramId.LAST_FFQ }
-            }
-            .mapLatest { ffqResponseList ->
-                ffqResponseList.filter { it.foodCategoryId == ffqFoodCategoryId }
+                ffqResponseList.filter {
+                    it.programId == Constants.ProgramId.LAST_FFQ &&
+                            it.foodCategoryId == ffqFoodCategoryId &&
+                            it.freq != null
+                }
             }
             .mapLatest { ffqResponseList ->
                 val xLabels = ffqResponseList.map { it.foodName }

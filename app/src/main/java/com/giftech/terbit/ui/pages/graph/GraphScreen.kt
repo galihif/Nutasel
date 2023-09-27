@@ -267,36 +267,34 @@ private fun FFQScoreSection(
         style = MaterialTheme.typography.titleMedium,
     )
     
-    if (state.postTestFfqScore >= 0) {
-        Spacer(modifier = Modifier.height(24.dp))
-        
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text(
-                text = "Skor FFQ Akhir Total",
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier
-                    .weight(1f),
-            )
-            Text(
-                text = state.postTestFfqScore.toString(),
-                style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
-                modifier = Modifier
-                    .background(
-                        color = MaterialTheme.colorScheme.primaryContainer,
-                        shape = RoundedCornerShape(100),
-                    )
-                    .padding(
-                        horizontal = 24.dp,
-                        vertical = 6.dp,
-                    ),
-            )
-        }
-        
-        Spacer(modifier = Modifier.height(8.dp))
+    Spacer(modifier = Modifier.height(24.dp))
+    
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            text = "Skor FFQ Akhir Total",
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier
+                .weight(1f),
+        )
+        Text(
+            text = state.postTestFfqScore.toString(),
+            style = MaterialTheme.typography.labelLarge,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
+            modifier = Modifier
+                .background(
+                    color = MaterialTheme.colorScheme.primaryContainer,
+                    shape = RoundedCornerShape(100),
+                )
+                .padding(
+                    horizontal = 24.dp,
+                    vertical = 6.dp,
+                ),
+        )
     }
+    
+    Spacer(modifier = Modifier.height(8.dp))
     
     if (state.ffqScoreChartEntries.isNotEmpty()) {
         ColumnChart(
