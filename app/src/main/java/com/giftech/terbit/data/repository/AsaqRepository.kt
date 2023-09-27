@@ -15,32 +15,33 @@ import javax.inject.Inject
 
 class AsaqRepository @Inject constructor(
     private val asaqDao: AsaqDao,
-    private val mapper:AsaqMapper
-):IAsaqRepository{
+    private val mapper: AsaqMapper,
+) : IAsaqRepository {
+    
     override fun getPreTestAsaq(): Flow<List<Asaq>> =
         asaqDao.getPreTests().map { mapper.mapToDomain(it) }
-
-    override fun getPostTestAsaq(): Flow<List<Asaq>> {
-        TODO("Not yet implemented")
-    }
-
-    override fun getSedenterType(): Flow<SedenterType> = flow{
+    
+    override fun getPostTestAsaq(): Flow<List<Asaq>> =
+        asaqDao.getPostTest().map { mapper.mapToDomain(it) }
+    
+    override fun getSedenterType(): Flow<SedenterType> = flow {
         val score = asaqDao.getPreTests().first().sumOf {
             it.durasiHariKerja + it.durasiHariLibur
         }
-        when{
+        when {
             score <= 708 -> emit(SedenterType.RINGAN)
             score <= 1428 -> emit(SedenterType.SEDANG)
             else -> emit(SedenterType.BERAT)
         }
         Log.d("GALIH", "getSedenterType repo: $score")
     }
-
+    
     override suspend fun insertPreTestAsaq(asaq: List<Asaq>) {
-        asaqDao.insertAll(mapper.mapToEntity(asaq,AsaqTestType.PRE_TEST))
+        asaqDao.insertAll(mapper.mapToEntity(asaq, AsaqTestType.PRE_TEST))
     }
-
+    
     override suspend fun insertPostTestAsaq(asaq: List<Asaq>) {
-        asaqDao.insertAll(mapper.mapToEntity(asaq,AsaqTestType.POST_TEST))
+        asaqDao.insertAll(mapper.mapToEntity(asaq, AsaqTestType.POST_TEST))
     }
+    
 }
