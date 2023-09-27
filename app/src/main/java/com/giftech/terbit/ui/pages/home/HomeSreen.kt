@@ -54,8 +54,6 @@ import com.giftech.terbit.ui.theme.CustomColor2
 import com.giftech.terbit.ui.theme.CustomColor3
 import com.giftech.terbit.ui.theme.light_onCustomColor2
 import com.giftech.terbit.ui.theme.light_onCustomColor3
-import com.giftech.terbit.ui.utils.Constants
-import com.giftech.terbit.domain.util.Constants as DomainConstants
 
 @Composable
 fun HomeScreen(
@@ -296,10 +294,7 @@ private fun PostTestSection(
         onClick = if (state.isPostTestAvailable) {
             {
                 navController.navigate(
-                    Screen.ASAQ.createRoute(
-                        testType = Constants.AsaqTestType.POST_TEST,
-                        programId = DomainConstants.ProgramId.LAST_ASAQ,
-                    ),
+                    Screen.OnboardingPosttest.route,
                 )
             }
         } else {

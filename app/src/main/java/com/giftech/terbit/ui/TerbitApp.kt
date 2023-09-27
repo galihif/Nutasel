@@ -386,7 +386,12 @@ fun TerbitApp(
             composable(Screen.OnboardingPosttest.route){
                 OnboardingPosttestScreen(
                     onNext = {
-                        //handle route
+                        navHostController.navigate(
+                            Screen.ASAQ.createRoute(
+                                testType = Constants.AsaqTestType.POST_TEST,
+                                programId = DomainConstants.ProgramId.LAST_ASAQ,
+                            ),
+                        )
                     }
                 )
             }
