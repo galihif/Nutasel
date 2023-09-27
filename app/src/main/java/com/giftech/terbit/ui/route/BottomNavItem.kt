@@ -13,25 +13,25 @@ sealed class BottomNavItem(
     val screen: Screen,
 ) {
     
-    object Home : BottomNavItem(
+    data object Home : BottomNavItem(
         title = "Beranda",
         icon = Icons.Outlined.Home,
         screen = Screen.Home,
     )
     
-    object Monitoring : BottomNavItem(
+    data object Monitoring : BottomNavItem(
         title = "Pantau",
         icon = Icons.Outlined.MonitorHeart,
         screen = Screen.Monitoring,
     )
     
-    object Graph : BottomNavItem(
+    data object Graph : BottomNavItem(
         title = "Grafik",
         icon = Icons.Outlined.BarChart,
         screen = Screen.Graph,
     )
     
-    object Profile : BottomNavItem(
+    data object Profile : BottomNavItem(
         title = "Profil",
         icon = Icons.Outlined.Person,
         screen = Screen.Profile,

@@ -5,9 +5,9 @@ import javax.inject.Inject
 
 class AddFfqFoodUseCase @Inject constructor(
     private val ffqQuestionRepository: IFfqQuestionRepository,
-){
-
-        suspend operator fun invoke(
+) {
+    
+    suspend operator fun invoke(
         foodName: String,
         foodCategoryId: Int,
     ) {
@@ -16,5 +16,5 @@ class AddFfqFoodUseCase @Inject constructor(
             foodCategoryId = foodCategoryId,
         )
     }
-
+    
 }
