@@ -18,6 +18,7 @@ class FfqFoodCategoryMapper @Inject constructor() {
         return FfqFoodCategory(
             foodCategoryId = input.foodCategoryId,
             name = input.name,
+            abbreviation = input.abbreviation,
             imageRes = input.imageRes,
         )
     }

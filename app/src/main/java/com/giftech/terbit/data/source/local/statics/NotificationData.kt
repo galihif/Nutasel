@@ -62,7 +62,7 @@ class NotificationData @Inject constructor() {
             id = 8000,
             title = "Yuk siapkan tubuhmu untuk istirahat \uD83D\uDE34",
             message = "Ingat sobat, tidur yang cukup adalah kunci kesehatan dan kinerja yang optimal, yuk cukupi kebutuhan tidur kamu",
-            triggerTime = "09:00",
+            triggerTime = "21:00",
             type = NotificationType.DAILY_TIPS.typeId,
         ),
         NotificationEntity(

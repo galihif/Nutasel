@@ -15,6 +15,7 @@ class FfqFoodCategoryData @Inject constructor(){
                 FfqFoodCategoryEntity(
                     foodCategoryId = categoryIdList[i],
                     name = nameList[i],
+                    abbreviation = abbreviation[i],
                     imageRes = imageList[i],
                 )
             )
@@ -41,6 +42,16 @@ class FfqFoodCategoryData @Inject constructor(){
         "Buah-buahan",
         "Minuman",
         "Selingan",
+    )
+    
+    private val abbreviation = listOf(
+        "MP",
+        "LH",
+        "LN",
+        "SY",
+        "BU",
+        "MI",
+        "SE",
     )
     
     private val imageList = listOf(

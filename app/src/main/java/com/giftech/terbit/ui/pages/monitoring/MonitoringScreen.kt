@@ -2,18 +2,15 @@ package com.giftech.terbit.ui.pages.monitoring
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.rounded.AccessTime
@@ -33,6 +30,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.giftech.terbit.ui.components.molecules.ActivityCalendar
 import com.giftech.terbit.ui.components.molecules.Alerts
+import com.giftech.terbit.ui.components.molecules.ChartLegend
 import com.giftech.terbit.ui.route.Screen
 import com.giftech.terbit.ui.theme.CustomColor2
 import com.giftech.terbit.ui.theme.light_onCustomColor2
@@ -74,7 +72,7 @@ private fun MonitoringContent(
                 dateList = state.completedDayList,
             )
             Spacer(modifier = Modifier.height(16.dp))
-            CalendarLegend(
+            ChartLegend(
                 text = "Mengerjakan aktivitas",
                 color = MaterialTheme.colorScheme.primary,
             )
@@ -129,33 +127,6 @@ private fun MonitoringContent(
             )
             Spacer(modifier = Modifier.height(14.dp))
         }
-    }
-}
-
-@Composable
-private fun CalendarLegend(
-    text: String,
-    color: Color,
-    modifier: Modifier = Modifier,
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier,
-    ) {
-        Box(
-            modifier = Modifier
-                .background(
-                    color = color,
-                    shape = CircleShape,
-                )
-                .size(12.dp),
-        )
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(
-            text = text,
-            style = MaterialTheme.typography.bodySmall,
-            color = color,
-        )
     }
 }
 
