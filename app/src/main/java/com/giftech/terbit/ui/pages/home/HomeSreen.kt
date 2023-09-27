@@ -71,9 +71,8 @@ fun HomeScreen(
     
     LaunchedEffect(state.isPreTestDone) {
         if (state.isPreTestDone.not()) {
-            // TODO: Kalau sudah ada app onboarding screen, route ke situ
             navController.navigate(
-                Screen.InputDataDiri.route,
+                Screen.AppOnboarding.route,
             ) {
                 popUpTo(Screen.Home.route) {
                     inclusive = true

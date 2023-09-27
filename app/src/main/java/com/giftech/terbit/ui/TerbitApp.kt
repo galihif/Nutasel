@@ -35,6 +35,7 @@ import com.giftech.terbit.ui.pages.input_data_diri.InputDataDiriScreen
 import com.giftech.terbit.ui.pages.monitoring.MonitoringScreen
 import com.giftech.terbit.ui.pages.monitoringdetails.MonitoringDetailsScreen
 import com.giftech.terbit.ui.pages.notificationinbox.NotificationInboxScreen
+import com.giftech.terbit.ui.pages.onboarding.AppOnboardingScreen
 import com.giftech.terbit.ui.pages.onboarding.FfqOnboardingScreen
 import com.giftech.terbit.ui.pages.onboarding_posttest.OnboardingPosttestScreen
 import com.giftech.terbit.ui.pages.profesional.ProfesionalScreen
@@ -78,6 +79,12 @@ fun TerbitApp(
             startDestination = Screen.Home.route,
             modifier = Modifier.padding(innerPadding)
         ) {
+            composable(Screen.AppOnboarding.route) {
+                AppOnboardingScreen(
+                    navController = navHostController,
+                )
+            }
+            
             // Input Data Diri
             composable(Screen.InputDataDiri.route) {
                 InputDataDiriScreen(

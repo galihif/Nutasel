@@ -4,14 +4,21 @@ import com.giftech.terbit.ui.utils.Constants
 
 sealed class Screen(val route: String, val deepLink: String? = null) {
     
-    object InputDataDiri : Screen("InputDataDiri")
-    object OnboardingIMT : Screen("OnboardingIMT")
-    object HasilIMT : Screen("HasilIMT")
-    object OnboardingASAQ1 : Screen("OnboardingASAQ1")
-    object OnboardingASAQ2 : Screen("OnboardingASAQ2")
-    object OnboardingASAQ3 : Screen("OnboardingASAQ3")
+    data object AppOnboarding : Screen("AppOnboarding")
     
-    object ASAQ : Screen(
+    data object InputDataDiri : Screen("InputDataDiri")
+    
+    data object OnboardingIMT : Screen("OnboardingIMT")
+    
+    data object HasilIMT : Screen("HasilIMT")
+    
+    data object OnboardingASAQ1 : Screen("OnboardingASAQ1")
+    
+    data object OnboardingASAQ2 : Screen("OnboardingASAQ2")
+    
+    data object OnboardingASAQ3 : Screen("OnboardingASAQ3")
+    
+    data object ASAQ : Screen(
         route = "ASAQ/{${Constants.Extras.TEST_TYPE}}/{${Constants.Extras.PROGRAM_ID}}",
         deepLink = "https://terbiasafit.com/program/preposttest_asaq/{${Constants.Extras.TEST_TYPE}}/{${Constants.Extras.PROGRAM_ID}}",
     ) {
@@ -23,60 +30,61 @@ sealed class Screen(val route: String, val deepLink: String? = null) {
     }
     
     // FFQ
-    object FfqOnboarding : Screen("FfqOnboarding")
+    data object FfqOnboarding : Screen("FfqOnboarding")
     
-    object FfqMain : Screen("FfqMain/{${Constants.Extras.PROGRAM_ID}}") {
+    data object FfqMain : Screen("FfqMain/{${Constants.Extras.PROGRAM_ID}}") {
         fun createRoute(programId: Int) = "FfqMain/${programId}"
     }
     
-    object FfqList :
+    data object FfqList :
         Screen("FfqList/{${Constants.Extras.PROGRAM_ID}}/{${Constants.Extras.FFQ_FOOD_CATEGORY_ID}}") {
         fun createRoute(programId: Int, foodCategoryId: Int) =
             "FfqList/${programId}/${foodCategoryId}"
     }
     
-    object FfqResult : Screen("FfqResult/{${Constants.Extras.PROGRAM_ID}}") {
+    data object FfqResult : Screen("FfqResult/{${Constants.Extras.PROGRAM_ID}}") {
         fun createRoute(programId: Int) = "FfqResult/${programId}"
     }
     
-    object OnboardingTingkatPemantauan : Screen("OnboardingTingkatPemantauan")
+    data object OnboardingTingkatPemantauan : Screen("OnboardingTingkatPemantauan")
     
-    object HasilTingkatPemantauan : Screen("HasilTingkatPemantauan")
+    data object HasilTingkatPemantauan : Screen("HasilTingkatPemantauan")
     
-    object Home : Screen("Home")
+    data object Home : Screen("Home")
     
-    object Monitoring : Screen("Monitoring")
+    data object Monitoring : Screen("Monitoring")
     
-    object Graph : Screen("Graph")
+    data object Graph : Screen("Graph")
     
-    object Profile : Screen("Profile")
-    object EditProfile : Screen("EditProfile")
+    data object Profile : Screen("Profile")
     
-    object NotificationInbox : Screen("NotificationInbox")
+    data object EditProfile : Screen("EditProfile")
     
-    object Profesional : Screen("Profesional")
+    data object NotificationInbox : Screen("NotificationInbox")
     
-    object MonitoringDetails : Screen("MonitoringDetails/{${Constants.Extras.WEEK}}") {
+    data object Profesional : Screen("Profesional")
+    
+    data object MonitoringDetails : Screen("MonitoringDetails/{${Constants.Extras.WEEK}}") {
         fun createRoute(week: Int) = "MonitoringDetails/$week"
     }
     
-    object Article : Screen(
+    data object Article : Screen(
         "Article/{${Constants.Extras.PROGRAM_ID}}/{${Constants.Extras.WEEK}}/{${Constants.Extras.DAY}}"
     ) {
         fun createRoute(programId: Int, week: Int, day: Int) = "Article/$programId/$week/$day"
     }
     
-    object ArticleComplete :
+    data object ArticleComplete :
         Screen("ArticleComplete/{${Constants.Extras.WEEK}}/{${Constants.Extras.DAY}}") {
         fun createRoute(week: Int, day: Int) = "ArticleComplete/$week/$day"
     }
     
-    object ActivityComplete : Screen("ActivityComplete/{${Constants.Extras.WEEK}}") {
+    data object ActivityComplete : Screen("ActivityComplete/{${Constants.Extras.WEEK}}") {
         fun createRoute(week: Int) = "ActivityComplete/$week"
     }
     
     
-    object WeeklyAsaq : Screen(
+    data object WeeklyAsaq : Screen(
         route = "WeeklyAsaq/{${Constants.Extras.PROGRAM_ID}}",
         deepLink = "https://terbiasafit.com/program/weekly_asaq/{${Constants.Extras.PROGRAM_ID}}"
     ) {
@@ -85,7 +93,8 @@ sealed class Screen(val route: String, val deepLink: String? = null) {
             "https://terbiasafit.com/program/weekly_asaq/$programId"
     }
     
-    object WeeklyAsaqComplete : Screen("WeeklyAsaqComplete")
-    object OnboardingPosttest : Screen("OnboardingPosttest")
-
+    data object WeeklyAsaqComplete : Screen("WeeklyAsaqComplete")
+    
+    data object OnboardingPosttest : Screen("OnboardingPosttest")
+    
 }
