@@ -180,16 +180,22 @@ private fun NavigationSection(
         text = if (state.isLastQuestion.not()) "Selanjutnya"
         else "Selesai",
         onClick = {
+            focusManager.clearFocus(true)
+            viewModel.onEvent(
+                WeeklyAsaqEvent.SubmitResponse(
+                    programId = state.programId,
+                    currentQuestion = state.currentQuestion,
+                    hoursFreq = state.hoursFreq,
+                    minutesFreq = state.minutesFreq,
+                )
+            )
+            
             if (state.isLastQuestion.not()) {
                 viewModel.onEvent(
                     WeeklyAsaqEvent.NextQuestion(
-                        programId = state.programId,
                         currentQuestion = state.currentQuestion,
-                        hoursFreq = state.hoursFreq,
-                        minutesFreq = state.minutesFreq,
                     )
                 )
-                focusManager.clearFocus(true)
             } else {
                 viewModel.onEvent(
                     WeeklyAsaqEvent.CompleteAsaq(

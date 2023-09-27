@@ -17,14 +17,18 @@ sealed class WeeklyAsaqEvent {
     ) : WeeklyAsaqEvent()
     
     data class NextQuestion(
-        val programId: Int,
         val currentQuestion: AsaqQuestions,
-        val hoursFreq: Int?,
-        val minutesFreq: Int?,
     ) : WeeklyAsaqEvent()
     
     data class PreviousQuestion(
         val currentQuestion: AsaqQuestions,
+    ) : WeeklyAsaqEvent()
+    
+    data class SubmitResponse(
+        val programId: Int,
+        val currentQuestion: AsaqQuestions,
+        val hoursFreq: Int?,
+        val minutesFreq: Int?,
     ) : WeeklyAsaqEvent()
     
     data class CompleteAsaq(

@@ -114,16 +114,6 @@ class WeeklyAsaqViewModel @Inject constructor(
                     isFirstQuestion = false,
                     isLastQuestion = nextQuestionNumber == AsaqQuestions.values().lastIndex,
                 )
-                
-                viewModelScope.launch {
-                    val hoursFreq = event.hoursFreq ?: 0
-                    val minutesFreq = event.minutesFreq ?: 0
-                    submitAsaqResponseUseCase(
-                        programId = event.programId,
-                        questionId = event.currentQuestion.questionId,
-                        freq = hoursFreq * 60 + minutesFreq,
-                    )
-                }
             }
             
             is WeeklyAsaqEvent.PreviousQuestion -> {
@@ -141,6 +131,18 @@ class WeeklyAsaqViewModel @Inject constructor(
                     isFirstQuestion = previousQuestionNumber == 0,
                     isLastQuestion = false,
                 )
+            }
+    
+            is WeeklyAsaqEvent.SubmitResponse -> {
+                viewModelScope.launch {
+                    val hoursFreq = event.hoursFreq ?: 0
+                    val minutesFreq = event.minutesFreq ?: 0
+                    submitAsaqResponseUseCase(
+                        programId = event.programId,
+                        questionId = event.currentQuestion.questionId,
+                        freq = hoursFreq * 60 + minutesFreq,
+                    )
+                }
             }
             
             is WeeklyAsaqEvent.CompleteAsaq -> {
