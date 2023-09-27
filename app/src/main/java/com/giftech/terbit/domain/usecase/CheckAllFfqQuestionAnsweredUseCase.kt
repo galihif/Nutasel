@@ -12,8 +12,10 @@ class CheckAllFfqQuestionAnsweredUseCase @Inject constructor(
     operator fun invoke(
         programId: Int,
     ): Flow<Boolean> {
-        return ffqQuestionRepository.getByProgramId(programId).map { questionList ->
-            questionList.all { it.freq != null }
+        return ffqQuestionRepository.getAll().map { questionList ->
+            questionList
+                .filter { it.programId == programId }
+                .all { it.freq != null }
         }
     }
     

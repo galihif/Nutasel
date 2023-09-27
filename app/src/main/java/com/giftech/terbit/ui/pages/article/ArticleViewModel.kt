@@ -22,7 +22,11 @@ class ArticleViewModel
     val article: State<Article?> = _article
     
     fun getArticleByWeekDay(week: Int, day: Int) {
-        _article.value = articleUseCase.getArticleByWeekDay(week, day)
+        viewModelScope.launch {
+            articleUseCase.getArticleByWeekDay(week, day).collect { article ->
+                _article.value = article
+            }
+        }
     }
     
     fun complete(programId: Int) {

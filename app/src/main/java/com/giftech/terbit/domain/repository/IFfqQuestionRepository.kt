@@ -6,9 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface IFfqQuestionRepository {
     
-    fun getByProgramId(
-        programId: Int,
-    ): Flow<List<FfqQuestion>>
+    fun getAll(): Flow<List<FfqQuestion>>
     
     // Insert a new food or response the question
     suspend fun insert(

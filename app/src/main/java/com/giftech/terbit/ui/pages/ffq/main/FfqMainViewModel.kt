@@ -33,7 +33,7 @@ class FfqMainViewModel @Inject constructor(
     
     private fun getFoodCategoryList() {
         viewModelScope.launch {
-            getFfqFoodCategoryUseCase().also { foodCategoryList ->
+            getFfqFoodCategoryUseCase().collect { foodCategoryList ->
                 _state.value = _state.value.copy(
                     foodCategoryList = foodCategoryList,
                 )

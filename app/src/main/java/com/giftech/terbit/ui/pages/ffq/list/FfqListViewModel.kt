@@ -44,12 +44,14 @@ class FfqListViewModel @Inject constructor(
                     }
                 }
                 
-                getFfqFoodCategoryUseCase().also { foodCategoryList ->
-                    _state.value = _state.value.copy(
-                        selectedFoodCategory = foodCategoryList.first {
-                            it.foodCategoryId == event.foodCategoryId
-                        },
-                    )
+                viewModelScope.launch {
+                    getFfqFoodCategoryUseCase().collect { foodCategoryList ->
+                        _state.value = _state.value.copy(
+                            selectedFoodCategory = foodCategoryList.first {
+                                it.foodCategoryId == event.foodCategoryId
+                            },
+                        )
+                    }
                 }
             }
             

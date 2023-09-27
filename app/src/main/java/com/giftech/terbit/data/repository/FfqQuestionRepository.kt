@@ -3,6 +3,7 @@ package com.giftech.terbit.data.repository
 import com.giftech.terbit.data.mapper.FfqQuestionMapper
 import com.giftech.terbit.data.source.local.FfqFoodLocalDataSource
 import com.giftech.terbit.data.source.local.FfqResponseLocalDataSource
+import com.giftech.terbit.data.source.local.ProgramLocalDataSource
 import com.giftech.terbit.data.source.local.room.entity.FfqFoodEntity
 import com.giftech.terbit.data.source.local.room.entity.FfqResponseEntity
 import com.giftech.terbit.domain.enums.FfqFrequency
@@ -17,6 +18,7 @@ import javax.inject.Singleton
 
 @Singleton
 class FfqQuestionRepository @Inject constructor(
+    private val programLocalDataSource: ProgramLocalDataSource,
     private val ffqFoodLocalDataSource: FfqFoodLocalDataSource,
     private val ffqResponseLocalDataSource: FfqResponseLocalDataSource,
     private val ffqQuestionMapper: FfqQuestionMapper,
@@ -24,10 +26,16 @@ class FfqQuestionRepository @Inject constructor(
     
     // The user responses of an FFQ can be empty
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun getByProgramId(programId: Int): Flow<List<FfqQuestion>> {
-        return ffqFoodLocalDataSource.getAll().flatMapLatest { ffqFoodEntityList ->
-            ffqResponseLocalDataSource.getAll().mapLatest { ffqResponseEntityList ->
-                ffqQuestionMapper.mapToDomain(programId, ffqFoodEntityList, ffqResponseEntityList)
+    override fun getAll(): Flow<List<FfqQuestion>> {
+        return programLocalDataSource.getAll().flatMapLatest { programList ->
+            ffqFoodLocalDataSource.getAll().flatMapLatest { ffqFoodEntityList ->
+                ffqResponseLocalDataSource.getAll().mapLatest { ffqResponseEntityList ->
+                    ffqQuestionMapper.mapToDomain(
+                        input1 = programList,
+                        input2 = ffqFoodEntityList,
+                        input3 = ffqResponseEntityList,
+                    )
+                }
             }
         }
     }

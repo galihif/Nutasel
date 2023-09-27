@@ -78,11 +78,15 @@ class NotificationRestartService : Service() {
     }
     
     private fun restartDailyTips() {
-        getDailyNotificationListUseCase().forEach {
-            startReminder(
-                context = applicationContext,
-                dailyTipsNotification = it,
-            )
+        scope.launch {
+            getDailyNotificationListUseCase().collect { notificationList ->
+                notificationList.forEach {
+                    startReminder(
+                        context = applicationContext,
+                        dailyTipsNotification = it,
+                    )
+                }
+            }
         }
     }
     

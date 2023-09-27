@@ -14,9 +14,10 @@ class GetFfqQuestionListByFoodCategoryUseCase @Inject constructor(
         programId: Int,
         foodCategoryId: Int,
     ): Flow<List<FfqQuestion>> {
-        return ffqQuestionRepository.getByProgramId(programId)
+        return ffqQuestionRepository.getAll()
             .map { ffqQuestionList ->
-                ffqQuestionList.filter { it.foodCategoryId == foodCategoryId }
+                ffqQuestionList
+                    .filter { it.programId == programId && it.foodCategoryId == foodCategoryId }
             }
     }
     

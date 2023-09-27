@@ -12,11 +12,11 @@ class GetFfqResultUseCase @Inject constructor(
     operator fun invoke(
         programId: Int,
     ): Flow<Int> {
-        return ffqQuestionRepository.getByProgramId(programId)
+        return ffqQuestionRepository.getAll()
             .map { ffqQuestionList ->
-                ffqQuestionList.sumOf {
-                    it.freq?.score ?: 0
-                }
+                ffqQuestionList
+                    .filter { it.programId == programId }
+                    .sumOf { it.freq?.score ?: 0 }
             }
     }
     

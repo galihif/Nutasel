@@ -46,8 +46,8 @@ class MainViewModel @Inject constructor(
         }
     }
     
-    fun getDailyNotificationList(): List<Notification> {
-        return getDailyNotificationListUseCase()
+    fun getDailyNotificationList(): LiveData<List<Notification>> {
+        return getDailyNotificationListUseCase().asLiveData()
     }
 
 }

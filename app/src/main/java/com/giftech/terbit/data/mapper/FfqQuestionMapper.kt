@@ -2,6 +2,7 @@ package com.giftech.terbit.data.mapper
 
 import com.giftech.terbit.data.source.local.room.entity.FfqFoodEntity
 import com.giftech.terbit.data.source.local.room.entity.FfqResponseEntity
+import com.giftech.terbit.data.source.local.room.entity.ProgramEntity
 import com.giftech.terbit.data.source.local.statics.util.FfqFrequency
 import com.giftech.terbit.domain.model.FfqQuestion
 import javax.inject.Inject
@@ -11,31 +12,37 @@ import javax.inject.Singleton
 class FfqQuestionMapper @Inject constructor() {
     
     fun mapToDomain(
-        programId: Int,
-        input1: List<FfqFoodEntity>,
-        input2: List<FfqResponseEntity>,
+        input1: List<ProgramEntity>,
+        input2: List<FfqFoodEntity>,
+        input3: List<FfqResponseEntity>,
     ): List<FfqQuestion> {
-        return input1.map { entity ->
-            mapToDomain(
-                programId = programId,
-                input1 = entity,
-                input2 = input2,
-            )
+        val output = mutableListOf<FfqQuestion>()
+        input1.forEach { programEntity ->
+            input2.forEach { foodEntity ->
+                output.add(
+                    mapToDomain(
+                        programId = programEntity.programId,
+                        input2 = foodEntity,
+                        input3 = input3,
+                    )
+                )
+            }
         }
+        return output
     }
     
     private fun mapToDomain(
         programId: Int,
-        input1: FfqFoodEntity,
-        input2: List<FfqResponseEntity>,
+        input2: FfqFoodEntity,
+        input3: List<FfqResponseEntity>,
     ): FfqQuestion {
         return FfqQuestion(
             programId = programId,
-            foodId = input1.foodId,
-            foodName = input1.name,
-            foodCategoryId = input1.foodCategoryId,
-            freq = input2.firstOrNull {
-                it.programId == programId && it.foodId == input1.foodId
+            foodId = input2.foodId,
+            foodName = input2.name,
+            foodCategoryId = input2.foodCategoryId,
+            freq = input3.firstOrNull {
+                it.programId == programId && it.foodId == input2.foodId
             }.let {
                 when (it?.freq) {
                     FfqFrequency.DAY_1 -> com.giftech.terbit.domain.enums.FfqFrequency.DAY_1

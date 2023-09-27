@@ -51,11 +51,13 @@ class MainActivity : ComponentActivity() {
                 }
         }
         
-        viewModel.getDailyNotificationList().forEach {
-            startReminder(
-                context = this,
-                dailyTipsNotification = it,
-            )
+        viewModel.getDailyNotificationList().observe(this) { notificationList ->
+            notificationList.forEach {
+                startReminder(
+                    context = this,
+                    dailyTipsNotification = it,
+                )
+            }
         }
     }
     
