@@ -65,7 +65,7 @@ object RemindersManager {
                     applicationContext.applicationContext,
                     reminderId,
                     intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT,
+                    PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
                 )
             }
         
@@ -93,7 +93,7 @@ object RemindersManager {
                 context.applicationContext,
                 reminderId,
                 intent,
-                PendingIntent.FLAG_UPDATE_CURRENT,
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
             )
         }
         alarmManager.cancel(intent)
