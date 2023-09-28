@@ -1,5 +1,8 @@
 package com.giftech.terbit.ui.pages.home
 
+import android.Manifest
+import android.os.Build
+import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -32,11 +35,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -54,6 +59,9 @@ import com.giftech.terbit.ui.theme.CustomColor2
 import com.giftech.terbit.ui.theme.CustomColor3
 import com.giftech.terbit.ui.theme.light_onCustomColor2
 import com.giftech.terbit.ui.theme.light_onCustomColor3
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 
 @Composable
 fun HomeScreen(
@@ -176,6 +184,8 @@ private fun HomeContent(
             )
         }
     }
+    
+    CheckNotificationPermission()
 }
 
 @Composable
@@ -557,5 +567,28 @@ private fun ProgressContainer(
             color = textColor,
             style = MaterialTheme.typography.bodySmall,
         )
+    }
+}
+
+@OptIn(ExperimentalPermissionsApi::class)
+@Composable
+fun CheckNotificationPermission() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        val context = LocalContext.current
+        
+        val notificationPermisionState = rememberPermissionState(
+            Manifest.permission.POST_NOTIFICATIONS,
+        )
+        
+        if (notificationPermisionState.status.isGranted.not()) {
+            SideEffect {
+                Toast.makeText(
+                    context,
+                    "Aplikasi membutuhkan izin untuk menampilkan notifikasi.",
+                    Toast.LENGTH_LONG,
+                ).show()
+                notificationPermisionState.launchPermissionRequest()
+            }
+        }
     }
 }
