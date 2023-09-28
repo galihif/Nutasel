@@ -95,18 +95,24 @@ class NotificationAlarmReceiver : BroadcastReceiver() {
             contentIntent,
             PendingIntent.FLAG_UPDATE_CURRENT,
         )
+        
         val builder = NotificationCompat.Builder(applicationContext, channelId)
-            .setContentTitle(title)
-            .setContentText(message)
+            .setContentIntent(pendingIntent)
             .setSmallIcon(R.drawable.ic_logo_notif_24)
             .setColor(applicationContext.getColor(R.color.purple))
-            .setStyle(
-                NotificationCompat.BigTextStyle()
-                    .bigText(message)
-            )
-            .setContentIntent(pendingIntent)
             .setAutoCancel(true)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .apply {
+                if (title.isNotEmpty()) setContentTitle(title)
+                if (message.isNotEmpty()) {
+                    setContentText(message)
+                    setStyle(
+                        NotificationCompat.BigTextStyle()
+                            .bigText(message)
+                    )
+                }
+            }
         
         notify(id, builder.build())
     }

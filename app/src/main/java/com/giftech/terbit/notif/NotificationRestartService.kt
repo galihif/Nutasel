@@ -53,9 +53,10 @@ class NotificationRestartService : Service() {
             .setSmallIcon(R.drawable.ic_logo_notif_24)
             .setColor(getColor(R.color.purple))
             .setSilent(true)
-            .setOngoing(true)
             .setVibrate(null)
+            .setOngoing(true)
             .setVisibility(NotificationCompat.VISIBILITY_SECRET)
+            .setPriority(NotificationCompat.PRIORITY_MIN)
             .build()
     }
     
