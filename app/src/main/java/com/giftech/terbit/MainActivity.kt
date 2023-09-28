@@ -49,7 +49,7 @@ class MainActivity : ComponentActivity() {
                         }
                     } else {
                         stopReminder(
-                            context = this,
+                            applicationContext = applicationContext,
                             reminderId = it.reminderId,
                         )
                     }

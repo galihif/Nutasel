@@ -30,7 +30,7 @@ class GetWeeklyAsaqChartUseCase @Inject constructor(
         }.flatMapLatest { weeklyAsaqProgramIdList ->
             asaqResponseRepository.getAll().mapLatest { asaqResponseList ->
                 asaqResponseList
-                    .filter { weeklyAsaqProgramIdList.contains(it.programId) }
+                    .filter { it.programId in weeklyAsaqProgramIdList }
                     .sortedBy { it.questionId }
             }.mapLatest { asaqResponseList ->
                 val xLabels = asaqResponseList.map { "Q${it.questionId}" }

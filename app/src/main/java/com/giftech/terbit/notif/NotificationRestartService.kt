@@ -69,7 +69,7 @@ class NotificationRestartService : Service() {
                 userNotificationList
                     .forEach {
                         startReminder(
-                            context = applicationContext,
+                            context = this@NotificationRestartService,
                             userNotification = it,
                         )
                     }
@@ -83,7 +83,7 @@ class NotificationRestartService : Service() {
             getDailyNotificationListUseCase().collect { notificationList ->
                 notificationList.forEach {
                     startReminder(
-                        context = applicationContext,
+                        context = this@NotificationRestartService,
                         dailyTipsNotification = it,
                     )
                 }

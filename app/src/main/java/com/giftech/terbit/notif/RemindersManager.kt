@@ -80,17 +80,17 @@ object RemindersManager {
     }
     
     fun stopReminder(
-        context: Context,
+        applicationContext: Context,
         reminderId: Int,
     ) {
         val alarmManager =
-            context.applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            applicationContext.applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(
-            context.applicationContext,
+            applicationContext.applicationContext,
             NotificationAlarmReceiver::class.java
         ).let { intent ->
             PendingIntent.getBroadcast(
-                context.applicationContext,
+                applicationContext,
                 reminderId,
                 intent,
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,

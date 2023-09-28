@@ -72,7 +72,7 @@ class NotificationAlarmReceiver : BroadcastReceiver() {
             NotificationManager::class.java,
         ) as NotificationManager
         notificationManager.showNotification(
-            applicationContext = context,
+            context = context,
             channelId = notificationType.typeId,
             id = reminderId,
             title = notificationTitle,
@@ -82,24 +82,24 @@ class NotificationAlarmReceiver : BroadcastReceiver() {
     
     @OptIn(ExperimentalMaterial3Api::class)
     private fun NotificationManager.showNotification(
-        applicationContext: Context,
+        context: Context,
         channelId: String,
         id: Int,
         title: String,
         message: String,
     ) {
-        val contentIntent = Intent(applicationContext, MainActivity::class.java)
+        val contentIntent = Intent(context, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(
-            applicationContext,
+            context,
             id,
             contentIntent,
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
         )
         
-        val builder = NotificationCompat.Builder(applicationContext, channelId)
+        val builder = NotificationCompat.Builder(context, channelId)
             .setContentIntent(pendingIntent)
             .setSmallIcon(R.drawable.ic_logo_notif_24)
-            .setColor(applicationContext.getColor(R.color.purple))
+            .setColor(context.getColor(R.color.purple))
             .setAutoCancel(true)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
