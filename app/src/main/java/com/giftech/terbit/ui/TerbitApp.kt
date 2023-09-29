@@ -206,7 +206,7 @@ fun TerbitApp(
                 HasilTPScreen(
                     onNext = {
                         navHostController.navigate(Screen.Home.route) {
-                            popUpTo(Screen.InputDataDiri.route) {
+                            popUpTo(Screen.AppOnboarding.route) {
                                 inclusive = true
                             }
                         }
