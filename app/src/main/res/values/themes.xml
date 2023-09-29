@@ -7,7 +7,7 @@
 
     <style name="Theme.Terbit.Starting" parent="Theme.SplashScreen">
         <item name="postSplashScreenTheme">@style/Theme.Terbit</item>
-        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_logo</item>
         <item name="windowSplashScreenBackground">@color/white</item>
     </style>
 
