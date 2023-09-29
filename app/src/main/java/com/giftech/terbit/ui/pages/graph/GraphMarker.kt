@@ -87,7 +87,8 @@ fun rememberMarker(
         guidelineThickness,
         guidelineShape,
     )
-    return remember(label, indicator, guideline) {
+    
+    return remember(labelFormatter) {
         object : MarkerComponent(label, indicator, guideline) {
             init {
                 indicatorSizeDp = INDICATOR_SIZE_DP
