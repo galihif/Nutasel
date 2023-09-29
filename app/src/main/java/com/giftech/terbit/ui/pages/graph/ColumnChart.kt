@@ -1,9 +1,9 @@
 package com.giftech.terbit.ui.pages.graph
 
-import androidx.compose.animation.core.snap
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
@@ -36,7 +36,9 @@ fun ColumnChart(
     xValueFormatter: AxisValueFormatter<AxisPosition.Horizontal.Bottom>? = null,
 ) {
     ProvideChartStyle(rememberChartStyle()) {
-        val chartEntryModelProducer = ChartEntryModelProducer(entries)
+        val chartEntryModelProducer = remember(entries) {
+            ChartEntryModelProducer(entries)
+        }
         
         val xAxis = rememberBottomAxis(
             axis = null,
@@ -65,22 +67,25 @@ fun ColumnChart(
             itemPlacer = AxisItemPlacer.Vertical.default(yLabelCount),
         )
         
+        val marker = rememberMarker(
+            labelFormatter = labelFormatter,
+        )
+        
         Chart(
             chart = columnChart(
                 spacing = 16.dp,
                 innerSpacing = 6.dp,
-                axisValuesOverrider = object : AxisValuesOverrider<ChartEntryModel> {
-                    override fun getMinY(model: ChartEntryModel) = 0f
-                    override fun getMaxY(model: ChartEntryModel) = maxY.toFloat()
+                axisValuesOverrider = remember(maxY) {
+                    object : AxisValuesOverrider<ChartEntryModel> {
+                        override fun getMinY(model: ChartEntryModel) = 0f
+                        override fun getMaxY(model: ChartEntryModel) = maxY.toFloat()
+                    }
                 },
             ),
             chartModelProducer = chartEntryModelProducer,
             bottomAxis = xAxis,
             endAxis = yAxis,
-            marker = rememberMarker(
-                labelFormatter = labelFormatter,
-            ),
-            diffAnimationSpec = snap(),
+            marker = marker,
             modifier = modifier
                 .height(220.dp),
         )
