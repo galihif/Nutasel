@@ -1,10 +1,10 @@
 package com.giftech.terbit.ui.pages.graph
 
 import android.text.TextUtils
-import androidx.compose.animation.core.snap
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -38,9 +38,11 @@ fun LineChart(
     modifier: Modifier = Modifier,
 ) {
     ProvideChartStyle(rememberChartStyle()) {
-        val chartEntryModelProducer = ChartEntryModelProducer(entries)
-        
         val defaultLines = currentChartStyle.lineChart.lines
+        
+        val chartEntryModelProducer = remember(entries) {
+            ChartEntryModelProducer(entries)
+        }
         
         val xAxis = rememberBottomAxis(
             guideline = null,
@@ -67,9 +69,14 @@ fun LineChart(
                 yLabels[value.toInt()]
             },
         )
+        
+        val marker = rememberMarker(
+            labelFormatter = labelFormatter,
+        )
+        
         Chart(
             chart = lineChart(
-                lines = remember(defaultLines) {
+                lines = rememberSaveable(defaultLines) {
                     defaultLines.map { defaultLine ->
                         defaultLine.copy(
                             lineBackgroundShader = null,
@@ -87,22 +94,21 @@ fun LineChart(
                         )
                     }
                 },
-                axisValuesOverrider = object : AxisValuesOverrider<ChartEntryModel> {
-                    override fun getMinY(model: ChartEntryModel): Float = 0f
-                    override fun getMaxY(model: ChartEntryModel): Float =
-                        yLabels.lastIndex.toFloat()
+                axisValuesOverrider = remember(yLabels) {
+                    object : AxisValuesOverrider<ChartEntryModel> {
+                        override fun getMinY(model: ChartEntryModel): Float = 0f
+                        override fun getMaxY(model: ChartEntryModel): Float =
+                            yLabels.lastIndex.toFloat()
+                    }
                 },
             ),
             chartModelProducer = chartEntryModelProducer,
             bottomAxis = xAxis,
             endAxis = yAxis,
-            marker = rememberMarker(
-                labelFormatter = labelFormatter,
-            ),
+            marker = marker,
             chartScrollSpec = rememberChartScrollSpec(isScrollEnabled = false),
-            diffAnimationSpec = snap(),
             modifier = modifier
-                .height(220.dp),
+                .height(260.dp),
         )
     }
 }
