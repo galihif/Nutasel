@@ -52,6 +52,7 @@ fun EditProfileScreen(
 
     if (showDatePicker) {
         MyDatePickerDialog(
+            initialDate = tglLahir,
             onDateSelected = { viewModel.tglLahir.value = it },
             onDismiss = { showDatePicker = false }
         )

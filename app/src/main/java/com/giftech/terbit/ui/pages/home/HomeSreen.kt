@@ -9,10 +9,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -31,6 +33,7 @@ import androidx.compose.material.icons.rounded.CheckBoxOutlineBlank
 import androidx.compose.material.icons.rounded.NotificationsNone
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -71,23 +74,20 @@ fun HomeScreen(
 ) {
     val state = viewModel.state.value
     
-    HomeContent(
+    if (state.isPreTestDone) {
+        HomeContent(
+            state = state,
+            navController = navController,
+            modifier = modifier,
+        )
+    } else {
+        LoadingPageIndicator()
+    }
+    
+    CheckHasCompletedPreTest(
         state = state,
         navController = navController,
-        modifier = modifier,
     )
-    
-    LaunchedEffect(state.isPreTestDone) {
-        if (state.isPreTestDone.not()) {
-            navController.navigate(
-                Screen.AppOnboarding.route,
-            ) {
-                popUpTo(Screen.Home.route) {
-                    inclusive = true
-                }
-            }
-        }
-    }
 }
 
 @Composable
@@ -590,5 +590,38 @@ fun CheckNotificationPermission() {
                 notificationPermisionState.launchPermissionRequest()
             }
         }
+    }
+}
+
+@Composable
+private fun CheckHasCompletedPreTest(
+    state: HomeState,
+    navController: NavController,
+) {
+    LaunchedEffect(state.isPreTestDone) {
+        if (state.isPreTestDone.not()) {
+            navController.navigate(
+                Screen.AppOnboarding.route,
+            ) {
+                popUpTo(Screen.Home.route) {
+                    inclusive = true
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun LoadingPageIndicator() {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .fillMaxSize(),
+    ) {
+        LinearProgressIndicator(
+            modifier = Modifier
+                .fillMaxWidth(0.35f)
+                .clip(RoundedCornerShape(100)),
+        )
     }
 }
