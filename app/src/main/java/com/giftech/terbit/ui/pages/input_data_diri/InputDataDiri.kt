@@ -98,7 +98,7 @@ fun InputDataDiriScreen(
                 MyOutlinedTextField(
                     value = berat,
                     onValueChange = {
-                        if (it.isDigitsOnly()) {
+                        if (it.isDigitsOnly() && it.length <= 3) {
                             viewModel.berat.value = it
                         }
                     },
@@ -113,7 +113,7 @@ fun InputDataDiriScreen(
                 MyOutlinedTextField(
                     value = tinggi,
                     onValueChange = {
-                        if (it.isDigitsOnly()) {
+                        if (it.isDigitsOnly() && it.length <= 3) {
                             viewModel.tinggi.value = it
                         }
                     },
