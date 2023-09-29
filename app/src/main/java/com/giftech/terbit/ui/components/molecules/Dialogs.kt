@@ -62,15 +62,12 @@ fun KTRDialog(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyDatePickerDialog(
+    initialDate: String,
     onDateSelected: (String) -> Unit,
     onDismiss: () -> Unit,
 ) {
     val datePickerState = rememberDatePickerState(
-        initialDisplayedMonthMillis = Calendar.getInstance().apply {
-            set(Calendar.YEAR, 2006)
-            set(Calendar.MONDAY, 0)
-            set(Calendar.DAY_OF_MONTH, 1)
-        }.timeInMillis
+        initialSelectedDateMillis = dateStringToMillis(initialDate),
     )
     
     val selectedDate = datePickerState.selectedDateMillis?.let {
@@ -109,4 +106,18 @@ fun MyDatePickerDialog(
 private fun convertMillisToDate(millis: Long): String {
     val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     return formatter.format(Date(millis))
+}
+
+private fun dateStringToMillis(dateString: String): Long {
+    val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+    return try {
+        val date = formatter.parse(dateString)!!
+        date.time
+    } catch (e: Exception) {
+        Calendar.getInstance().apply {
+            set(Calendar.YEAR, 2006)
+            set(Calendar.MONDAY, 0)
+            set(Calendar.DAY_OF_MONTH, 1)
+        }.timeInMillis
+    }
 }
