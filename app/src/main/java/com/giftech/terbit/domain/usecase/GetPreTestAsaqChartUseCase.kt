@@ -2,8 +2,10 @@ package com.giftech.terbit.domain.usecase
 
 import com.giftech.terbit.domain.model.PreTestAsaqChart
 import com.giftech.terbit.domain.repository.IAsaqRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
 import javax.inject.Inject
 
@@ -12,7 +14,7 @@ class GetPreTestAsaqChartUseCase @Inject constructor(
 ) {
     
     @OptIn(ExperimentalCoroutinesApi::class)
-    operator fun invoke(): Flow<PreTestAsaqChart> {
+    suspend operator fun invoke(): Flow<PreTestAsaqChart> {
         return asaqRepository.getPreTestAsaq()
             .mapLatest { asaqResponseList ->
                 asaqResponseList.sortedBy { it.questionId }
@@ -39,6 +41,7 @@ class GetPreTestAsaqChartUseCase @Inject constructor(
                     yLabelCount = yLabelCount,
                 )
             }
+            .flowOn(Dispatchers.IO)
     }
     
 }

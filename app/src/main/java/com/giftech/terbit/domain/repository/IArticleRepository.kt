@@ -5,10 +5,10 @@ import kotlinx.coroutines.flow.Flow
 
 interface IArticleRepository {
     
-    fun getArticleByWeekDay(week: Int, day: Int): Flow<Article?>
+    suspend fun getArticleByWeekDay(week: Int, day: Int): Flow<Article?>
     
-    fun getArticlesByWeek(week: Int): Flow<List<Article>>
+    suspend fun getArticlesByWeek(week: Int): Flow<List<Article>>
     
-    fun getArticleById(id: Int): Flow<Article?>
+    suspend fun getArticleById(id: Int): Flow<Article?>
     
 }

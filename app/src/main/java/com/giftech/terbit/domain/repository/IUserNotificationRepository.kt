@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface IUserNotificationRepository {
     
-    fun getAll(): Flow<List<UserNotification>>
+    suspend fun getAll(): Flow<List<UserNotification>>
     
     suspend fun insert(
         notificationId: Int,

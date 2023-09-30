@@ -5,6 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface INotificationRepository {
     
-    fun getAll(): Flow<List<Notification>>
+    suspend fun getAll(): Flow<List<Notification>>
     
 }

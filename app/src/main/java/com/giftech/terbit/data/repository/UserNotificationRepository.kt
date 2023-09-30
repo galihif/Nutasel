@@ -5,8 +5,9 @@ import com.giftech.terbit.data.source.local.UserNotificationLocalDataSource
 import com.giftech.terbit.data.source.local.room.entity.UserNotificationEntity
 import com.giftech.terbit.domain.model.UserNotification
 import com.giftech.terbit.domain.repository.IUserNotificationRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapLatest
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -16,10 +17,12 @@ class UserNotificationRepository @Inject constructor(
     private val userNotificationMapper: UserNotificationMapper,
 ) : IUserNotificationRepository {
     
-    override fun getAll(): Flow<List<UserNotification>> {
-        return userNotificationLocalDataSource.getAll().map {
-            userNotificationMapper.mapToDomain(it)
-        }
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override suspend fun getAll(): Flow<List<UserNotification>> {
+        return userNotificationLocalDataSource.getAll()
+            .mapLatest {
+                userNotificationMapper.mapToDomain(it)
+            }
     }
     
     override suspend fun insert(

@@ -17,7 +17,7 @@ class ArticleRepository @Inject constructor(
 ) : IArticleRepository {
     
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun getArticleByWeekDay(week: Int, day: Int): Flow<Article?> {
+    override suspend fun getArticleByWeekDay(week: Int, day: Int): Flow<Article?> {
         return articleLocalDataSource.getAll()
             .mapLatest { articleList ->
                 articleList.firstOrNull { it.week == week && it.day == day }
@@ -28,7 +28,7 @@ class ArticleRepository @Inject constructor(
     }
     
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun getArticlesByWeek(week: Int): Flow<List<Article>> {
+    override suspend fun getArticlesByWeek(week: Int): Flow<List<Article>> {
         return articleLocalDataSource.getAll()
             .mapLatest { articleList ->
                 articleList.filter { it.week == week }
@@ -39,7 +39,7 @@ class ArticleRepository @Inject constructor(
     }
     
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun getArticleById(id: Int): Flow<Article?> {
+    override suspend fun getArticleById(id: Int): Flow<Article?> {
         return articleLocalDataSource.getAll()
             .mapLatest { articleList ->
                 articleList.firstOrNull { it.articleId == id }

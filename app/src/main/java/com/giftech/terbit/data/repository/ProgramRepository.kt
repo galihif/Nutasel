@@ -6,8 +6,9 @@ import com.giftech.terbit.data.source.local.room.dao.ProgramDao
 import com.giftech.terbit.data.source.local.room.entity.ProgramEntity
 import com.giftech.terbit.domain.model.Program
 import com.giftech.terbit.domain.repository.IProgramRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapLatest
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -18,9 +19,10 @@ class ProgramRepository @Inject constructor(
     private val programMapper: ProgramMapper,
 ) : IProgramRepository {
     
-    override fun getAll(): Flow<List<Program>> {
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override suspend fun getAll(): Flow<List<Program>> {
         return programLocalDataSource.getAll()
-            .map {
+            .mapLatest {
                 programMapper.mapToDomain(it)
             }
     }

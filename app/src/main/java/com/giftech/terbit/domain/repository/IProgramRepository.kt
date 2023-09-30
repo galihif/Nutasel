@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface IProgramRepository {
     
-    fun getAll(): Flow<List<Program>>
+    suspend fun getAll(): Flow<List<Program>>
     
     // Insert to save completion status
     suspend fun insert(

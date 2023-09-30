@@ -12,9 +12,11 @@ import com.giftech.terbit.domain.util.percentageOf
 import com.giftech.terbit.domain.util.toLocalDateTime
 import com.giftech.terbit.domain.util.toSinglePrecision
 import com.giftech.terbit.domain.util.toString
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
 import java.time.LocalDate
 import javax.inject.Inject
@@ -27,7 +29,7 @@ class GetHomeSummaryUseCase @Inject constructor(
 ) {
     
     @OptIn(ExperimentalCoroutinesApi::class)
-    operator fun invoke(): Flow<HomeSummary> {
+    suspend operator fun invoke(): Flow<HomeSummary> {
         return userRepository.getUser().flatMapLatest { user ->
             asaqRepository.getSedenterType().flatMapLatest { sedenterType ->
                 programRepository.getAll().flatMapLatest { programList ->
@@ -141,7 +143,7 @@ class GetHomeSummaryUseCase @Inject constructor(
                         val isNotificationEmpty = userNotification.none {
                             it.activeStatus && it.shownStatus
                         }
-    
+                        
                         HomeSummary(
                             userName = userName,
                             bmiCategory = bmiCategory,
@@ -166,6 +168,7 @@ class GetHomeSummaryUseCase @Inject constructor(
                 }
             }
         }
+            .flowOn(Dispatchers.IO)
     }
     
 }
