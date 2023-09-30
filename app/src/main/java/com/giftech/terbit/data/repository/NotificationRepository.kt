@@ -17,7 +17,7 @@ class NotificationRepository @Inject constructor(
 ) : INotificationRepository {
     
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun getAll(): Flow<List<Notification>> {
+    override suspend fun getAll(): Flow<List<Notification>> {
         return notificationLocalDataSource.getAll()
             .mapLatest {
                 notificationMapper.mapToDomain(it)

@@ -389,7 +389,9 @@ private fun FFQCategorySection(
             .fillMaxWidth(),
     ) {
         MenuButton(
-            text = state.ffqCategoryOptionsCategory.first { it.foodCategoryId == state.ffqCategorySelectedCategory }.name,
+            text = state.ffqCategoryOptionsCategory
+                .firstOrNull { it.foodCategoryId == state.ffqCategorySelectedCategory }?.name
+                ?: "1",
             onClick = {
                 viewModel.onEvent(
                     GraphEvent.ShowFfqCategoryOptionsCategoryDialog

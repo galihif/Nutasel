@@ -5,6 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface IFfqFoodCategoryRepository {
     
-    fun getAll(): Flow<List<FfqFoodCategory>>
+    suspend fun getAll(): Flow<List<FfqFoodCategory>>
     
 }

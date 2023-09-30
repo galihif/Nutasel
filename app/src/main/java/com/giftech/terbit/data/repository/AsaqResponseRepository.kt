@@ -5,8 +5,9 @@ import com.giftech.terbit.data.source.local.AsaqResponseLocalDataSource
 import com.giftech.terbit.data.source.local.room.entity.AsaqResponseEntity
 import com.giftech.terbit.domain.model.AsaqResponse
 import com.giftech.terbit.domain.repository.IAsaqResponseRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapLatest
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -16,9 +17,10 @@ class AsaqResponseRepository @Inject constructor(
     private val asaqResponseMapper: AsaqResponseMapper,
 ) : IAsaqResponseRepository {
     
-    override fun getAll(): Flow<List<AsaqResponse>> {
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override suspend fun getAll(): Flow<List<AsaqResponse>> {
         return asaqResponseLocalDataSource.getAll()
-            .map {
+            .mapLatest {
                 asaqResponseMapper.mapToDomain(it)
             }
     }

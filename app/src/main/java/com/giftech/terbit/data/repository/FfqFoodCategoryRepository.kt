@@ -17,7 +17,7 @@ class FfqFoodCategoryRepository @Inject constructor(
 ) : IFfqFoodCategoryRepository {
     
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun getAll(): Flow<List<FfqFoodCategory>> {
+    override suspend fun getAll(): Flow<List<FfqFoodCategory>> {
         return ffqFoodCategoryLocalDataSource.getAll()
             .mapLatest {
                 ffqFoodCategoryMapper.mapToDomain(it)

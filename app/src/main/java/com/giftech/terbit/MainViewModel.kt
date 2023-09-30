@@ -2,7 +2,7 @@ package com.giftech.terbit
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.giftech.terbit.domain.model.Notification
 import com.giftech.terbit.domain.model.UserNotification
@@ -34,7 +34,9 @@ class MainViewModel @Inject constructor(
     }
 
     fun  getAllUserNotification(): LiveData<List<UserNotification>> {
-        return getAllUserNotificationUseCase().asLiveData()
+        return liveData(context = viewModelScope.coroutineContext) {
+            getAllUserNotificationUseCase()
+        }
     }
     
     fun updateSchedulingStatusUserNotification(userNotification: UserNotification) {
@@ -47,7 +49,9 @@ class MainViewModel @Inject constructor(
     }
     
     fun getDailyNotificationList(): LiveData<List<Notification>> {
-        return getDailyNotificationListUseCase().asLiveData()
+        return liveData(context = viewModelScope.coroutineContext) {
+            getDailyNotificationListUseCase()
+        }
     }
 
 }

@@ -26,18 +26,21 @@ class FfqQuestionRepository @Inject constructor(
     
     // The user responses of an FFQ can be empty
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun getAll(): Flow<List<FfqQuestion>> {
-        return programLocalDataSource.getAll().flatMapLatest { programList ->
-            ffqFoodLocalDataSource.getAll().flatMapLatest { ffqFoodEntityList ->
-                ffqResponseLocalDataSource.getAll().mapLatest { ffqResponseEntityList ->
-                    ffqQuestionMapper.mapToDomain(
-                        input1 = programList,
-                        input2 = ffqFoodEntityList,
-                        input3 = ffqResponseEntityList,
-                    )
-                }
+    override suspend fun getAll(): Flow<List<FfqQuestion>> {
+        return programLocalDataSource.getAll()
+            .flatMapLatest { programList ->
+                ffqFoodLocalDataSource.getAll()
+                    .flatMapLatest { ffqFoodEntityList ->
+                        ffqResponseLocalDataSource.getAll()
+                            .mapLatest { ffqResponseEntityList ->
+                                ffqQuestionMapper.mapToDomain(
+                                    input1 = programList,
+                                    input2 = ffqFoodEntityList,
+                                    input3 = ffqResponseEntityList,
+                                )
+                            }
+                    }
             }
-        }
     }
     
     override suspend fun insert(foodName: String, foodCategoryId: Int) {

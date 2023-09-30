@@ -4,8 +4,8 @@ import com.giftech.terbit.domain.model.AsaqResponse
 import kotlinx.coroutines.flow.Flow
 
 interface IAsaqResponseRepository {
-
-    fun getAll(): Flow<List<AsaqResponse>>
+    
+    suspend fun getAll(): Flow<List<AsaqResponse>>
     
     suspend fun insert(
         programId: Int,

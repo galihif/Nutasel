@@ -17,7 +17,9 @@ import com.giftech.terbit.domain.usecase.GetWeeklyProgramProgressUseCase
 import com.giftech.terbit.domain.util.Constants
 import com.patrykandpatrick.vico.core.entry.entryOf
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,11 +40,11 @@ class GraphViewModel @Inject constructor(
             weeklyProgramProgress = 0,
             weeklyAsaqOptionsWeek = emptyList(),
             weeklyAsaqOptionsDayOfWeek = emptyList(),
-            weeklyAsaqSelectedWeek = 1,
-            weeklyAsaqSelectedDayOfWeek = 1,
+            weeklyAsaqSelectedWeek = -1,
+            weeklyAsaqSelectedDayOfWeek = -1,
             postTestFfqScore = -1,
             ffqCategoryOptionsCategory = emptyList(),
-            ffqCategorySelectedCategory = 1,
+            ffqCategorySelectedCategory = -1,
             
             preTestAsaqChartEntry = emptyList(),
             preTestAsaqChartXLabels = emptyList(),
@@ -114,13 +116,16 @@ class GraphViewModel @Inject constructor(
         }
         viewModelScope.launch {
             getPreTestAsaqChartUseCase().collect { preTestAsaqChart ->
-                _state.value = _state.value.copy(
-                    preTestAsaqChartEntry = preTestAsaqChart.entry.map {
+                val preTestAsaqChartEntry = withContext(Dispatchers.IO) {
+                    preTestAsaqChart.entry.map {
                         entryOf(
                             x = it.questionId,
                             y = ((it.durasiHariKerja * 5 + it.durasiHariLibur * 2) / 7).toDouble() / 60,
                         )
-                    },
+                    }
+                }
+                _state.value = _state.value.copy(
+                    preTestAsaqChartEntry = preTestAsaqChartEntry,
                     preTestAsaqChartXLabels = preTestAsaqChart.xLabels,
                     preTestAsaqChartMaxY = preTestAsaqChart.maxY,
                     preTestAsaqChartYLabelCount = preTestAsaqChart.yLabelCount,
@@ -129,13 +134,16 @@ class GraphViewModel @Inject constructor(
         }
         viewModelScope.launch {
             getPostTestAsaqChartUseCase().collect { postTestAsaqChart ->
-                _state.value = _state.value.copy(
-                    postTestAsaqChartEntry = postTestAsaqChart.entry.map {
+                val postTestAsaqChartEntry = withContext(Dispatchers.IO) {
+                    postTestAsaqChart.entry.map {
                         entryOf(
                             x = it.questionId,
                             y = ((it.durasiHariKerja * 5 + it.durasiHariLibur * 2) / 7).toDouble() / 60,
                         )
-                    },
+                    }
+                }
+                _state.value = _state.value.copy(
+                    postTestAsaqChartEntry = postTestAsaqChartEntry,
                     postTestAsaqChartXLabels = postTestAsaqChart.xLabels,
                     postTestAsaqChartMaxY = postTestAsaqChart.maxY,
                     postTestAsaqChartYLabelCount = postTestAsaqChart.yLabelCount,
@@ -144,10 +152,10 @@ class GraphViewModel @Inject constructor(
         }
         viewModelScope.launch {
             getFfqScoreChartUseCase().collect { ffqScoreChart ->
-                val groupedEntries1 = ffqScoreChart.entry1.groupBy { it.foodCategoryId }
-                val groupedEntries2 = ffqScoreChart.entry2.groupBy { it.foodCategoryId }
-                _state.value = _state.value.copy(
-                    ffqScoreChartEntries = listOf(
+                val ffqScoreChartEntries = withContext(Dispatchers.IO) {
+                    val groupedEntries1 = ffqScoreChart.entry1.groupBy { it.foodCategoryId }
+                    val groupedEntries2 = ffqScoreChart.entry2.groupBy { it.foodCategoryId }
+                    listOf(
                         groupedEntries1.map { (foodCategoryId, ffqResponseList) ->
                             entryOf(
                                 x = groupedEntries1.keys.indexOf(foodCategoryId),
@@ -160,7 +168,10 @@ class GraphViewModel @Inject constructor(
                                 y = ffqResponseList.sumOf { it.freq?.score ?: 0 }
                             )
                         },
-                    ),
+                    )
+                }
+                _state.value = _state.value.copy(
+                    ffqScoreChartEntries = ffqScoreChartEntries,
                     ffqScoreChartXLabels = ffqScoreChart.xLabels,
                     ffqScoreChartMaxY = ffqScoreChart.maxY,
                     ffqScoreChartYLabelCount = ffqScoreChart.yLabelCount,
@@ -225,13 +236,16 @@ class GraphViewModel @Inject constructor(
                 week = week,
                 dayOfWeek = dayOfWeek,
             ).collect { weeklyAsaqChart ->
-                _state.value = _state.value.copy(
-                    weeklyAsaqResponseChartEntry = weeklyAsaqChart.entry.map {
+                val weeklyAsaqResponseChartEntry = withContext(Dispatchers.IO) {
+                    weeklyAsaqChart.entry.map {
                         entryOf(
                             x = it.questionId,
                             y = it.freq.toDouble() / 60,
                         )
-                    },
+                    }
+                }
+                _state.value = _state.value.copy(
+                    weeklyAsaqResponseChartEntry = weeklyAsaqResponseChartEntry,
                     weeklyAsaqResponseChartXLabels = weeklyAsaqChart.xLabels,
                     weeklyAsaqResponseChartMaxY = weeklyAsaqChart.maxY,
                     weeklyAsaqResponseChartYLabelCount = weeklyAsaqChart.yLabelCount,
@@ -247,8 +261,8 @@ class GraphViewModel @Inject constructor(
             getFfqCategoryChartUseCase(
                 ffqFoodCategoryId = ffqFoodCategoryId,
             ).collect { ffqCategoryChart ->
-                _state.value = _state.value.copy(
-                    ffqCategoryChartEntry = ffqCategoryChart.entry.mapIndexed { index, ffqResponse ->
+                val ffqCategoryChartEntry = withContext(Dispatchers.IO) {
+                    ffqCategoryChart.entry.mapIndexed { index, ffqResponse ->
                         entryOf(
                             x = index,
                             y = when (ffqResponse.freq ?: FfqFrequency.NEVER) {
@@ -260,7 +274,10 @@ class GraphViewModel @Inject constructor(
                                 FfqFrequency.MONTH_2 -> 5
                             },
                         )
-                    },
+                    }
+                }
+                _state.value = _state.value.copy(
+                    ffqCategoryChartEntry = ffqCategoryChartEntry,
                     ffqCategoryChartXLabels = ffqCategoryChart.xLabels,
                     ffqCategoryChartYLabels = ffqCategoryChart.yLabels,
                     ffqCategorySelectedCategory = ffqFoodCategoryId,

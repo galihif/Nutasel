@@ -9,7 +9,7 @@ class GetFfqFoodCategoryUseCase @Inject constructor(
     private val ffqFoodCategoryRepository: IFfqFoodCategoryRepository,
 ) {
     
-    operator fun invoke(): Flow<List<FfqFoodCategory>> {
+    suspend operator fun invoke(): Flow<List<FfqFoodCategory>> {
         return ffqFoodCategoryRepository.getAll()
     }
     
