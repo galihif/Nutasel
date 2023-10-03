@@ -24,6 +24,7 @@ import com.giftech.terbit.ui.pages.article.ArticleScreen
 import com.giftech.terbit.ui.pages.asaq.complete.WeeklyAsaqCompleteScreen
 import com.giftech.terbit.ui.pages.asaq.prepost.AsaqScreen
 import com.giftech.terbit.ui.pages.asaq.weekly.WeeklyAsaqScreen
+import com.giftech.terbit.ui.pages.dataexport.DataExportScreen
 import com.giftech.terbit.ui.pages.ffq.list.FfqListScreen
 import com.giftech.terbit.ui.pages.ffq.main.FfqMainScreen
 import com.giftech.terbit.ui.pages.ffq.result.FfqResultScreen
@@ -235,7 +236,10 @@ fun TerbitApp(
                 ProfileScreen(
                     onEdit = {
                         navHostController.navigate(Screen.EditProfile.route)
-                    }
+                    },
+                    onExportData = {
+                        navHostController.navigate(Screen.DataExport.route)
+                    },
                 )
             }
             
@@ -347,10 +351,11 @@ fun TerbitApp(
                 val week = it.arguments?.getInt(Constants.Extras.WEEK) ?: -1
                 val day = it.arguments?.getInt(Constants.Extras.DAY) ?: -1
                 ArticleCompleteScreen(
-                    week, day,
+                    week,
+                    day,
                     onNext = {
                         navHostController.popBackStack()
-                    }
+                    },
                 )
             }
             
@@ -390,7 +395,8 @@ fun TerbitApp(
                     navController = navHostController,
                 )
             }
-            composable(Screen.OnboardingPosttest.route){
+            
+            composable(Screen.OnboardingPosttest.route) {
                 OnboardingPosttestScreen(
                     onNext = {
                         navHostController.navigate(
@@ -400,6 +406,12 @@ fun TerbitApp(
                             ),
                         )
                     }
+                )
+            }
+            
+            composable(Screen.DataExport.route) {
+                DataExportScreen(
+                    navController = navHostController,
                 )
             }
         }
