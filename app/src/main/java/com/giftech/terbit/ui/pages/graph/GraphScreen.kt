@@ -1,28 +1,19 @@
 package com.giftech.terbit.ui.pages.graph
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.giftech.terbit.ui.components.molecules.ChartLegend
-import com.giftech.terbit.ui.components.molecules.MenuButton
-import com.giftech.terbit.ui.theme.dark_CustomColor2
 import com.maxkeppeker.sheets.core.models.base.rememberUseCaseState
 import com.maxkeppeler.sheets.list.ListDialog
 import com.maxkeppeler.sheets.list.models.ListOption
@@ -91,22 +82,8 @@ private fun WeeklyProgramProgressSection(
         style = MaterialTheme.typography.titleMedium,
     )
     Spacer(modifier = Modifier.height(16.dp))
-    CircularProgressBar(
-        value = state.weeklyProgramProgress,
-        modifier = Modifier
-            .fillMaxWidth()
-    )
-    
-    Spacer(modifier = Modifier.height(16.dp))
-    
-    Text(
-        text = "Keterangan",
-        style = MaterialTheme.typography.bodySmall,
-    )
-    Spacer(modifier = Modifier.height(8.dp))
-    ChartLegend(
-        text = "Aktivitas dikerjakan",
-        color = MaterialTheme.colorScheme.primary
+    WeeklyProgramProgress(
+        weeklyProgramProgress = state.weeklyProgramProgress,
     )
 }
 
@@ -114,81 +91,19 @@ private fun WeeklyProgramProgressSection(
 private fun PrePostTestAsaqSection(
     state: GraphState,
 ) {
-    Text(
-        text = "Sedenter Awal",
-        style = MaterialTheme.typography.titleMedium,
+    PreTestAsaq(
+        preTestAsaqChartEntry = state.preTestAsaqChartEntry,
+        preTestAsaqChartXLabels = state.preTestAsaqChartXLabels,
+        preTestAsaqChartMaxY = state.preTestAsaqChartMaxY,
+        preTestAsaqChartYLabelCount = state.preTestAsaqChartYLabelCount,
     )
-    
-    if (state.preTestAsaqChartEntry.isNotEmpty()) {
-        ColumnChart(
-            entries = listOf(state.preTestAsaqChartEntry),
-            xLabels = state.preTestAsaqChartXLabels,
-            maxY = state.preTestAsaqChartMaxY,
-            yLabelCount = state.preTestAsaqChartYLabelCount,
-            yTitle = "Jam",
-            labelFormatter = AsaqLabelFormatter(),
-            xValueFormatter = AsaqChartXValueFormatter(state.preTestAsaqChartXLabels),
-        )
-    } else {
-        Text(
-            text = "Belum ada data",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.outline,
-            modifier = Modifier
-                .padding(top = 16.dp),
-        )
-    }
-    
-    Spacer(modifier = Modifier.height(24.dp))
-    
-    Text(
-        text = "Sedenter Akhir",
-        style = MaterialTheme.typography.titleMedium,
+    PostTestAsaq(
+        preTestAsaqChartEntry = state.preTestAsaqChartEntry,
+        postTestAsaqChartEntry = state.postTestAsaqChartEntry,
+        postTestAsaqChartXLabels = state.postTestAsaqChartXLabels,
+        postTestAsaqChartMaxY = state.postTestAsaqChartMaxY,
+        postTestAsaqChartYLabelCount = state.postTestAsaqChartYLabelCount,
     )
-    
-    if (state.postTestAsaqChartEntry.isNotEmpty()) {
-        ColumnChart(
-            entries = listOf(state.postTestAsaqChartEntry),
-            xLabels = state.postTestAsaqChartXLabels,
-            maxY = state.postTestAsaqChartMaxY,
-            yLabelCount = state.postTestAsaqChartYLabelCount,
-            yTitle = "Jam",
-            labelFormatter = AsaqLabelFormatter(),
-            xValueFormatter = AsaqChartXValueFormatter(state.postTestAsaqChartXLabels),
-        )
-    } else {
-        Text(
-            text = "Belum ada data",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.outline,
-            modifier = Modifier
-                .padding(top = 16.dp),
-        )
-    }
-    
-    if (state.preTestAsaqChartEntry.isNotEmpty() || state.postTestAsaqChartEntry.isNotEmpty()) {
-        Spacer(modifier = Modifier.height(16.dp))
-        
-        Text(
-            text = "Keterangan",
-            style = MaterialTheme.typography.bodySmall,
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Row {
-            ChartLegend(
-                text = "",
-                color = MaterialTheme.colorScheme.primary
-            )
-            ChartLegend(
-                text = "Tingkat aktivitas sedenter",
-                color = dark_CustomColor2,
-                textColor = MaterialTheme.colorScheme.primary,
-            )
-        }
-        ChartLegend(
-            text = "Qn = Pertanyaan ke-n",
-        )
-    }
 }
 
 @Composable
@@ -201,61 +116,24 @@ private fun DailyAsaqSection(
         style = MaterialTheme.typography.titleMedium,
     )
     Spacer(modifier = Modifier.height(16.dp))
-    Row(
-        horizontalArrangement = Arrangement.End,
-        modifier = Modifier
-            .fillMaxWidth(),
-    ) {
-        MenuButton(
-            text = "Hari ${state.weeklyAsaqSelectedDayOfWeek}",
-            onClick = {
-                viewModel.onEvent(
-                    GraphEvent.ShowWeeklyAsaqOptionsDayOfWeekDialog
-                )
-            },
-        )
-        MenuButton(
-            text = "Minggu ${state.weeklyAsaqSelectedWeek}",
-            onClick = {
-                viewModel.onEvent(
-                    GraphEvent.ShowWeeklyAsaqOptionsWeekDialog
-                )
-            },
-        )
-    }
-    
-    if (state.weeklyAsaqResponseChartEntry.isNotEmpty()) {
-        ColumnChart(
-            entries = listOf(state.weeklyAsaqResponseChartEntry),
-            xLabels = state.weeklyAsaqResponseChartXLabels,
-            maxY = state.weeklyAsaqResponseChartMaxY,
-            yLabelCount = state.weeklyAsaqResponseChartYLabelCount,
-            yTitle = "Jam",
-            labelFormatter = AsaqLabelFormatter(),
-            xValueFormatter = AsaqChartXValueFormatter(state.weeklyAsaqResponseChartXLabels),
-        )
-        
-        Spacer(modifier = Modifier.height(16.dp))
-        
-        Text(
-            text = "Keterangan",
-            style = MaterialTheme.typography.bodySmall,
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        ChartLegend(
-            text = "Tingkat aktivitas sedenter",
-            color = MaterialTheme.colorScheme.primary,
-        )
-        ChartLegend(
-            text = "Qn = Pertanyaan ke-n",
-        )
-    } else {
-        Text(
-            text = "Belum ada data",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.outline,
-        )
-    }
+    WeeklyAsaq(
+        weeklyAsaqSelectedWeek = state.weeklyAsaqSelectedWeek,
+        weeklyAsaqSelectedDayOfWeek = state.weeklyAsaqSelectedDayOfWeek,
+        weeklyAsaqResponseChartEntry = state.weeklyAsaqResponseChartEntry,
+        weeklyAsaqResponseChartXLabels = state.weeklyAsaqResponseChartXLabels,
+        weeklyAsaqResponseChartMaxY = state.weeklyAsaqResponseChartMaxY,
+        weeklyAsaqResponseChartYLabelCount = state.weeklyAsaqResponseChartYLabelCount,
+        onSelectDayOfWeek = {
+            viewModel.onEvent(
+                GraphEvent.ShowWeeklyAsaqOptionsDayOfWeekDialog
+            )
+        },
+        onSelectWeek = {
+            viewModel.onEvent(
+                GraphEvent.ShowWeeklyAsaqOptionsWeekDialog
+            )
+        },
+    )
 }
 
 @Composable
@@ -266,111 +144,14 @@ private fun FFQScoreSection(
         text = "Frekuensi Makanan",
         style = MaterialTheme.typography.titleMedium,
     )
-    
     Spacer(modifier = Modifier.height(24.dp))
-    
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Text(
-            text = "Skor FFQ Akhir Total",
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier
-                .weight(1f),
-        )
-        Text(
-            text = state.postTestFfqScore.toString(),
-            style = MaterialTheme.typography.labelLarge,
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
-            modifier = Modifier
-                .background(
-                    color = MaterialTheme.colorScheme.primaryContainer,
-                    shape = RoundedCornerShape(100),
-                )
-                .padding(
-                    horizontal = 24.dp,
-                    vertical = 6.dp,
-                ),
-        )
-    }
-    
-    Spacer(modifier = Modifier.height(8.dp))
-    
-    if (state.ffqScoreChartEntries.isNotEmpty()) {
-        ColumnChart(
-            entries = state.ffqScoreChartEntries,
-            xLabels = state.ffqScoreChartXLabels,
-            maxY = state.ffqScoreChartMaxY,
-            yLabelCount = state.ffqScoreChartYLabelCount,
-            labelFormatter = FfqScoreLabelFormatter(state.ffqScoreChartXLabels),
-            modifier = Modifier
-                .height(320.dp),
-        )
-        
-        Spacer(modifier = Modifier.height(16.dp))
-        
-        Text(
-            text = "Keterangan",
-            style = MaterialTheme.typography.bodySmall,
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Row {
-            ChartLegend(
-                text = "Skor FFQ awal",
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier
-                    .weight(1f),
-            )
-            ChartLegend(
-                text = "Skor FFQ akhir",
-                color = dark_CustomColor2,
-                modifier = Modifier
-                    .weight(1f),
-            )
-        }
-        Spacer(modifier = Modifier.height(4.dp))
-        Row {
-            Column(
-                modifier = Modifier
-                    .weight(1f),
-            ) {
-                ChartLegend(
-                    text = "MP = Makanan Pokok",
-                )
-                ChartLegend(
-                    text = "LN = Lauk Nabati",
-                )
-                ChartLegend(
-                    text = "BU = Buah-buahan",
-                )
-                ChartLegend(
-                    text = "SE = Selingan",
-                )
-            }
-            Column(
-                modifier = Modifier
-                    .weight(1f),
-            ) {
-                ChartLegend(
-                    text = "LH = Lauk Hewani",
-                )
-                ChartLegend(
-                    text = "SY = Sayuran",
-                )
-                ChartLegend(
-                    text = "MI = Minuman",
-                )
-            }
-        }
-    } else {
-        Text(
-            text = "Belum ada data",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.outline,
-            modifier = Modifier
-                .padding(top = 16.dp),
-        )
-    }
+    FfqScore(
+        postTestFfqScore = state.postTestFfqScore,
+        ffqScoreChartEntries = state.ffqScoreChartEntries,
+        ffqScoreChartXLabels = state.ffqScoreChartXLabels,
+        ffqScoreChartMaxY = state.ffqScoreChartMaxY,
+        ffqScoreChartYLabelCount = state.ffqScoreChartYLabelCount,
+    )
 }
 
 @Composable
@@ -383,73 +164,19 @@ private fun FFQCategorySection(
         style = MaterialTheme.typography.titleMedium,
     )
     Spacer(modifier = Modifier.height(16.dp))
-    Row(
-        horizontalArrangement = Arrangement.End,
-        modifier = Modifier
-            .fillMaxWidth(),
-    ) {
-        MenuButton(
-            text = state.ffqCategoryOptionsCategory
-                .firstOrNull { it.foodCategoryId == state.ffqCategorySelectedCategory }?.name
-                ?: "1",
-            onClick = {
-                viewModel.onEvent(
-                    GraphEvent.ShowFfqCategoryOptionsCategoryDialog
-                )
-            },
-        )
-    }
-    
-    if (state.ffqCategoryChartEntry.isNotEmpty()) {
-        LineChart(
-            entries = listOf(state.ffqCategoryChartEntry),
-            xLabels = state.ffqCategoryChartXLabels,
-            yLabels = state.ffqCategoryChartYLabels,
-            labelFormatter = FfqCategoryLabelFormatter(state.ffqCategoryChartXLabels),
-        )
-        
-        Spacer(modifier = Modifier.height(16.dp))
-        
-        Text(
-            text = "Keterangan",
-            style = MaterialTheme.typography.bodySmall,
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        ChartLegend(
-            text = "Tingkat konsumsi",
-            color = MaterialTheme.colorScheme.primary,
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        Row {
-            Column(
-                modifier = Modifier
-                    .weight(1f),
-            ) {
-                ChartLegend(
-                    text = "H = Hari",
-                )
-                ChartLegend(
-                    text = "B = Bulan",
-                )
-            }
-            Column(
-                modifier = Modifier
-                    .weight(1f),
-            ) {
-                ChartLegend(
-                    text = "M = Minggu",
-                )
-            }
-        }
-    } else {
-        Text(
-            text = "Belum ada data",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.outline,
-        )
-    }
+    FfqCategory(
+        ffqCategoryOptionsCategory = state.ffqCategoryOptionsCategory,
+        ffqCategorySelectedCategory = state.ffqCategorySelectedCategory,
+        ffqCategoryChartEntry = state.ffqCategoryChartEntry,
+        ffqCategoryChartXLabels = state.ffqCategoryChartXLabels,
+        ffqCategoryChartYLabels = state.ffqCategoryChartYLabels,
+        onSelectCategory = {
+            viewModel.onEvent(
+                GraphEvent.ShowFfqCategoryOptionsCategoryDialog
+            )
+        },
+    )
 }
-
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
