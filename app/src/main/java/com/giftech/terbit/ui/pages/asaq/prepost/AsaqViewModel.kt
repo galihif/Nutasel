@@ -32,7 +32,8 @@ class AsaqViewModel
         MutableStateFlow(_listAsaq.value.find { it.questionId == _currentNumber.value }!!)
     val currentAsaq = _currentAsaq
     
-    private var _currentQuestion = MutableStateFlow(AsaqQuestions.values()[_currentNumber.value])
+    private var _currentQuestion =
+        MutableStateFlow(AsaqQuestions.values()[_currentNumber.value - 1])
     val currentQuestion = _currentQuestion
     
     fun prevQuestion() {
