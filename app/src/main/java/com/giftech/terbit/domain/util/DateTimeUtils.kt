@@ -19,6 +19,15 @@ fun LocalDate.toString(outputPattern: String): String {
     }
 }
 
+fun LocalDateTime.toString(outputPattern: String): String {
+    return try {
+        this.format(formatter(outputPattern))
+    } catch (e: Exception) {
+        e.printStackTrace()
+        "-"
+    }
+}
+
 fun LocalDateTime.toMillis(): Long {
     return this.atZone(
         ZoneId.systemDefault(),
