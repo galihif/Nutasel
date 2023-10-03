@@ -33,6 +33,7 @@ import com.giftech.terbit.R
 @Composable
 fun ProfileScreen(
     onEdit : () -> Unit,
+    onExportData: () -> Unit,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
     LaunchedEffect(true){
@@ -99,7 +100,7 @@ fun ProfileScreen(
         }
         Button(
             onClick = {
-                //download pemantauan
+                onExportData()
             },
             modifier = Modifier
                 .fillMaxWidth()

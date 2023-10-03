@@ -97,4 +97,6 @@ sealed class Screen(val route: String, val deepLink: String? = null) {
     
     data object OnboardingPosttest : Screen("OnboardingPosttest")
     
+    data object DataExport : Screen("DataExport")
+    
 }

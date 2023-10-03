@@ -1,10 +1,10 @@
 package com.giftech.terbit.ui.pages.graph
 
 import android.text.TextUtils
+import androidx.compose.animation.core.snap
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -14,6 +14,7 @@ import com.patrykandpatrick.vico.compose.axis.axisLabelComponent
 import com.patrykandpatrick.vico.compose.axis.horizontal.rememberBottomAxis
 import com.patrykandpatrick.vico.compose.axis.vertical.rememberEndAxis
 import com.patrykandpatrick.vico.compose.chart.Chart
+import com.patrykandpatrick.vico.compose.chart.entry.defaultDiffAnimationSpec
 import com.patrykandpatrick.vico.compose.chart.line.lineChart
 import com.patrykandpatrick.vico.compose.chart.scroll.rememberChartScrollSpec
 import com.patrykandpatrick.vico.compose.style.ProvideChartStyle
@@ -36,6 +37,7 @@ fun LineChart(
     yLabels: List<String>,
     labelFormatter: MarkerLabelFormatter,
     modifier: Modifier = Modifier,
+    enableAnimation: Boolean = true,
 ) {
     ProvideChartStyle(rememberChartStyle()) {
         val defaultLines = currentChartStyle.lineChart.lines
@@ -74,9 +76,17 @@ fun LineChart(
             labelFormatter = labelFormatter,
         )
         
+        val diffAnimationSpec = remember(enableAnimation) {
+            if (enableAnimation) {
+                defaultDiffAnimationSpec
+            } else {
+                snap()
+            }
+        }
+        
         Chart(
             chart = lineChart(
-                lines = rememberSaveable(defaultLines) {
+                lines = remember(defaultLines) {
                     defaultLines.map { defaultLine ->
                         defaultLine.copy(
                             lineBackgroundShader = null,
@@ -107,6 +117,8 @@ fun LineChart(
             endAxis = yAxis,
             marker = marker,
             chartScrollSpec = rememberChartScrollSpec(isScrollEnabled = false),
+            diffAnimationSpec = diffAnimationSpec,
+            runInitialAnimation = remember { enableAnimation },
             modifier = modifier
                 .height(260.dp),
         )

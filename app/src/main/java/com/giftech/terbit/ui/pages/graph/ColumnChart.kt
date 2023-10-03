@@ -1,5 +1,6 @@
 package com.giftech.terbit.ui.pages.graph
 
+import androidx.compose.animation.core.snap
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -13,6 +14,8 @@ import com.patrykandpatrick.vico.compose.axis.horizontal.rememberBottomAxis
 import com.patrykandpatrick.vico.compose.axis.vertical.rememberEndAxis
 import com.patrykandpatrick.vico.compose.chart.Chart
 import com.patrykandpatrick.vico.compose.chart.column.columnChart
+import com.patrykandpatrick.vico.compose.chart.entry.defaultDiffAnimationSpec
+import com.patrykandpatrick.vico.compose.chart.scroll.rememberChartScrollSpec
 import com.patrykandpatrick.vico.compose.style.ProvideChartStyle
 import com.patrykandpatrick.vico.core.axis.AxisItemPlacer
 import com.patrykandpatrick.vico.core.axis.AxisPosition
@@ -34,6 +37,7 @@ fun ColumnChart(
     modifier: Modifier = Modifier,
     yTitle: String? = null,
     xValueFormatter: AxisValueFormatter<AxisPosition.Horizontal.Bottom>? = null,
+    enableAnimation: Boolean = true,
 ) {
     ProvideChartStyle(rememberChartStyle()) {
         val chartEntryModelProducer = remember(entries) {
@@ -51,6 +55,7 @@ fun ColumnChart(
                 ?: AxisValueFormatter { value, _ ->
                     xLabels[value.toInt()]
                 },
+            labelRotationDegrees = 90f,
         )
         val yAxis = rememberEndAxis(
             axis = null,
@@ -71,6 +76,14 @@ fun ColumnChart(
             labelFormatter = labelFormatter,
         )
         
+        val diffAnimationSpec = remember(enableAnimation) {
+            if (enableAnimation) {
+                defaultDiffAnimationSpec
+            } else {
+                snap()
+            }
+        }
+        
         Chart(
             chart = columnChart(
                 spacing = 16.dp,
@@ -86,6 +99,9 @@ fun ColumnChart(
             bottomAxis = xAxis,
             endAxis = yAxis,
             marker = marker,
+            chartScrollSpec = rememberChartScrollSpec(isScrollEnabled = false),
+            diffAnimationSpec = diffAnimationSpec,
+            runInitialAnimation = remember { enableAnimation },
             modifier = modifier
                 .height(220.dp),
         )

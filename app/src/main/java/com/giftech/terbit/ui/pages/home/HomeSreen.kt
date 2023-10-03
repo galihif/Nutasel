@@ -2,7 +2,6 @@ package com.giftech.terbit.ui.pages.home
 
 import android.Manifest
 import android.os.Build
-import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -62,6 +61,7 @@ import com.giftech.terbit.ui.theme.CustomColor2
 import com.giftech.terbit.ui.theme.CustomColor3
 import com.giftech.terbit.ui.theme.light_onCustomColor2
 import com.giftech.terbit.ui.theme.light_onCustomColor3
+import com.giftech.terbit.ui.utils.showToast
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
@@ -582,11 +582,10 @@ fun CheckNotificationPermission() {
         
         if (notificationPermisionState.status.isGranted.not()) {
             SideEffect {
-                Toast.makeText(
-                    context,
-                    "Aplikasi membutuhkan izin untuk menampilkan notifikasi.",
-                    Toast.LENGTH_LONG,
-                ).show()
+                showToast(
+                    context = context,
+                    message = "Aplikasi membutuhkan izin untuk menampilkan notifikasi.",
+                )
                 notificationPermisionState.launchPermissionRequest()
             }
         }
