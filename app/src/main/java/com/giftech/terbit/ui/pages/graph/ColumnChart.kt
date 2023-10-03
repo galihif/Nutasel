@@ -55,6 +55,7 @@ fun ColumnChart(
                 ?: AxisValueFormatter { value, _ ->
                     xLabels[value.toInt()]
                 },
+            labelRotationDegrees = 90f,
         )
         val yAxis = rememberEndAxis(
             axis = null,
@@ -98,6 +99,7 @@ fun ColumnChart(
             bottomAxis = xAxis,
             endAxis = yAxis,
             marker = marker,
+            chartScrollSpec = rememberChartScrollSpec(isScrollEnabled = false),
             diffAnimationSpec = diffAnimationSpec,
             runInitialAnimation = remember { enableAnimation },
             modifier = modifier
