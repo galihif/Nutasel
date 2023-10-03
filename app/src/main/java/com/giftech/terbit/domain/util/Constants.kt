@@ -11,6 +11,7 @@ object Constants {
     
     object DatePattern {
         const val READABLE_DEFAULT = "dd - MM - yyyy"
+        const val FILE_NAME = "ddMMyyyy HHmmss"
     }
 
 }
