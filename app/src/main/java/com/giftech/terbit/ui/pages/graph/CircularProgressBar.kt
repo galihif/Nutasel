@@ -27,12 +27,13 @@ fun CircularProgressBar(
     modifier: Modifier = Modifier,
     maxValue: Int = 100,
     diameterSize: Dp = 144.dp,
+    enableAnimation: Boolean = true,
 ) {
     var progress by remember { mutableFloatStateOf(0.0f) }
     val progressAnimation by animateFloatAsState(
         targetValue = progress,
         animationSpec = TweenSpec(
-            durationMillis = 1000,
+            durationMillis = if (enableAnimation) 1000 else 0,
             easing = FastOutSlowInEasing,
         ),
         label = "FloatAnimation",
