@@ -6,7 +6,6 @@ import com.giftech.terbit.domain.util.Constants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
 import javax.inject.Inject
@@ -26,9 +25,6 @@ class GetFfqCategoryChartUseCase @Inject constructor(
                             it.foodCategoryId == ffqFoodCategoryId &&
                             it.freq != null
                 }
-            }
-            .filterNot {
-                it.isEmpty()
             }
             .mapLatest { ffqResponseList ->
                 val xLabels = ffqResponseList.map { it.foodName }

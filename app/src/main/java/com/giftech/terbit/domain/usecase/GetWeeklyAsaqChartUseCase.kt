@@ -8,7 +8,6 @@ import com.giftech.terbit.domain.repository.IProgramRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
@@ -31,9 +30,6 @@ class GetWeeklyAsaqChartUseCase @Inject constructor(
                     .filter { it.tag == ProgramTag.WEEKLY_PROGRAM }
                     .filter { it.week == week && it.dayOfWeek == dayOfWeek }
                     .map { it.programId }
-            }
-            .filterNot {
-                it.isEmpty()
             }
             .flatMapLatest { weeklyAsaqProgramIdList ->
                 asaqResponseRepository.getAll()
