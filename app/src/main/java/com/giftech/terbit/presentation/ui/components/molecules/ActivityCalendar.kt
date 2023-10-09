@@ -67,7 +67,12 @@ fun ActivityCalendar(
     val startMonth = currentMonth.minusMonths(adjacentMonths)
     val endMonth = currentMonth.plusMonths(adjacentMonths)
     val selections = dateList
-        .map { CalendarDay(it, DayPosition.MonthDate) }
+        .map {
+            CalendarDay(
+                it,
+                DayPosition.MonthDate,
+            )
+        }
         .toMutableList()
     val daysOfWeek = daysOfWeek()
     
@@ -86,9 +91,15 @@ fun ActivityCalendar(
             firstDayOfWeek = daysOfWeek.first(),
         )
         val coroutineScope = rememberCoroutineScope()
-        val visibleMonth = rememberFirstMostVisibleMonth(state, viewportPercent = 90f)
+        val visibleMonth = rememberFirstMostVisibleMonth(
+            state,
+            viewportPercent = 90f,
+        )
         SimpleCalendarTitle(
-            modifier = Modifier.padding(vertical = 10.dp, horizontal = 8.dp),
+            modifier = Modifier.padding(
+                vertical = 10.dp,
+                horizontal = 8.dp,
+            ),
             currentMonth = visibleMonth.yearMonth,
             goToPrevious = {
                 coroutineScope.launch {
@@ -105,7 +116,10 @@ fun ActivityCalendar(
             modifier = Modifier.testTag("Calendar"),
             state = state,
             dayContent = { day ->
-                Day(day, isSelected = selections.contains(day)) {}
+                Day(
+                    day,
+                    isSelected = selections.contains(day),
+                ) {}
             },
             monthHeader = {
                 MonthHeader(daysOfWeek = daysOfWeek)
@@ -158,8 +172,8 @@ private fun Day(
     ) {
         val textColor = when (day.position) {
             // Color.Unspecified will use the default text color from the current theme
-            DayPosition.MonthDate -> if (isSelected) Color.White else Color.Gray
-            DayPosition.InDate, DayPosition.OutDate -> Color.LightGray
+            DayPosition.MonthDate -> if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.outline
+            DayPosition.InDate, DayPosition.OutDate -> MaterialTheme.colorScheme.outline.copy(0.5f)
         }
         Text(
             text = day.date.dayOfMonth.toString(),
@@ -213,7 +227,10 @@ private fun CalendarNavigationIcon(
         .fillMaxHeight()
         .aspectRatio(1f)
         .clip(shape = CircleShape)
-        .clickable(role = Role.Button, onClick = onClick),
+        .clickable(
+            role = Role.Button,
+            onClick = onClick,
+        ),
 ) {
     Icon(
         modifier = Modifier
@@ -260,11 +277,17 @@ private fun YearMonth.displayText(short: Boolean = false): String {
 
 private fun Month.displayText(short: Boolean = true): String {
     val style = if (short) TextStyle.SHORT else TextStyle.FULL
-    return getDisplayName(style, LOCALE_INDONESIAN)
+    return getDisplayName(
+        style,
+        LOCALE_INDONESIAN,
+    )
 }
 
 private fun DayOfWeek.displayText(uppercase: Boolean = false): String {
-    return getDisplayName(TextStyle.NARROW, LOCALE_INDONESIAN).let { value ->
+    return getDisplayName(
+        TextStyle.NARROW,
+        LOCALE_INDONESIAN,
+    ).let { value ->
         if (uppercase) value.uppercase(LOCALE_INDONESIAN) else value
     }
 }
