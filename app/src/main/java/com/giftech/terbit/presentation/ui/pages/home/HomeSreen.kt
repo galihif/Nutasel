@@ -361,7 +361,7 @@ private fun ProgressSection(
             .fillMaxWidth(),
     ) {
         ProgressContainer(
-            title = "Total Program Selesai",
+            title = "Program Selesai",
             value = state.totalCompletedProgram.toString(),
             desc = "${state.totalCompletedProgram} / ${state.totalProgram} Program",
             backgroundColor = CustomColor3,
