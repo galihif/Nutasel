@@ -1,10 +1,12 @@
 package com.giftech.terbit.presentation.ui.pages.asaq.prepost
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,6 +25,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -52,15 +55,15 @@ fun AsaqScreen(
     val currentAsaq by remember {
         viewModel.currentAsaq
     }.collectAsState()
-    
+
     val currentQuestion by remember {
         viewModel.currentQuestion
     }.collectAsState()
-    
+
     val currentNumber by remember {
         viewModel.currentNumber
     }.collectAsState()
-    
+
     var jam by remember {
         mutableStateOf("")
     }
@@ -68,10 +71,10 @@ fun AsaqScreen(
         mutableStateOf("")
     }
     var durasiHariKerja by remember {
-        mutableIntStateOf(0)
+        mutableIntStateOf(-1)
     }
     var durasiHariLibur by remember {
-        mutableIntStateOf(0)
+        mutableIntStateOf(-1)
     }
     var selectedHari by remember {
         mutableStateOf(HariEnum.HARI_KERJA)
@@ -84,17 +87,25 @@ fun AsaqScreen(
         durasiHariLibur = currentAsaq.durasiHariLibur
     }
     LaunchedEffect(selectedHari, durasiHariKerja, durasiHariLibur) {
+        val durasiJamKerja = if (durasiHariKerja < 0) -1 else durasiHariKerja / 60
+        val durasiMenitKerja = if (durasiHariKerja < 0) -1 else durasiHariKerja % 60
+        val durasiJamLibur = if (durasiHariLibur < 0) -1 else (durasiHariLibur / 60)
+        val durasiMenitLibur = if (durasiHariLibur < 0) -1 else (durasiHariLibur % 60)
+        Log.d(
+            "GALIH",
+            "durasiJamKerja: $durasiJamKerja durasiMenitKerja: $durasiMenitKerja durasiJamLibur: $durasiJamLibur durasiMenitLibur: $durasiMenitLibur"
+        )
         when (selectedHari) {
             HariEnum.HARI_KERJA -> {
-                jam = (durasiHariKerja / 60).toString()
-                menit = (durasiHariKerja % 60).toString()
+                jam = if (durasiJamKerja < 0) "" else durasiJamKerja.toString()
+                menit = if (durasiMenitKerja < 0) "" else durasiMenitKerja.toString()
             }
-            
+
             HariEnum.HARI_LIBUR -> {
-                jam = (durasiHariLibur / 60).toString()
-                menit = (durasiHariLibur % 60).toString()
+                jam = if (durasiJamLibur < 0) "" else durasiJamLibur.toString()
+                menit = if (durasiMenitLibur < 0) "" else durasiMenitLibur.toString()
             }
-            
+
             else -> {}
         }
     }
@@ -132,7 +143,7 @@ fun AsaqScreen(
                 imageHeight = 200
             )
             MyFilterChips(
-                selected = durasiHariKerja != 0,
+                selected = durasiHariKerja >= 0,
                 onSelectedChange = {
                     selectedHari = HariEnum.HARI_KERJA
                     modalSheetOpen = true
@@ -141,7 +152,7 @@ fun AsaqScreen(
                 modifier = Modifier.fillMaxWidth()
             )
             MyFilterChips(
-                selected = durasiHariLibur != 0,
+                selected = durasiHariLibur >= 0,
                 onSelectedChange = {
                     selectedHari = HariEnum.HARI_LIBUR
                     modalSheetOpen = true
@@ -173,7 +184,7 @@ fun AsaqScreen(
                     }
                 },
                 modifier = Modifier.fillMaxWidth(),
-                enabled = durasiHariKerja != 0 && durasiHariLibur != 0
+                enabled = durasiHariKerja >= 0 && durasiHariLibur >= 0
             )
         }
         if (modalSheetOpen) {
@@ -194,6 +205,7 @@ fun AsaqScreen(
                                 jam = newValue
                             }
                         },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         label = "Jam",
                         supportingText = if (jam.isNotEmpty() && jam.toInt() > 24) "Jam tidak boleh lebih dari 24" else "",
                     )
@@ -205,6 +217,7 @@ fun AsaqScreen(
                                 menit = newValue
                             }
                         },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         label = "Menit",
                         supportingText = if (menit.isNotEmpty() && menit.toInt() > 60) "Menit tidak boleh lebih dari 60" else "",
                     )
@@ -216,17 +229,17 @@ fun AsaqScreen(
                                 HariEnum.HARI_KERJA -> {
                                     durasiHariKerja = jam.toInt() * 60 + menit.toInt()
                                 }
-                                
+
                                 HariEnum.HARI_LIBUR -> {
                                     durasiHariLibur = jam.toInt() * 60 + menit.toInt()
                                 }
-                                
+
                                 else -> {}
                             }
                         },
                         modifier = Modifier.fillMaxWidth(),
                         enabled = jam.isNotBlank() && menit.isNotBlank() && jam.toInt() <= 24 && menit.toInt() <= 60
-                    
+
                     )
                 }
             }
