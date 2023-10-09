@@ -22,6 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -88,6 +89,7 @@ private fun FfqResultContent(
         Text(
             text = stringResource(R.string.txt_desc_ffqresult),
             style = MaterialTheme.typography.bodySmall,
+            textAlign = TextAlign.Center,
         )
         
         Spacer(modifier = Modifier.height(48.dp))
