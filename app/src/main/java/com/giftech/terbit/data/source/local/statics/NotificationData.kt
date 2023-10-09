@@ -68,7 +68,7 @@ class NotificationData @Inject constructor() {
         NotificationEntity(
             id = 9000,
             title = "Yuk terus bergerak dan aktif \uD83D\uDC5F",
-            message = "Jangan biarkan rutinitas menyebabkan kebiasaan sedentari. Jadikan gerakan dan aktivitas sebagai bagian penting dalam gaya hidup sehatmu!",
+            message = "Jangan biarkan rutinitas menyebabkan kebiasaan sedenter. Jadikan gerakan dan aktivitas sebagai bagian penting dalam gaya hidup sehatmu!",
             triggerTime = "12:30",
             type = NotificationType.DAILY_TIPS.typeId,
         ),
