@@ -1,7 +1,8 @@
 package com.giftech.terbit.domain.model
 
 import android.os.Parcelable
-import com.giftech.terbit.ui.components.enums.KategoriIMTEnum
+import com.giftech.terbit.presentation.ui.components.enums.KategoriIMTEnum
+
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import kotlin.math.pow
