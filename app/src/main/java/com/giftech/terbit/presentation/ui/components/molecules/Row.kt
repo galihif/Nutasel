@@ -3,7 +3,7 @@ package com.giftech.terbit.presentation.ui.components.molecules
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
@@ -16,6 +16,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.giftech.terbit.presentation.ui.components.enums.ProfMenuEnum
 
@@ -44,7 +46,7 @@ fun SegmentedButtonRow(
     onSelected: (ProfMenuEnum) -> Unit
 ) {
     Row(
-        modifier = Modifier.width(300.dp),
+        modifier = Modifier.fillMaxWidth(),
     ) {
         OutlinedButton(
             onClick = {
@@ -92,7 +94,7 @@ fun SegmentedButtonRow(
                     contentDescription = "",
                 )
             }
-            Text(text = ProfMenuEnum.KREDIBILITAS.title)
+            Text(text = ProfMenuEnum.KREDIBILITAS.title, textAlign = TextAlign.Center, maxLines = 1, modifier = Modifier.weight(1f), overflow = TextOverflow.Ellipsis)
         }
     }
 }
