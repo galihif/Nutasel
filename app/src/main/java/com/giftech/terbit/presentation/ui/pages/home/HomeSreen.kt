@@ -246,7 +246,7 @@ private fun InitialConditionsSection(
         InitialConditionContainer(
             title = "Kategori",
             value = state.bmiCategory,
-            valueTextColor = MaterialTheme.colorScheme.onPrimary,
+            valueTextColor = light_onCustomColor2,
             valueBackgroundColor = KategoriIMTEnum.fromTitle(state.bmiCategory).color,
             modifier = Modifier
                 .weight(1f),
