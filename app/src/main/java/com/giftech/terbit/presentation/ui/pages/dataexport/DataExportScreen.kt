@@ -345,6 +345,7 @@ private fun PageSection(
                 33 -> {
                     PageSection6(
                         pageNumber = state.currentPage,
+                        preTestFfqScore = state.preTestFfqScore,
                         postTestFfqScore = state.postTestFfqScore,
                         ffqScoreChartEntries = state.ffqScoreChartEntries,
                         ffqScoreChartXLabels = state.ffqScoreChartXLabels,
@@ -561,6 +562,7 @@ private fun PageSection5(
 @Composable
 private fun PageSection6(
     pageNumber: Int,
+    preTestFfqScore: Int,
     postTestFfqScore: Int,
     ffqScoreChartEntries: List<List<ChartEntry>>,
     ffqScoreChartXLabels: List<String>,
@@ -572,6 +574,7 @@ private fun PageSection6(
         title = "Frekuensi Makanan",
     ) {
         FfqScore(
+            preTestFfqScore = preTestFfqScore,
             postTestFfqScore = postTestFfqScore,
             ffqScoreChartEntries = ffqScoreChartEntries,
             ffqScoreChartXLabels = ffqScoreChartXLabels,

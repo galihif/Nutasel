@@ -9,6 +9,7 @@ data class GraphState(
     val weeklyAsaqOptionsDayOfWeek: List<Int>,
     val weeklyAsaqSelectedWeek: Int,
     val weeklyAsaqSelectedDayOfWeek: Int,
+    val preTestFfqScore: Int,
     val postTestFfqScore: Int,
     val ffqCategoryOptionsCategory: List<FfqFoodCategory>,
     val ffqCategorySelectedCategory: Int,

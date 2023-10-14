@@ -30,6 +30,7 @@ data class DataExportState(
     val weeklyAsaqChartMaxYList: List<Int> = emptyList(),
     val weeklyAsaqChartYLabelCount: Int = 0,
     
+    val preTestFfqScore: Int = 0,
     val postTestFfqScore: Int = 0,
     val ffqScoreChartEntries: List<List<ChartEntry>> = emptyList(),
     val ffqScoreChartXLabels: List<String> = emptyList(),

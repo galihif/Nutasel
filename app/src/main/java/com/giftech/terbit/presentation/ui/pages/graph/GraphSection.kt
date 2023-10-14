@@ -20,6 +20,8 @@ import com.giftech.terbit.domain.model.FfqFoodCategory
 import com.giftech.terbit.presentation.ui.components.molecules.ChartLegend
 import com.giftech.terbit.presentation.ui.components.molecules.MenuButton
 import com.giftech.terbit.presentation.ui.theme.dark_CustomColor2
+import com.giftech.terbit.presentation.ui.theme.light_CustomColor2Container
+import com.giftech.terbit.presentation.ui.theme.light_onCustomColor2Container
 import com.patrykandpatrick.vico.core.entry.ChartEntry
 
 @Composable
@@ -226,6 +228,7 @@ fun WeeklyAsaq(
 
 @Composable
 fun FfqScore(
+    preTestFfqScore: Int,
     postTestFfqScore: Int,
     ffqScoreChartEntries: List<List<ChartEntry>>,
     ffqScoreChartXLabels: List<String>,
@@ -236,9 +239,10 @@ fun FfqScore(
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         Text(
-            text = "Skor FFQ Akhir Total",
+            text = "Skor FFQ Total",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier
@@ -248,6 +252,11 @@ fun FfqScore(
             value = preTestFfqScore,
             backgroundColor = MaterialTheme.colorScheme.primaryContainer,
             textColor = MaterialTheme.colorScheme.onPrimaryContainer,
+        )
+        ScoreText(
+            value = postTestFfqScore,
+            backgroundColor = light_CustomColor2Container,
+            textColor = light_onCustomColor2Container,
         )
     }
     
