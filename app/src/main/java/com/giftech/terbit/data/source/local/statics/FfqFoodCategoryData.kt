@@ -60,7 +60,7 @@ class FfqFoodCategoryData @Inject constructor(){
         R.drawable.img_vegetable_protein_ffq_480_370,
         R.drawable.img_vegetable_ffq_480_370,
         R.drawable.img_fruit_ffq_480_370,
-        R.drawable.img_drink_ffq_480_370,
+        R.drawable.img_beverage_ffq_480_370,
         R.drawable.img_snack_ffq_480_370,
     )
     
