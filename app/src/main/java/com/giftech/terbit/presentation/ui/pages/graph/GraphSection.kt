@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.giftech.terbit.domain.model.FfqFoodCategory
 import com.giftech.terbit.presentation.ui.components.molecules.ChartLegend
@@ -243,19 +244,10 @@ fun FfqScore(
             modifier = Modifier
                 .weight(1f),
         )
-        Text(
-            text = postTestFfqScore.toString(),
-            style = MaterialTheme.typography.labelLarge,
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
-            modifier = Modifier
-                .background(
-                    color = MaterialTheme.colorScheme.primaryContainer,
-                    shape = RoundedCornerShape(100),
-                )
-                .padding(
-                    horizontal = 24.dp,
-                    vertical = 6.dp,
-                ),
+        ScoreText(
+            value = preTestFfqScore,
+            backgroundColor = MaterialTheme.colorScheme.primaryContainer,
+            textColor = MaterialTheme.colorScheme.onPrimaryContainer,
         )
     }
     
@@ -338,6 +330,29 @@ fun FfqScore(
                 .padding(top = 16.dp),
         )
     }
+}
+
+@Composable
+private fun ScoreText(
+    value: Int,
+    backgroundColor: Color,
+    textColor: Color,
+    modifier: Modifier = Modifier,
+) {
+    Text(
+        text = value.toString(),
+        style = MaterialTheme.typography.labelLarge,
+        color = textColor,
+        modifier = modifier
+            .background(
+                color = backgroundColor,
+                shape = RoundedCornerShape(100),
+            )
+            .padding(
+                horizontal = 24.dp,
+                vertical = 6.dp,
+            ),
+    )
 }
 
 @Composable
