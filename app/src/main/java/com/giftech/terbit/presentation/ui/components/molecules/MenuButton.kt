@@ -46,6 +46,7 @@ fun MenuButton(
         Icon(
             imageVector = Icons.Rounded.ArrowDropDown,
             contentDescription = contentDescription,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
         )
     }
 }
