@@ -125,6 +125,7 @@ fun ActivityCalendar(
             monthHeader = {
                 MonthHeader(daysOfWeek = daysOfWeek)
             },
+            userScrollEnabled = false, // TODO - Library bug: crashes when scrolling
         )
     }
 }
