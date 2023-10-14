@@ -51,7 +51,7 @@ fun buildNotification(
         setContentIntent(pendingIntent)
         
         setSmallIcon(R.drawable.ic_logo_notif_24)
-        color = context.getColor(R.color.purple)
+        color = context.getColor(R.color.md_theme_light_primary)
         
         setAutoCancel(true)
         setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -78,7 +78,7 @@ fun buildHiddenNotification(
         channelId,
     ).apply {
         setSmallIcon(R.drawable.ic_logo_notif_24)
-        color = context.getColor(R.color.purple)
+        color = context.getColor(R.color.md_theme_light_primary)
         
         setSilent(true)
         setVibrate(null)

@@ -125,6 +125,7 @@ fun ProfileTextColumn(
         Text(
             text = title,
             style = MaterialTheme.typography.titleSmall,
+            color = MaterialTheme.colorScheme.onSurface,
         )
         Text(
             text = subtitle,

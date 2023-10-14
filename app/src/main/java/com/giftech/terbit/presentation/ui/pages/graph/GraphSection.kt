@@ -38,6 +38,7 @@ fun WeeklyProgramProgress(
     Text(
         text = "Keterangan",
         style = MaterialTheme.typography.bodySmall,
+        color = MaterialTheme.colorScheme.onSurface,
     )
     Spacer(modifier = Modifier.height(8.dp))
     ChartLegend(
@@ -58,6 +59,7 @@ fun PreTestAsaq(
     Text(
         text = "Sedenter Awal",
         style = MaterialTheme.typography.titleMedium,
+        color = MaterialTheme.colorScheme.onSurface,
     )
     
     if (preTestAsaqChartEntry.isNotEmpty()) {
@@ -99,6 +101,7 @@ fun PostTestAsaq(
     Text(
         text = "Sedenter Akhir",
         style = MaterialTheme.typography.titleMedium,
+        color = MaterialTheme.colorScheme.onSurface,
     )
     
     if (postTestAsaqChartEntry.isNotEmpty()) {
@@ -130,6 +133,7 @@ fun PostTestAsaq(
         Text(
             text = "Keterangan",
             style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurface,
         )
         Spacer(modifier = Modifier.height(8.dp))
         Row {
@@ -200,6 +204,7 @@ fun WeeklyAsaq(
         Text(
             text = "Keterangan",
             style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurface,
         )
         Spacer(modifier = Modifier.height(8.dp))
         ChartLegend(
@@ -234,6 +239,7 @@ fun FfqScore(
         Text(
             text = "Skor FFQ Akhir Total",
             style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier
                 .weight(1f),
         )
@@ -272,6 +278,7 @@ fun FfqScore(
         Text(
             text = "Keterangan",
             style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurface,
         )
         Spacer(modifier = Modifier.height(8.dp))
         Row {
@@ -374,6 +381,7 @@ fun FfqCategory(
         Text(
             text = "Keterangan",
             style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurface,
         )
         Spacer(modifier = Modifier.height(8.dp))
         ChartLegend(

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple">#FF4A4ECB</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="md_theme_light_primary">#FF4A4ECB</color>
+    <color name="md_theme_dark_primary">#FFC0C1FF</color>
+    <color name="md_theme_light_surface">#FFFFFBFF</color>
+    <color name="md_theme_dark_surface">#FF1C1B1F</color>
 </resources>

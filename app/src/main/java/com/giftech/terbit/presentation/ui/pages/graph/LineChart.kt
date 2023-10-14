@@ -3,10 +3,10 @@ package com.giftech.terbit.presentation.ui.pages.graph
 import android.text.TextUtils
 import androidx.compose.animation.core.snap
 import androidx.compose.foundation.layout.height
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import com.patrykandpatrick.vico.compose.axis.axisGuidelineComponent
@@ -41,6 +41,7 @@ fun LineChart(
 ) {
     ProvideChartStyle(rememberChartStyle()) {
         val defaultLines = currentChartStyle.lineChart.lines
+        val colorScheme = MaterialTheme.colorScheme
         
         val chartEntryModelProducer = remember(entries) {
             ChartEntryModelProducer(entries)
@@ -96,7 +97,7 @@ fun LineChart(
                                 shape = Shapes.pillShape,
                                 color = defaultLine.lineColor,
                                 strokeWidthDp = 1f,
-                                strokeColor = Color.White.toArgb(),
+                                strokeColor = colorScheme.surface.toArgb(),
                             ),
                             pointConnector = DefaultPointConnector(
                                 cubicStrength = 0f,

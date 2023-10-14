@@ -58,6 +58,7 @@ fun CircularProgressBar(
         Text(
             text = "$value%",
             style = MaterialTheme.typography.headlineSmall,
+            color = MaterialTheme.colorScheme.onSurface,
             textAlign = TextAlign.Center,
         )
     }
