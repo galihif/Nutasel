@@ -290,7 +290,7 @@ private fun PostTestSection(
     GeneralContainer(
         title = "Post test",
         desc = "Pantau pola hidup barumu",
-        imageRes = R.drawable.img_fill_out_asaq_icon_224,
+        imageRes = R.drawable.img_posttest_icon_1080,
         nextIcon = if (state.isPostTestAvailable) {
             if (state.isPostTestDone) {
                 Icons.Rounded.CheckBox
