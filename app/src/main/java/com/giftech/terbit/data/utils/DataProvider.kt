@@ -9,8 +9,8 @@ object DataProvider {
         for (i in 1..Constants.TOTAL_ASAQ) {
             val asaq = Asaq(
                 questionId = i,
-                durasiHariKerja = 0,
-                durasiHariLibur = 0
+                durasiHariKerja = -1,
+                durasiHariLibur = -1
             )
             asaqList.add(asaq)
         }

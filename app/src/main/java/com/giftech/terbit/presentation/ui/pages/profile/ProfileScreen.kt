@@ -54,10 +54,10 @@ fun ProfileScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Image(
-                painter = painterResource(id = R.drawable.avatar),
+                painter = painterResource(id = R.drawable.profil),
                 contentDescription = "Avatar",
                 modifier = Modifier
-                    .size(120.dp)
+                    .size(240.dp)
                     .clip(CircleShape)
             )
             Text(
