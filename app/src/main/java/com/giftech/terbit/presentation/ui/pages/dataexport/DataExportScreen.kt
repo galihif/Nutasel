@@ -435,6 +435,7 @@ private fun PageSection1(
             Text(
                 text = "Informasi Personal",
                 style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface,
             )
             ProfileTextColumn(
                 title = "Berat Badan",
@@ -623,6 +624,7 @@ private fun Page(
                 Text(
                     text = title,
                     style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -637,6 +639,7 @@ private fun Page(
         Text(
             text = pageNumber.toString(),
             style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurface,
             textAlign = TextAlign.End,
             modifier = Modifier
                 .fillMaxWidth(),
