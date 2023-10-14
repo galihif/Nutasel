@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Terbit" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/md_theme_light_primary</item>
+    <style name="Theme.Terbit" parent="android:Theme.Material.NoActionBar">
+        <item name="android:statusBarColor">@color/md_theme_dark_primary</item>
     </style>
 
     <style name="Theme.Terbit.Starting" parent="Theme.SplashScreen">
         <item name="postSplashScreenTheme">@style/Theme.Terbit</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_logo</item>
-        <item name="windowSplashScreenBackground">@color/md_theme_light_surface</item>
+        <item name="windowSplashScreenBackground">@color/md_theme_dark_surface</item>
     </style>
 
 </resources>
