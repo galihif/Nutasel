@@ -146,6 +146,7 @@ private fun FFQScoreSection(
     )
     Spacer(modifier = Modifier.height(24.dp))
     FfqScore(
+        preTestFfqScore = state.preTestFfqScore,
         postTestFfqScore = state.postTestFfqScore,
         ffqScoreChartEntries = state.ffqScoreChartEntries,
         ffqScoreChartXLabels = state.ffqScoreChartXLabels,

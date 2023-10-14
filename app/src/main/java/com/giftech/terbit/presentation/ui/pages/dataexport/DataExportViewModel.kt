@@ -68,6 +68,15 @@ class DataExportViewModel @Inject constructor(
         }
         viewModelScope.launch {
             getFfqResultUseCase(
+                programId = Constants.ProgramId.FIRST_FFQ,
+            ).collect {
+                _state.value = _state.value.copy(
+                    preTestFfqScore = it,
+                )
+            }
+        }
+        viewModelScope.launch {
+            getFfqResultUseCase(
                 programId = Constants.ProgramId.LAST_FFQ,
             ).collect {
                 _state.value = _state.value.copy(

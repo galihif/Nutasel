@@ -14,11 +14,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.giftech.terbit.domain.model.FfqFoodCategory
 import com.giftech.terbit.presentation.ui.components.molecules.ChartLegend
 import com.giftech.terbit.presentation.ui.components.molecules.MenuButton
 import com.giftech.terbit.presentation.ui.theme.dark_CustomColor2
+import com.giftech.terbit.presentation.ui.theme.light_CustomColor2Container
+import com.giftech.terbit.presentation.ui.theme.light_onCustomColor2Container
 import com.patrykandpatrick.vico.core.entry.ChartEntry
 
 @Composable
@@ -225,6 +228,7 @@ fun WeeklyAsaq(
 
 @Composable
 fun FfqScore(
+    preTestFfqScore: Int,
     postTestFfqScore: Int,
     ffqScoreChartEntries: List<List<ChartEntry>>,
     ffqScoreChartXLabels: List<String>,
@@ -235,27 +239,24 @@ fun FfqScore(
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         Text(
-            text = "Skor FFQ Akhir Total",
+            text = "Skor FFQ Total",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier
                 .weight(1f),
         )
-        Text(
-            text = postTestFfqScore.toString(),
-            style = MaterialTheme.typography.labelLarge,
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
-            modifier = Modifier
-                .background(
-                    color = MaterialTheme.colorScheme.primaryContainer,
-                    shape = RoundedCornerShape(100),
-                )
-                .padding(
-                    horizontal = 24.dp,
-                    vertical = 6.dp,
-                ),
+        ScoreText(
+            value = preTestFfqScore,
+            backgroundColor = MaterialTheme.colorScheme.primaryContainer,
+            textColor = MaterialTheme.colorScheme.onPrimaryContainer,
+        )
+        ScoreText(
+            value = postTestFfqScore,
+            backgroundColor = light_CustomColor2Container,
+            textColor = light_onCustomColor2Container,
         )
     }
     
@@ -338,6 +339,29 @@ fun FfqScore(
                 .padding(top = 16.dp),
         )
     }
+}
+
+@Composable
+private fun ScoreText(
+    value: Int,
+    backgroundColor: Color,
+    textColor: Color,
+    modifier: Modifier = Modifier,
+) {
+    Text(
+        text = value.toString(),
+        style = MaterialTheme.typography.labelLarge,
+        color = textColor,
+        modifier = modifier
+            .background(
+                color = backgroundColor,
+                shape = RoundedCornerShape(100),
+            )
+            .padding(
+                horizontal = 24.dp,
+                vertical = 6.dp,
+            ),
+    )
 }
 
 @Composable

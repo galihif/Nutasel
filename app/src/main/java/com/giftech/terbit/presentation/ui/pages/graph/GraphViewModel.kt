@@ -42,6 +42,7 @@ class GraphViewModel @Inject constructor(
             weeklyAsaqOptionsDayOfWeek = emptyList(),
             weeklyAsaqSelectedWeek = -1,
             weeklyAsaqSelectedDayOfWeek = -1,
+            preTestFfqScore = -1,
             postTestFfqScore = -1,
             ffqCategoryOptionsCategory = emptyList(),
             ffqCategorySelectedCategory = -1,
@@ -94,6 +95,15 @@ class GraphViewModel @Inject constructor(
                 week = weekOptions.first(),
                 dayOfWeek = dayOfWeekOptions.first(),
             )
+        }
+        viewModelScope.launch {
+            getFfqResultUseCase(
+                programId = Constants.ProgramId.FIRST_FFQ,
+            ).collect {
+                _state.value = _state.value.copy(
+                    preTestFfqScore = it,
+                )
+            }
         }
         viewModelScope.launch {
             getFfqResultUseCase(
