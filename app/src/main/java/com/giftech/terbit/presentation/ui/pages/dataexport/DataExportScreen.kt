@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.ParcelFileDescriptor
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -55,6 +56,7 @@ import com.giftech.terbit.presentation.ui.pages.graph.PreTestAsaq
 import com.giftech.terbit.presentation.ui.pages.graph.WeeklyAsaq
 import com.giftech.terbit.presentation.ui.pages.graph.WeeklyProgramProgress
 import com.giftech.terbit.presentation.ui.pages.profile.ProfileTextColumn
+import com.giftech.terbit.presentation.ui.theme.TerbitTheme
 import com.giftech.terbit.presentation.util.LockScreenOrientation
 import com.giftech.terbit.presentation.util.showToast
 import com.patrykandpatrick.vico.core.entry.ChartEntry
@@ -404,15 +406,21 @@ private fun Frame(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
-    Box(
-        modifier = modifier
-            .border(
-                width = 1.dp,
-                color = MaterialTheme.colorScheme.outlineVariant,
-                shape = MaterialTheme.shapes.medium,
-            ),
-    ) {
-        content()
+    TerbitTheme(darkTheme = false) {
+        Box(
+            modifier = modifier
+                .background(
+                    color = MaterialTheme.colorScheme.surface,
+                    shape = MaterialTheme.shapes.medium,
+                )
+                .border(
+                    width = 1.dp,
+                    color = MaterialTheme.colorScheme.outlineVariant,
+                    shape = MaterialTheme.shapes.medium,
+                ),
+        ) {
+            content()
+        }
     }
 }
 
