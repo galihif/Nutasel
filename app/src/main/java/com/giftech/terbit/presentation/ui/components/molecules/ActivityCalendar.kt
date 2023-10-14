@@ -117,9 +117,10 @@ fun ActivityCalendar(
             state = state,
             dayContent = { day ->
                 Day(
-                    day,
+                    day = day,
                     isSelected = selections.contains(day),
-                ) {}
+                    onClick = {},
+                )
             },
             monthHeader = {
                 MonthHeader(daysOfWeek = daysOfWeek)
@@ -173,7 +174,7 @@ private fun Day(
         val textColor = when (day.position) {
             // Color.Unspecified will use the default text color from the current theme
             DayPosition.MonthDate -> if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.outline
-            DayPosition.InDate, DayPosition.OutDate -> MaterialTheme.colorScheme.outline.copy(0.5f)
+            DayPosition.InDate, DayPosition.OutDate -> MaterialTheme.colorScheme.outline.copy(0.4f)
         }
         Text(
             text = day.date.dayOfMonth.toString(),
