@@ -252,14 +252,14 @@ private fun InitialConditionsSection(
                 .weight(1f),
         )
         InitialConditionContainer(
-            title = "Sedenter",
-            value = state.monitoringLevel,
+            title = "IMT",
+            value = state.bmiValue.idFormat(),
             modifier = Modifier
                 .weight(1f),
         )
         InitialConditionContainer(
-            title = "IMT",
-            value = state.bmiValue.idFormat(),
+            title = "Sedenter",
+            value = state.monitoringLevel,
             modifier = Modifier
                 .weight(1f),
         )
