@@ -7,6 +7,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import com.patrykandpatrick.vico.compose.axis.axisGuidelineComponent
@@ -38,8 +39,9 @@ fun LineChart(
     labelFormatter: MarkerLabelFormatter,
     modifier: Modifier = Modifier,
     enableAnimation: Boolean = true,
+    chartColors: List<Color> = defaultChartColors(),
 ) {
-    ProvideChartStyle(rememberChartStyle()) {
+    ProvideChartStyle(rememberChartStyle(chartColors = chartColors)) {
         val defaultLines = currentChartStyle.lineChart.lines
         val colorScheme = MaterialTheme.colorScheme
         

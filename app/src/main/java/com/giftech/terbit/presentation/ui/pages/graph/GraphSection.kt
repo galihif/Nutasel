@@ -372,6 +372,7 @@ fun FfqCategory(
     ffqCategoryChartXLabels: List<String>,
     ffqCategoryChartYLabels: List<String>,
     onSelectCategory: () -> Unit,
+    chartColors: List<Color>,
     enableAnimation: Boolean = true,
     chartHeightDp: Int = 260,
 ) {
@@ -396,6 +397,7 @@ fun FfqCategory(
             yLabels = ffqCategoryChartYLabels,
             labelFormatter = FfqCategoryLabelFormatter(ffqCategoryChartXLabels),
             enableAnimation = enableAnimation,
+            chartColors = chartColors,
             modifier = Modifier
                 .height(chartHeightDp.dp),
         )

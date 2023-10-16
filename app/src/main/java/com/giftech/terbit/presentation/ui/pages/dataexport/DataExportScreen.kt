@@ -37,6 +37,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.platform.LocalContext
@@ -57,6 +58,7 @@ import com.giftech.terbit.presentation.ui.pages.graph.WeeklyAsaq
 import com.giftech.terbit.presentation.ui.pages.graph.WeeklyProgramProgress
 import com.giftech.terbit.presentation.ui.pages.profile.ProfileTextColumn
 import com.giftech.terbit.presentation.ui.theme.TerbitTheme
+import com.giftech.terbit.presentation.ui.theme.dark_CustomColor2
 import com.giftech.terbit.presentation.util.LockScreenOrientation
 import com.giftech.terbit.presentation.util.showToast
 import com.patrykandpatrick.vico.core.entry.ChartEntry
@@ -358,13 +360,31 @@ private fun PageSection(
                     val index = state.currentPage - 34
                     PageSection7(
                         pageNumber = state.currentPage,
-                        ffqCategoryChartEntry = state.ffqCategoryChartEntryList.getOrElse(index) { emptyList() },
-                        ffqCategoryChartXLabels = state.ffqCategoryChartXLabelsList.getOrElse(index) { emptyList() },
+                        title = "Frekuensi Kategori Makanan Awal",
+                        ffqCategoryChartEntry = state.preTestFfqCategoryChartEntryList.getOrElse(index) { emptyList() },
+                        ffqCategoryChartXLabels = state.preTestFfqCategoryChartXLabelsList.getOrElse(index) { emptyList() },
                         ffqCategoryChartYLabels = state.ffqCategoryChartYLabels,
                         ffqCategoryOptionsCategory = state.ffqCategoryOptionsCategory,
                         ffqCategorySelectedCategory = state.ffqCategoryOptionsCategory.getOrNull(index)?.foodCategoryId
                             ?: -1,
                         showTitle = index == 0,
+                        chartColors = listOf(MaterialTheme.colorScheme.primary),
+                    )
+                }
+                
+                41, 42, 43, 44, 45, 46, 47 -> {
+                    val index = state.currentPage - 41
+                    PageSection7(
+                        pageNumber = state.currentPage,
+                        title = "Frekuensi Kategori Makanan Akhir",
+                        ffqCategoryChartEntry = state.postTestFfqCategoryChartEntryList.getOrElse(index) { emptyList() },
+                        ffqCategoryChartXLabels = state.postTestFfqCategoryChartXLabelsList.getOrElse(index) { emptyList() },
+                        ffqCategoryChartYLabels = state.ffqCategoryChartYLabels,
+                        ffqCategoryOptionsCategory = state.ffqCategoryOptionsCategory,
+                        ffqCategorySelectedCategory = state.ffqCategoryOptionsCategory.getOrNull(index)?.foodCategoryId
+                            ?: -1,
+                        showTitle = index == 0,
+                        chartColors = listOf(dark_CustomColor2),
                     )
                 }
             }
@@ -589,16 +609,18 @@ private fun PageSection6(
 @Composable
 private fun PageSection7(
     pageNumber: Int,
+    title: String,
     ffqCategoryChartEntry: List<ChartEntry>,
     ffqCategoryChartXLabels: List<String>,
     ffqCategoryChartYLabels: List<String>,
     ffqCategoryOptionsCategory: List<FfqFoodCategory>,
     ffqCategorySelectedCategory: Int,
     showTitle: Boolean,
+    chartColors: List<Color>,
 ) {
     Page(
         pageNumber = pageNumber,
-        title = if (showTitle) "Frekuensi Kategori Makanan" else null
+        title = if (showTitle) title else null
     ) {
         FfqCategory(
             ffqCategoryOptionsCategory = ffqCategoryOptionsCategory,
@@ -607,6 +629,7 @@ private fun PageSection7(
             ffqCategoryChartXLabels = ffqCategoryChartXLabels,
             ffqCategoryChartYLabels = ffqCategoryChartYLabels,
             onSelectCategory = {},
+            chartColors = chartColors,
             enableAnimation = false,
             chartHeightDp = 220,
         )

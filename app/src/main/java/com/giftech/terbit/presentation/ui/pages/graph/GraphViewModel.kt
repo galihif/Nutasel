@@ -45,7 +45,8 @@ class GraphViewModel @Inject constructor(
             preTestFfqScore = -1,
             postTestFfqScore = -1,
             ffqCategoryOptionsCategory = emptyList(),
-            ffqCategorySelectedCategory = -1,
+            preTestFfqCategorySelectedCategory = -1,
+            postTestFfqCategorySelectedCategory = -1,
             
             preTestAsaqChartEntry = emptyList(),
             preTestAsaqChartXLabels = emptyList(),
@@ -67,13 +68,16 @@ class GraphViewModel @Inject constructor(
             ffqScoreChartMaxY = 0,
             ffqScoreChartYLabelCount = 0,
             
-            ffqCategoryChartEntry = emptyList(),
-            ffqCategoryChartXLabels = emptyList(),
+            preTestFfqCategoryChartEntry = emptyList(),
+            postTestFfqCategoryChartEntry = emptyList(),
+            preTestFfqCategoryChartXLabels = emptyList(),
+            postTestFfqCategoryChartXLabels = emptyList(),
             ffqCategoryChartYLabels = emptyList(),
             
             showWeeklyAsaqOptionsWeekDialog = false,
             showWeeklyAsaqOptionsDayOfWeekDialog = false,
-            showFfqCategoryOptionsCategoryDialog = false,
+            showPreTestFfqCategoryOptionsCategoryDialog = false,
+            showPostTestFfqCategoryOptionsCategoryDialog = false,
         )
     )
     val state: State<GraphState> = _state
@@ -119,7 +123,10 @@ class GraphViewModel @Inject constructor(
                 _state.value = _state.value.copy(
                     ffqCategoryOptionsCategory = foodCategoryList,
                 )
-                getFfqCategoryChart(
+                getPreTestFfqCategoryChart(
+                    ffqFoodCategoryId = foodCategoryList.first().foodCategoryId,
+                )
+                getPostTestFfqCategoryChart(
                     ffqFoodCategoryId = foodCategoryList.first().foodCategoryId,
                 )
             }
@@ -206,15 +213,27 @@ class GraphViewModel @Inject constructor(
                 )
             }
             
-            is GraphEvent.FilterFfqCategoryChart -> {
-                getFfqCategoryChart(
+            is GraphEvent.FilterPreTestFfqCategoryChart -> {
+                getPreTestFfqCategoryChart(
                     ffqFoodCategoryId = event.foodCategoryId,
                 )
             }
             
-            is GraphEvent.ShowFfqCategoryOptionsCategoryDialog -> {
+            is GraphEvent.FilterPostTestFfqCategoryChart -> {
+                getPostTestFfqCategoryChart(
+                    ffqFoodCategoryId = event.foodCategoryId,
+                )
+            }
+            
+            is GraphEvent.ShowPreTestFfqCategoryOptionsCategoryDialog -> {
                 _state.value = _state.value.copy(
-                    showFfqCategoryOptionsCategoryDialog = true,
+                    showPreTestFfqCategoryOptionsCategoryDialog = true,
+                )
+            }
+            
+            is GraphEvent.ShowPostTestFfqCategoryOptionsCategoryDialog -> {
+                _state.value = _state.value.copy(
+                    showPostTestFfqCategoryOptionsCategoryDialog = true,
                 )
             }
             
@@ -234,13 +253,17 @@ class GraphViewModel @Inject constructor(
                 _state.value = _state.value.copy(
                     showWeeklyAsaqOptionsWeekDialog = false,
                     showWeeklyAsaqOptionsDayOfWeekDialog = false,
-                    showFfqCategoryOptionsCategoryDialog = false,
+                    showPreTestFfqCategoryOptionsCategoryDialog = false,
+                    showPostTestFfqCategoryOptionsCategoryDialog = false,
                 )
             }
         }
     }
     
-    private fun getWeeklyAsaqChart(week: Int, dayOfWeek: Int) {
+    private fun getWeeklyAsaqChart(
+        week: Int,
+        dayOfWeek: Int,
+    ) {
         viewModelScope.launch {
             getWeeklyAsaqChartUseCase(
                 week = week,
@@ -266,9 +289,10 @@ class GraphViewModel @Inject constructor(
         }
     }
     
-    private fun getFfqCategoryChart(ffqFoodCategoryId: Int) {
+    private fun getPreTestFfqCategoryChart(ffqFoodCategoryId: Int) {
         viewModelScope.launch {
             getFfqCategoryChartUseCase(
+                ffqProgramId = Constants.ProgramId.FIRST_FFQ,
                 ffqFoodCategoryId = ffqFoodCategoryId,
             ).collect { ffqCategoryChart ->
                 val ffqCategoryChartEntry = withContext(Dispatchers.IO) {
@@ -287,10 +311,40 @@ class GraphViewModel @Inject constructor(
                     }
                 }
                 _state.value = _state.value.copy(
-                    ffqCategoryChartEntry = ffqCategoryChartEntry,
-                    ffqCategoryChartXLabels = ffqCategoryChart.xLabels,
+                    preTestFfqCategoryChartEntry = ffqCategoryChartEntry,
+                    preTestFfqCategoryChartXLabels = ffqCategoryChart.xLabels,
                     ffqCategoryChartYLabels = ffqCategoryChart.yLabels,
-                    ffqCategorySelectedCategory = ffqFoodCategoryId,
+                    preTestFfqCategorySelectedCategory = ffqFoodCategoryId,
+                )
+            }
+        }
+    }
+    
+    private fun getPostTestFfqCategoryChart(ffqFoodCategoryId: Int) {
+        viewModelScope.launch {
+            getFfqCategoryChartUseCase(
+                ffqProgramId = Constants.ProgramId.LAST_FFQ,
+                ffqFoodCategoryId = ffqFoodCategoryId,
+            ).collect { ffqCategoryChart ->
+                val ffqCategoryChartEntry = withContext(Dispatchers.IO) {
+                    ffqCategoryChart.entry.mapIndexed { index, ffqResponse ->
+                        entryOf(
+                            x = index,
+                            y = when (ffqResponse.freq ?: FfqFrequency.NEVER) {
+                                FfqFrequency.NEVER -> 0
+                                FfqFrequency.DAY_1 -> 1
+                                FfqFrequency.DAY_3 -> 2
+                                FfqFrequency.WEEK_1_2 -> 3
+                                FfqFrequency.WEEK_3_6 -> 4
+                                FfqFrequency.MONTH_2 -> 5
+                            },
+                        )
+                    }
+                }
+                _state.value = _state.value.copy(
+                    postTestFfqCategoryChartEntry = ffqCategoryChartEntry,
+                    postTestFfqCategoryChartXLabels = ffqCategoryChart.xLabels,
+                    postTestFfqCategorySelectedCategory = ffqFoodCategoryId,
                 )
             }
         }

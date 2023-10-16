@@ -19,7 +19,7 @@ import com.patrykandpatrick.vico.core.component.shape.LineComponent
 import com.patrykandpatrick.vico.core.component.shape.Shapes
 import com.patrykandpatrick.vico.core.component.shape.shader.DynamicShaders
 
-private val defaultChartColors =
+val defaultChartColors =
     @Composable {
         listOf(
             MaterialTheme.colorScheme.primary,
