@@ -37,8 +37,10 @@ data class DataExportState(
     val ffqScoreChartMaxY: Int = 0,
     val ffqScoreChartYLabelCount: Int = 0,
     
-    val ffqCategoryChartEntryList: List<List<ChartEntry>> = emptyList(),
-    val ffqCategoryChartXLabelsList: List<List<String>> = emptyList(),
+    val preTestFfqCategoryChartEntryList: List<List<ChartEntry>> = emptyList(),
+    val postTestFfqCategoryChartEntryList: List<List<ChartEntry>> = emptyList(),
+    val preTestFfqCategoryChartXLabelsList: List<List<String>> = emptyList(),
+    val postTestFfqCategoryChartXLabelsList: List<List<String>> = emptyList(),
     val ffqCategoryChartYLabels: List<String> = emptyList(),
     val ffqCategoryOptionsCategory: List<FfqFoodCategory> = emptyList(),
     

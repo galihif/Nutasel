@@ -10,7 +10,11 @@ sealed class GraphEvent {
         val dayOfWeek: Int,
     ) : GraphEvent()
     
-    data class FilterFfqCategoryChart(
+    data class FilterPreTestFfqCategoryChart(
+        val foodCategoryId: Int,
+    ) : GraphEvent()
+    
+    data class FilterPostTestFfqCategoryChart(
         val foodCategoryId: Int,
     ) : GraphEvent()
     
@@ -20,7 +24,10 @@ sealed class GraphEvent {
     data object ShowWeeklyAsaqOptionsDayOfWeekDialog
         : GraphEvent()
     
-    data object ShowFfqCategoryOptionsCategoryDialog
+    data object ShowPreTestFfqCategoryOptionsCategoryDialog
+        : GraphEvent()
+    
+    data object ShowPostTestFfqCategoryOptionsCategoryDialog
         : GraphEvent()
     
     data object DismissDialog

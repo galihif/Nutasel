@@ -42,7 +42,7 @@ class DataExportViewModel @Inject constructor(
     init {
         _state.value = _state.value.copy(
             currentPage = 1,
-            totalPages = 40,
+            totalPages = 47,
             startExtractingToBitmap = false,
             startSavingToStorage = false,
             allowedInteractions = true,
@@ -176,7 +176,9 @@ class DataExportViewModel @Inject constructor(
             }
         }
         viewModelScope.launch {
-            getFfqCategoryChartListUseCase().collect { ffqCategoryChartList ->
+            getFfqCategoryChartListUseCase(
+                programId = Constants.ProgramId.FIRST_FFQ,
+            ).collect { ffqCategoryChartList ->
                 val ffqCategoryChartEntryList = withContext(Dispatchers.IO) {
                     ffqCategoryChartList.map {
                         it.entry.mapIndexed { index, ffqResponse ->
@@ -195,9 +197,36 @@ class DataExportViewModel @Inject constructor(
                     }
                 }
                 _state.value = _state.value.copy(
-                    ffqCategoryChartEntryList = ffqCategoryChartEntryList,
-                    ffqCategoryChartXLabelsList = ffqCategoryChartList.map { it.xLabels },
+                    preTestFfqCategoryChartEntryList = ffqCategoryChartEntryList,
+                    preTestFfqCategoryChartXLabelsList = ffqCategoryChartList.map { it.xLabels },
                     ffqCategoryChartYLabels = ffqCategoryChartList.firstOrNull()?.yLabels.orEmpty(),
+                )
+            }
+        }
+        viewModelScope.launch {
+            getFfqCategoryChartListUseCase(
+                programId = Constants.ProgramId.LAST_FFQ,
+            ).collect { ffqCategoryChartList ->
+                val ffqCategoryChartEntryList = withContext(Dispatchers.IO) {
+                    ffqCategoryChartList.map {
+                        it.entry.mapIndexed { index, ffqResponse ->
+                            entryOf(
+                                x = index,
+                                y = when (ffqResponse.freq ?: FfqFrequency.NEVER) {
+                                    FfqFrequency.NEVER -> 0
+                                    FfqFrequency.DAY_1 -> 1
+                                    FfqFrequency.DAY_3 -> 2
+                                    FfqFrequency.WEEK_1_2 -> 3
+                                    FfqFrequency.WEEK_3_6 -> 4
+                                    FfqFrequency.MONTH_2 -> 5
+                                },
+                            )
+                        }
+                    }
+                }
+                _state.value = _state.value.copy(
+                    postTestFfqCategoryChartEntryList = ffqCategoryChartEntryList,
+                    postTestFfqCategoryChartXLabelsList = ffqCategoryChartList.map { it.xLabels },
                 )
             }
         }
@@ -210,14 +239,14 @@ class DataExportViewModel @Inject constructor(
                     _state.value = _state.value.copy(
                         currentPage = event.currentPage + 1
                     )
-                }
-                if (_state.value.startExtractingToBitmap) {
-                    _state.value = _state.value.copy(
-                        bitmapExtractionProgress = percentageOf(
-                            value = event.currentPage,
-                            total = _state.value.totalPages,
-                        ),
-                    )
+                    if (_state.value.startExtractingToBitmap) {
+                        _state.value = _state.value.copy(
+                            bitmapExtractionProgress = percentageOf(
+                                value = event.currentPage,
+                                total = _state.value.totalPages,
+                            ),
+                        )
+                    }
                 }
             }
             

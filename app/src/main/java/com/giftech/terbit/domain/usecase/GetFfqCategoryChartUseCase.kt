@@ -2,7 +2,6 @@ package com.giftech.terbit.domain.usecase
 
 import com.giftech.terbit.domain.model.FfqCategoryChart
 import com.giftech.terbit.domain.repository.IFfqQuestionRepository
-import com.giftech.terbit.domain.util.Constants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -16,12 +15,13 @@ class GetFfqCategoryChartUseCase @Inject constructor(
     
     @OptIn(ExperimentalCoroutinesApi::class)
     suspend operator fun invoke(
+        ffqProgramId: Int,
         ffqFoodCategoryId: Int,
     ): Flow<FfqCategoryChart> {
         return ffqQuestionRepository.getAll()
             .mapLatest { ffqResponseList ->
                 ffqResponseList.filter {
-                    it.programId == Constants.ProgramId.LAST_FFQ &&
+                    it.programId == ffqProgramId &&
                             it.foodCategoryId == ffqFoodCategoryId &&
                             it.freq != null
                 }

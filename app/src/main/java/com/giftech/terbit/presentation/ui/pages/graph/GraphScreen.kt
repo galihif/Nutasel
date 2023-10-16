@@ -14,6 +14,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.giftech.terbit.presentation.ui.theme.dark_CustomColor2
 import com.maxkeppeker.sheets.core.models.base.rememberUseCaseState
 import com.maxkeppeler.sheets.list.ListDialog
 import com.maxkeppeler.sheets.list.models.ListOption
@@ -61,7 +62,12 @@ private fun GraphContent(
             state = state,
         )
         Spacer(modifier = Modifier.height(40.dp))
-        FFQCategorySection(
+        PreTestFFQCategorySection(
+            state = state,
+            viewModel = viewModel,
+        )
+        Spacer(modifier = Modifier.height(40.dp))
+        PostTestFFQCategorySection(
             state = state,
             viewModel = viewModel,
         )
@@ -156,24 +162,50 @@ private fun FFQScoreSection(
 }
 
 @Composable
-private fun FFQCategorySection(
+private fun PreTestFFQCategorySection(
     state: GraphState,
     viewModel: GraphViewModel,
 ) {
     Text(
-        text = "Frekuensi Kategori Makanan",
+        text = "Frekuensi Kategori Makanan Awal",
         style = MaterialTheme.typography.titleMedium,
     )
     Spacer(modifier = Modifier.height(16.dp))
     FfqCategory(
         ffqCategoryOptionsCategory = state.ffqCategoryOptionsCategory,
-        ffqCategorySelectedCategory = state.ffqCategorySelectedCategory,
-        ffqCategoryChartEntry = state.ffqCategoryChartEntry,
-        ffqCategoryChartXLabels = state.ffqCategoryChartXLabels,
+        ffqCategorySelectedCategory = state.preTestFfqCategorySelectedCategory,
+        ffqCategoryChartEntry = state.preTestFfqCategoryChartEntry,
+        ffqCategoryChartXLabels = state.preTestFfqCategoryChartXLabels,
         ffqCategoryChartYLabels = state.ffqCategoryChartYLabels,
+        chartColors = listOf(MaterialTheme.colorScheme.primary),
         onSelectCategory = {
             viewModel.onEvent(
-                GraphEvent.ShowFfqCategoryOptionsCategoryDialog
+                GraphEvent.ShowPreTestFfqCategoryOptionsCategoryDialog
+            )
+        },
+    )
+}
+
+@Composable
+private fun PostTestFFQCategorySection(
+    state: GraphState,
+    viewModel: GraphViewModel,
+) {
+    Text(
+        text = "Frekuensi Kategori Makanan Akhir",
+        style = MaterialTheme.typography.titleMedium,
+    )
+    Spacer(modifier = Modifier.height(16.dp))
+    FfqCategory(
+        ffqCategoryOptionsCategory = state.ffqCategoryOptionsCategory,
+        ffqCategorySelectedCategory = state.postTestFfqCategorySelectedCategory,
+        ffqCategoryChartEntry = state.postTestFfqCategoryChartEntry,
+        ffqCategoryChartXLabels = state.postTestFfqCategoryChartXLabels,
+        ffqCategoryChartYLabels = state.ffqCategoryChartYLabels,
+        chartColors = listOf(dark_CustomColor2),
+        onSelectCategory = {
+            viewModel.onEvent(
+                GraphEvent.ShowPostTestFfqCategoryOptionsCategoryDialog
             )
         },
     )
@@ -214,11 +246,20 @@ private fun ChartOptionsDialog(
                     }
                 }
                 
+                state.showPreTestFfqCategoryOptionsCategoryDialog -> {
+                    state.ffqCategoryOptionsCategory.map { category ->
+                        ListOption(
+                            titleText = category.name,
+                            selected = category.foodCategoryId == state.preTestFfqCategorySelectedCategory
+                        )
+                    }
+                }
+                
                 else -> {
                     state.ffqCategoryOptionsCategory.map { category ->
                         ListOption(
                             titleText = category.name,
-                            selected = category.foodCategoryId == state.ffqCategorySelectedCategory,
+                            selected = category.foodCategoryId == state.postTestFfqCategorySelectedCategory
                         )
                     }
                 }
@@ -241,9 +282,17 @@ private fun ChartOptionsDialog(
                     )
                 }
                 
+                state.showPreTestFfqCategoryOptionsCategoryDialog -> {
+                    viewModel.onEvent(
+                        GraphEvent.FilterPreTestFfqCategoryChart(
+                            foodCategoryId = state.ffqCategoryOptionsCategory[selectedIndex].foodCategoryId,
+                        )
+                    )
+                }
+                
                 else -> {
                     viewModel.onEvent(
-                        GraphEvent.FilterFfqCategoryChart(
+                        GraphEvent.FilterPostTestFfqCategoryChart(
                             foodCategoryId = state.ffqCategoryOptionsCategory[selectedIndex].foodCategoryId,
                         )
                     )
@@ -255,11 +304,13 @@ private fun ChartOptionsDialog(
     LaunchedEffect(
         state.showWeeklyAsaqOptionsDayOfWeekDialog,
         state.showWeeklyAsaqOptionsWeekDialog,
-        state.showFfqCategoryOptionsCategoryDialog,
+        state.showPreTestFfqCategoryOptionsCategoryDialog,
+        state.showPostTestFfqCategoryOptionsCategoryDialog,
     ) {
         if (state.showWeeklyAsaqOptionsDayOfWeekDialog ||
             state.showWeeklyAsaqOptionsWeekDialog ||
-            state.showFfqCategoryOptionsCategoryDialog
+            state.showPreTestFfqCategoryOptionsCategoryDialog ||
+            state.showPostTestFfqCategoryOptionsCategoryDialog
         ) {
             chartOptionsDialog.show()
         }

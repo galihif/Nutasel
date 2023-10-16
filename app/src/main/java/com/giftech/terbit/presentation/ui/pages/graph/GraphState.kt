@@ -12,7 +12,8 @@ data class GraphState(
     val preTestFfqScore: Int,
     val postTestFfqScore: Int,
     val ffqCategoryOptionsCategory: List<FfqFoodCategory>,
-    val ffqCategorySelectedCategory: Int,
+    val preTestFfqCategorySelectedCategory: Int,
+    val postTestFfqCategorySelectedCategory: Int,
 
     val preTestAsaqChartEntry: List<ChartEntry>,
     val preTestAsaqChartXLabels: List<String>,
@@ -34,11 +35,14 @@ data class GraphState(
     val ffqScoreChartMaxY: Int,
     val ffqScoreChartYLabelCount: Int,
 
-    val ffqCategoryChartEntry: List<ChartEntry>,
-    val ffqCategoryChartXLabels: List<String>,
+    val preTestFfqCategoryChartEntry: List<ChartEntry>,
+    val postTestFfqCategoryChartEntry: List<ChartEntry>,
+    val preTestFfqCategoryChartXLabels: List<String>,
+    val postTestFfqCategoryChartXLabels: List<String>,
     val ffqCategoryChartYLabels: List<String>,
     
     val showWeeklyAsaqOptionsWeekDialog: Boolean,
     val showWeeklyAsaqOptionsDayOfWeekDialog: Boolean,
-    val showFfqCategoryOptionsCategoryDialog: Boolean,
+    val showPreTestFfqCategoryOptionsCategoryDialog: Boolean,
+    val showPostTestFfqCategoryOptionsCategoryDialog: Boolean,
 )
