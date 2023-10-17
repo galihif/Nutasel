@@ -27,7 +27,6 @@ import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.NotificationsActive
 import androidx.compose.material.icons.rounded.AccessTime
 import androidx.compose.material.icons.rounded.ArrowRight
-import androidx.compose.material.icons.rounded.CheckBox
 import androidx.compose.material.icons.rounded.CheckBoxOutlineBlank
 import androidx.compose.material.icons.rounded.NotificationsNone
 import androidx.compose.material3.Icon
@@ -292,11 +291,7 @@ private fun PostTestSection(
         desc = "Pantau pola hidup barumu",
         imageRes = R.drawable.img_posttest_icon_1080,
         nextIcon = if (state.isPostTestAvailable) {
-            if (state.isPostTestDone) {
-                Icons.Rounded.CheckBox
-            } else {
-                Icons.Rounded.ArrowRight
-            }
+            Icons.Rounded.ArrowRight
         } else {
             Icons.Outlined.Lock
         },
