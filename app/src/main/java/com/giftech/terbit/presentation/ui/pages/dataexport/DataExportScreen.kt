@@ -520,6 +520,7 @@ private fun PageSection3(
             preTestAsaqChartMaxY = preTestAsaqChartMaxY,
             preTestAsaqChartYLabelCount = preTestAsaqChartYLabelCount,
             enableAnimation = false,
+            showDataLabel = true,
             chartHeightDp = 260,
         )
     }
@@ -544,6 +545,7 @@ private fun PageSection4(
             postTestAsaqChartMaxY = postTestAsaqChartMaxY,
             postTestAsaqChartYLabelCount = postTestAsaqChartYLabelCount,
             enableAnimation = false,
+            showDataLabel = true,
             chartHeightDp = 260,
         )
     }
@@ -574,6 +576,7 @@ private fun PageSection5(
             onSelectDayOfWeek = {},
             onSelectWeek = {},
             enableAnimation = false,
+            showDataLabel = true,
             chartHeightDp = 240,
         )
     }
@@ -601,6 +604,7 @@ private fun PageSection6(
             ffqScoreChartMaxY = ffqScoreChartMaxY,
             ffqScoreChartYLabelCount = ffqScoreChartYLabelCount,
             enableAnimation = false,
+            showDataLabel = true,
             chartHeightDp = 180,
         )
     }
