@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.giftech.terbit.domain.model.Article
 import com.giftech.terbit.domain.usecase.ArticleUsecase
 import com.giftech.terbit.domain.usecase.CompleteProgramUseCase
+import com.giftech.terbit.domain.usecase.UserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,10 +17,22 @@ class ArticleViewModel
 @Inject constructor(
     private val articleUseCase: ArticleUsecase,
     private val completeProgramUseCase: CompleteProgramUseCase,
+    private val userUseCase: UserUseCase
 ) : ViewModel() {
     
     private val _article = mutableStateOf<Article?>(null)
     val article: State<Article?> = _article
+
+    private val _userName = mutableStateOf("")
+    val userName: State<String> = _userName
+
+    fun getUserName() {
+        viewModelScope.launch {
+            userUseCase.getUser().collect{ user ->
+                _userName.value = user.nama
+            }
+        }
+    }
     
     fun getArticleByWeekDay(week: Int, day: Int) {
         viewModelScope.launch {
