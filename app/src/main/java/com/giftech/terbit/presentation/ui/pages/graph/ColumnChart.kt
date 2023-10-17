@@ -25,6 +25,7 @@ import com.patrykandpatrick.vico.core.component.text.TextComponent
 import com.patrykandpatrick.vico.core.entry.ChartEntry
 import com.patrykandpatrick.vico.core.entry.ChartEntryModel
 import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
+import com.patrykandpatrick.vico.core.formatter.ValueFormatter
 import com.patrykandpatrick.vico.core.marker.MarkerLabelFormatter
 
 @Composable
@@ -38,6 +39,9 @@ fun ColumnChart(
     yTitle: String? = null,
     xValueFormatter: AxisValueFormatter<AxisPosition.Horizontal.Bottom>? = null,
     enableAnimation: Boolean = true,
+    showDataLabel: Boolean = false,
+    dataLabelFormatter: ValueFormatter? = null,
+    dataLabelRotationDegrees: Float = 0f,
 ) {
     ProvideChartStyle(rememberChartStyle()) {
         val chartEntryModelProducer = remember(entries) {
@@ -94,7 +98,11 @@ fun ColumnChart(
                         override fun getMaxY(model: ChartEntryModel) = maxY.toFloat()
                     }
                 },
-            ),
+                dataLabelRotationDegrees = dataLabelRotationDegrees,
+            ).apply {
+                if (showDataLabel.not()) dataLabel = null
+                if (dataLabelFormatter != null) dataLabelValueFormatter = dataLabelFormatter
+            },
             chartModelProducer = chartEntryModelProducer,
             bottomAxis = xAxis,
             endAxis = yAxis,

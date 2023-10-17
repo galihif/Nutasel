@@ -1,5 +1,7 @@
 package com.giftech.terbit.presentation.ui.pages.graph
 
+import android.text.Layout
+import android.text.TextUtils
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -18,6 +20,8 @@ import com.patrykandpatrick.vico.core.chart.line.LineChart
 import com.patrykandpatrick.vico.core.component.shape.LineComponent
 import com.patrykandpatrick.vico.core.component.shape.Shapes
 import com.patrykandpatrick.vico.core.component.shape.shader.DynamicShaders
+import com.patrykandpatrick.vico.core.component.text.TextComponent
+import com.patrykandpatrick.vico.core.dimensions.MutableDimensions
 
 val defaultChartColors =
     @Composable {
@@ -35,7 +39,10 @@ fun rememberChartStyle(
     val typography = MaterialTheme.typography.toTypeface()
     val isSystemInDarkTheme = isSystemInDarkTheme()
     
-    return remember(chartColors, isSystemInDarkTheme) {
+    return remember(
+        chartColors,
+        isSystemInDarkTheme,
+    ) {
         val defaultColors = if (isSystemInDarkTheme) DefaultColors.Dark else DefaultColors.Light
         
         ChartStyle(
@@ -50,16 +57,29 @@ fun rememberChartStyle(
                 axisLabelTextSize = 10.sp,
             ),
             ChartStyle.ColumnChart(
-                chartColors.map { chartColor ->
+                columns = chartColors.map { chartColor ->
                     LineComponent(
                         color = chartColor.toArgb(),
                         thicknessDp = 10f,
                         shape = Shapes.pillShape,
                     )
                 },
+                dataLabel = TextComponent.Builder().apply {
+                    color = colorScheme.outline.copy(0.75f).toArgb()
+                    typeface = typography.labelSmall
+                    textSizeSp = 10f
+                    ellipsize = TextUtils.TruncateAt.MARQUEE
+                    textAlignment = Layout.Alignment.ALIGN_CENTER
+                    margins = MutableDimensions(
+                        0f,
+                        0f,
+                        0f,
+                        4f,
+                    )
+                }.build(),
             ),
             ChartStyle.LineChart(
-                chartColors.map { chartColor ->
+                lines = chartColors.map { chartColor ->
                     LineChart.LineSpec(
                         lineColor = chartColor.toArgb(),
                         lineBackgroundShader = DynamicShaders.fromBrush(

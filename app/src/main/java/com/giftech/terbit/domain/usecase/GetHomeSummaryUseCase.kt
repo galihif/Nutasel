@@ -100,7 +100,6 @@ class GetHomeSummaryUseCase @Inject constructor(
                             }
                         }
                         
-                        
                         val userName = user.nama
                         val bmiCategory = user.kategoriIMT.title
                         val monitoringLevel = sedenterType.title
@@ -122,8 +121,9 @@ class GetHomeSummaryUseCase @Inject constructor(
                             .plusDays(breakDayBeforePostTest)
                         val postTestOpeningDateString = postTestOpeningDate
                             .toString(Constants.DatePattern.READABLE_DEFAULT)
-                        val isPostTestDone =
-                            programList.all { it.tag == ProgramTag.POST_TEST && it.isCompleted }
+                        val isPostTestDone = programList
+                            .filter { it.tag == ProgramTag.POST_TEST }
+                            .all { it.isCompleted }
                         val isAllWeeklyProgramDone = weeklyProgramList.all { it.isCompleted }
                         val isPostTestAvailable = isAllWeeklyProgramDone &&
                                 LocalDate.now() >= postTestOpeningDate
@@ -131,7 +131,10 @@ class GetHomeSummaryUseCase @Inject constructor(
                         val totalProgram = weeklyProgramList.size
                         val totalCompletedProgram = weeklyProgramList.count { it.isCompleted }
                         val programProgressPercentage =
-                            percentageOf(totalCompletedProgram, totalProgram)
+                            percentageOf(
+                                totalCompletedProgram,
+                                totalProgram
+                            )
                         val totalCompletedDaysInWeek = lastCompletedProgram?.dayOfWeek ?: 0
                         val currentWeek = lastCompletedProgram?.week ?: 1
                         val totalCompletedWeek = lastCompletedProgram?.week?.minus(

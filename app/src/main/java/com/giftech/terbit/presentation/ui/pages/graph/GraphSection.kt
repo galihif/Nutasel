@@ -57,6 +57,7 @@ fun PreTestAsaq(
     preTestAsaqChartMaxY: Int,
     preTestAsaqChartYLabelCount: Int,
     enableAnimation: Boolean = true,
+    showDataLabel: Boolean = false,
     chartHeightDp: Int = 220,
 ) {
     Text(
@@ -75,6 +76,8 @@ fun PreTestAsaq(
             labelFormatter = AsaqLabelFormatter(),
             xValueFormatter = AsaqChartXValueFormatter(preTestAsaqChartXLabels),
             enableAnimation = enableAnimation,
+            showDataLabel = showDataLabel,
+            dataLabelFormatter = if (showDataLabel) AsaqDataLabelFormatter() else null,
             modifier = Modifier
                 .height(chartHeightDp.dp),
         )
@@ -99,6 +102,7 @@ fun PostTestAsaq(
     postTestAsaqChartMaxY: Int,
     postTestAsaqChartYLabelCount: Int,
     enableAnimation: Boolean = true,
+    showDataLabel: Boolean = false,
     chartHeightDp: Int = 220,
 ) {
     Text(
@@ -117,6 +121,8 @@ fun PostTestAsaq(
             labelFormatter = AsaqLabelFormatter(),
             xValueFormatter = AsaqChartXValueFormatter(postTestAsaqChartXLabels),
             enableAnimation = enableAnimation,
+            showDataLabel = showDataLabel,
+            dataLabelFormatter = if (showDataLabel) AsaqDataLabelFormatter() else null,
             modifier = Modifier
                 .height(chartHeightDp.dp),
         )
@@ -167,6 +173,7 @@ fun WeeklyAsaq(
     onSelectDayOfWeek: () -> Unit,
     onSelectWeek: () -> Unit,
     enableAnimation: Boolean = true,
+    showDataLabel: Boolean = false,
     chartHeightDp: Int = 220,
 ) {
     Row(
@@ -198,6 +205,8 @@ fun WeeklyAsaq(
             labelFormatter = AsaqLabelFormatter(),
             xValueFormatter = AsaqChartXValueFormatter(weeklyAsaqResponseChartXLabels),
             enableAnimation = enableAnimation,
+            showDataLabel = showDataLabel,
+            dataLabelFormatter = if (showDataLabel) AsaqDataLabelFormatter() else null,
             modifier = Modifier
                 .height(chartHeightDp.dp),
         )
@@ -235,6 +244,7 @@ fun FfqScore(
     ffqScoreChartMaxY: Int,
     ffqScoreChartYLabelCount: Int,
     enableAnimation: Boolean = true,
+    showDataLabel: Boolean = false,
     chartHeightDp: Int = 320,
 ) {
     Row(
@@ -270,6 +280,9 @@ fun FfqScore(
             yLabelCount = ffqScoreChartYLabelCount,
             labelFormatter = FfqScoreLabelFormatter(ffqScoreChartXLabels),
             enableAnimation = enableAnimation,
+            showDataLabel = showDataLabel,
+            dataLabelFormatter = if (showDataLabel) FfqScoreDataLabelFormatter() else null,
+            dataLabelRotationDegrees = 90f,
             modifier = Modifier
                 .height(chartHeightDp.dp),
         )
