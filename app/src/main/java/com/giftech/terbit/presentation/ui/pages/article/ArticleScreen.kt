@@ -56,8 +56,11 @@ fun ArticleScreen(
 ) {
     LaunchedEffect(week, day) {
         viewModel.getArticleByWeekDay(week, day)
+        viewModel.getUserName()
     }
-    
+    val userName by remember {
+        viewModel.userName
+    }
     val article by remember {
         viewModel.article
     }
@@ -148,7 +151,7 @@ fun ArticleScreen(
                     }
                 }
                 Text(
-                    text = annotatedStringResource(id = article!!.content, "Galih"),
+                    text = annotatedStringResource(id = article!!.content, userName),
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Justify
