@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Fastfood
 import androidx.compose.material.icons.filled.MenuBook
 import androidx.compose.material.icons.filled.PendingActions
 import androidx.compose.material3.Card
@@ -83,9 +82,8 @@ fun HasilTPScreen(
                         style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.Center
                     )
-                    IconTextRow(icon = Icons.Default.MenuBook, text = "Membaca 1 Artikel perminggu")
-                    IconTextRow(icon = Icons.Default.PendingActions, text = "Pemantauan Aktivitas Sedentari")
-                    IconTextRow(icon = Icons.Default.Fastfood, text = "Pemantauan Frekuensi Makanan")
+                    IconTextRow(icon = Icons.Default.MenuBook, text = "Membaca 2 Artikel perminggu")
+                    IconTextRow(icon = Icons.Default.PendingActions, text = "Pemantauan Aktivitas Sedenter")
                 }
             }
 
