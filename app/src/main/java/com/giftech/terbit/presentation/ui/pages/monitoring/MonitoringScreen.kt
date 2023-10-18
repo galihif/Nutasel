@@ -107,7 +107,6 @@ private fun MonitoringContent(
                 week != state.weeklyProgramList.keys.first() &&
                         state.weeklyProgramList[week - 1]!!.any { !it.isCompleted } -> MonitoringStatus.NotAvailable
                 
-                
                 else -> MonitoringStatus.NotAvailable
             }
             MonitoringItem(

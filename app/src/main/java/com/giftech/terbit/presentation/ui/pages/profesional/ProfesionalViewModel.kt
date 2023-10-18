@@ -16,7 +16,7 @@ class ProfesionalViewModel
 
     fun contactProfesionalByWhatsapp(context:Context) {
         val number = "6281906118253"
-        val message = "Halo Profesional, saya ingin pinjam dulu seratus"
+        val message = "Halo Profesional"
         val url = "https://wa.me/${number}?text=${URLEncoder.encode(message,"UTF-8")}"
         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         context.startActivity(browserIntent)
