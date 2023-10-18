@@ -425,7 +425,7 @@ fun FfqCategory(
         Spacer(modifier = Modifier.height(8.dp))
         ChartLegend(
             text = "Tingkat konsumsi",
-            color = MaterialTheme.colorScheme.primary,
+            color = chartColors.first(),
         )
         Spacer(modifier = Modifier.height(4.dp))
         Row {
