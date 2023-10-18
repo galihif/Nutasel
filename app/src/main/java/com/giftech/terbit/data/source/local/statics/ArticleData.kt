@@ -153,11 +153,11 @@ class ArticleData @Inject constructor() {
         "Selamat kamu telah selesai membaca artikel, jangan lupa, membaca adalah tanda bahwa kamu peduli dengan perkembangan dirimu sendiri!",
         "Kamu telah selesai membaca  artikel minggu kedua, informasi adalah sesuatu yang berharga, terus semangat membaca!",
         "Kamu telah selesai membaca artikel minggu ketiga, setiap kata yang kamu baca adalah langkah menuju impianmu!",
-        "Selamat, kamu telah menyelesaikan program membaca artikel, kamu sangat menginspirasi sekitar, jangan stop disini, teruslah membaca dan teruslah berkembang!",
+        "Selamat, kamu telah menyelesaikan program membaca artikel, kamu sangat menginspirasi sekitar, jangan stop di sini, teruslah membaca dan teruslah berkembang!",
         "Selamat kamu telah selesai membaca artikel, jangan lupa, membaca adalah tanda bahwa kamu peduli dengan perkembangan dirimu sendiri!",
         "Kamu telah selesai membaca  artikel minggu kedua, informasi adalah sesuatu yang berharga, terus semangat membaca!",
         "Kamu telah selesai membaca artikel minggu ketiga, setiap kata yang kamu baca adalah langkah menuju impianmu!",
-        "Selamat, kamu telah menyelesaikan program membaca artikel, kamu sangat menginspirasi sekitar, jangan stop disini, teruslah membaca dan teruslah berkembang!",
+        "Selamat, kamu telah menyelesaikan program membaca artikel, kamu sangat menginspirasi sekitar, jangan stop di sini, teruslah membaca dan teruslah berkembang!",
     )
 
 }
