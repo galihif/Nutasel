@@ -12,7 +12,7 @@ class NotificationData @Inject constructor() {
         NotificationEntity(
             id = 1000,
             title = "",
-            message = "Pantau sedentari hari ke {{day_of_week}} menunggu untuk dikerjakan",
+            message = "Pantau sedenter hari ke {{day_of_week}} menunggu untuk dikerjakan",
             triggerTime = "08:00",
             type = NotificationType.PROGRAM_REMINDER.typeId,
         ),

@@ -140,7 +140,7 @@ private fun HomeContent(
         ) { program ->
             ActivityToDoItem(
                 programName = when (program) {
-                    is FillOutAsaq -> "Pantau Sedentari"
+                    is FillOutAsaq -> "Pantau Sedenter"
                     is FillOutFfq -> "Pantau Pola Makan"
                     is ReadArticle -> "Baca Artikel"
                 },
