@@ -397,7 +397,7 @@ private fun PageSection(
     ) {
         if (state.startExtractingToBitmap) {
             // Give some time for the UI to render the current page
-            delay(200)
+            delay(500)
             captureController.capture()
             
             val currentPage = state.currentPage

@@ -39,20 +39,21 @@ fun Hasil(
     onNext: () -> Unit = {},
     onBack: () -> Unit = {},
     hero: HeroEnum,
-    statusColor: Color,
+    bgColor: Color,
+    accentColor: Color,
     nama: String,
     skorTitle: String,
     skor: String,
     kategoriTitle: String,
     kategori: String,
     desc: String,
-    buttonText: String
+    buttonText: String,
 ) {
     BackHandler() {
         onBack()
     }
     Scaffold(
-        containerColor = statusColor,
+        containerColor = bgColor,
         topBar = {
             TopAppBar(
                 title = {},
@@ -65,8 +66,8 @@ fun Hasil(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = statusColor,
-                    navigationIconContentColor = Color.White
+                    containerColor = bgColor,
+                    navigationIconContentColor = accentColor,
                 )
             )
         }
@@ -81,7 +82,8 @@ fun Hasil(
                 title = hero.title,
                 description = hero.description,
                 imageRes = hero.image,
-                titleColor = Color.White,
+                titleColor = accentColor,
+                descColor = accentColor,
                 imageHeight = 200
             )
             Card(
@@ -89,7 +91,10 @@ fun Hasil(
                     containerColor = MaterialTheme.colorScheme.surface,
                     contentColor = MaterialTheme.colorScheme.onSurface
                 ),
-                shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
+                shape = RoundedCornerShape(
+                    topStart = 12.dp,
+                    topEnd = 12.dp
+                )
             ) {
                 Column(
                     modifier = Modifier
@@ -135,11 +140,11 @@ fun Hasil(
                                     style = MaterialTheme.typography.bodyMedium
                                 )
                                 Badge(
-                                    containerColor = statusColor
+                                    containerColor = bgColor,
                                 ) {
                                     Text(
                                         text = kategori,
-                                        color = Color.White,
+                                        color = accentColor,
                                         style = MaterialTheme.typography.labelLarge,
                                         modifier = Modifier.padding(
                                             horizontal = 8.dp,

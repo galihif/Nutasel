@@ -11,7 +11,7 @@ enum class HeroEnum(
     AppOnboard(
         image = R.drawable.vector_app_onboard,
         title = "Selamat Datang di Terbit!",
-        description = "Kami siap menjadi teman dan berkomitmen membantu kamu meninggalkan perilaku sedentari. Yuk pelan - pelan pantau gaya hidup ke arah yang lebih sehat bersama Terbit!"
+        description = "Kami siap menjadi teman dan berkomitmen membantu kamu meninggalkan perilaku sedenter. Yuk pelan - pelan pantau gaya hidup ke arah yang lebih sehat bersama Terbit!"
     ),
     InputDataDiri(
         image = R.drawable.vector_datadiri,

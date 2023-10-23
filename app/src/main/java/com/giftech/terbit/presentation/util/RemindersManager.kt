@@ -44,7 +44,7 @@ object RemindersManager {
         
         val intent =
             Intent(
-                applicationContext.applicationContext,
+                applicationContext,
                 PushNotificationReceiver::class.java
             ).let { intent ->
                 intent.putExtra(
@@ -81,7 +81,7 @@ object RemindersManager {
                 )
                 
                 PendingIntent.getBroadcast(
-                    applicationContext.applicationContext,
+                    applicationContext,
                     reminderId,
                     intent,
                     PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,

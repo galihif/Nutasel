@@ -7,6 +7,8 @@ import androidx.compose.ui.graphics.Color
 import com.giftech.terbit.presentation.ui.theme.CustomColor1
 import com.giftech.terbit.presentation.ui.theme.CustomColor3
 import com.giftech.terbit.presentation.ui.theme.light_CustomColor2
+import com.giftech.terbit.presentation.ui.theme.light_onCustomColor2
+import com.giftech.terbit.presentation.ui.theme.light_onCustomColor3
 
 enum class KategoriIMTEnum(val title: String, val desc: (String) -> String) {
     NORMAL(
@@ -40,7 +42,7 @@ enum class KategoriIMTEnum(val title: String, val desc: (String) -> String) {
         }
     );
     
-    val color: Color
+    val bgColor: Color
         @Composable
         @ReadOnlyComposable
         get() = when (this) {
@@ -49,6 +51,17 @@ enum class KategoriIMTEnum(val title: String, val desc: (String) -> String) {
             SANGAT_KURUS -> MaterialTheme.colorScheme.inverseSurface
             GEMUK -> CustomColor3
             OBESITAS -> MaterialTheme.colorScheme.secondary
+        }
+    
+    val accentColor: Color
+        @Composable
+        @ReadOnlyComposable
+        get() = when (this) {
+            NORMAL -> light_onCustomColor2
+            KURUS -> Color.Black
+            SANGAT_KURUS -> MaterialTheme.colorScheme.inverseOnSurface
+            GEMUK -> light_onCustomColor3
+            OBESITAS -> MaterialTheme.colorScheme.onSecondary
         }
     
     companion object {
