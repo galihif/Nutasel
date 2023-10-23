@@ -242,11 +242,12 @@ private fun InitialConditionsSection(
             )
             .padding(8.dp),
     ) {
+        val bmi = KategoriIMTEnum.fromTitle(state.bmiCategory)
         InitialConditionContainer(
             title = "Kategori",
             value = state.bmiCategory,
-            valueTextColor = light_onCustomColor2,
-            valueBackgroundColor = KategoriIMTEnum.fromTitle(state.bmiCategory).color,
+            valueTextColor = bmi.accentColor,
+            valueBackgroundColor = bmi.bgColor,
             modifier = Modifier
                 .weight(1f),
         )
