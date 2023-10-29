@@ -4,6 +4,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -29,8 +30,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -41,9 +46,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.giftech.terbit.presentation.ui.route.Screen
 import com.giftech.terbit.presentation.ui.theme.light_CustomColor2
+import com.giftech.terbit.presentation.ui.theme.light_CustomColor3Container
 import com.giftech.terbit.presentation.ui.theme.light_onCustomColor2
+import com.giftech.terbit.presentation.ui.theme.light_onCustomColor3Container
 import com.giftech.terbit.presentation.ui.theme.md_theme_light_tertiary
 import com.giftech.terbit.presentation.util.annotatedStringResource
+import kotlinx.coroutines.delay
 
 @ExperimentalMaterial3Api
 @Composable
@@ -60,11 +68,47 @@ fun ArticleScreen(
     }
     val userName by remember {
         viewModel.userName
-    }
+    }.collectAsState()
     val article by remember {
         viewModel.article
+    }.collectAsState()
+    var timeLeftSeconds by remember {
+        mutableIntStateOf(article?.readDuration ?: 0)
     }
-    
+    var minuteLeft by remember {
+        mutableStateOf("0")
+    }
+    var secondLeft by remember {
+        mutableStateOf("00")
+    }
+    var timerOn by remember {
+        mutableStateOf(false)
+    }
+    LaunchedEffect(article) {
+        if (article != null) {
+            timeLeftSeconds = article!!.readDuration.times(60)
+        }
+    }
+    LaunchedEffect(timeLeftSeconds) {
+        if (timeLeftSeconds > 0) {
+            timerOn = true
+            delay(1000)
+            timeLeftSeconds--
+
+            minuteLeft = (timeLeftSeconds / 60).toString() // Convert to string
+            secondLeft = (timeLeftSeconds % 60).toString() // Convert to string
+
+            // Add leading zeros if necessary
+            if (minuteLeft.length == 1) {
+                minuteLeft = "0$minuteLeft"
+            }
+
+            if (secondLeft.length == 1) {
+                secondLeft = "0$secondLeft"
+            }
+        }
+    }
+
     val onBack = {
         viewModel.complete(programId)
         navController.popBackStack()
@@ -76,9 +120,11 @@ fun ArticleScreen(
         )
     }
     BackHandler {
-        onBack()
+        if (timeLeftSeconds <= 0 && timerOn) {
+            onBack()
+        }
     }
-    
+
     if (article != null) {
         Scaffold(
             topBar = {
@@ -87,8 +133,29 @@ fun ArticleScreen(
                         Text(text = "Artikel")
                     },
                     navigationIcon = {
-                        IconButton(onClick = onBack) {
+                        IconButton(
+                            onClick = {
+                                if (timeLeftSeconds <= 0 && timerOn) {
+                                    onBack()
+                                }
+                            }
+                        ) {
                             Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "")
+                        }
+                    },
+                    actions = {
+                        Box(
+                            modifier = Modifier.padding(horizontal = 14.dp).background(
+                                color = light_CustomColor3Container,
+                                shape = RoundedCornerShape(30.dp)
+                            )
+                        ) {
+                            Text(
+                                text = "$minuteLeft : $secondLeft",
+                                modifier = Modifier.padding(vertical = 4.dp, horizontal = 12.dp),
+                                color = light_onCustomColor3Container,
+                                style = MaterialTheme.typography.titleSmall
+                            )
                         }
                     }
                 )
@@ -106,7 +173,7 @@ fun ArticleScreen(
                     shape = RoundedCornerShape(6.dp),
                     elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
                 ) {
-                    Surface() {
+                    Surface {
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth(),
@@ -170,7 +237,7 @@ fun ArticleScreen(
                         textAlign = TextAlign.Justify
                     )
                 }
-                
+
                 if (article!!.imageSource.isNotEmpty()) {
                     Column {
                         Text(
@@ -190,5 +257,4 @@ fun ArticleScreen(
             }
         }
     }
-    
 }

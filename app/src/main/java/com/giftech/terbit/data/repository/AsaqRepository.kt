@@ -31,12 +31,12 @@ class AsaqRepository @Inject constructor(
         val score = asaqDao.getPreTests().first().sumOf {
             it.durasiHariKerja + it.durasiHariLibur
         }
+        val avgMinutesPerQuestion = score/12
         when {
-            score <= 708 -> emit(SedenterType.RINGAN)
-            score <= 1428 -> emit(SedenterType.SEDANG)
+            avgMinutesPerQuestion <= 59 -> emit(SedenterType.RINGAN)
+            avgMinutesPerQuestion <= 119 -> emit(SedenterType.SEDANG)
             else -> emit(SedenterType.BERAT)
         }
-        Log.d("GALIH", "getSedenterType repo: $score")
     }
     
     override suspend fun insertPreTestAsaq(asaq: List<Asaq>) {
