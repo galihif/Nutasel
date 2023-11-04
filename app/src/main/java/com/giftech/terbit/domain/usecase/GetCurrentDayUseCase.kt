@@ -2,6 +2,7 @@ package com.giftech.terbit.domain.usecase
 
 import com.giftech.terbit.domain.enums.ProgramTag
 import com.giftech.terbit.domain.repository.IProgramRepository
+import com.giftech.terbit.domain.util.Constants
 import com.giftech.terbit.domain.util.toLocalDateTime
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -19,11 +20,11 @@ class GetCurrentDayUseCase @Inject constructor(
     suspend operator fun invoke(): Flow<Pair<Int, Int>> {
         return programRepository.getAll()
             .mapLatest { programList ->
-                // The weekly program opens after 7 days of pre-test
+                // The weekly program opens after 3 days of pre-test
                 val programFirstDayDate = programList
                     .first { it.tag == ProgramTag.PRE_TEST }
                     .completionDateInMillis.toLocalDateTime().toLocalDate()
-                    .plusDays(7)
+                    .plusDays(Constants.BreakDays.AFTER_PRE_TEST)
                 val currentDate = LocalDate.now()
                 
                 val currentDay = currentDate.toEpochDay() - programFirstDayDate.toEpochDay() + 1
