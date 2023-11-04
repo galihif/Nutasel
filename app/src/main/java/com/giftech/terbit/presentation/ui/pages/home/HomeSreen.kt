@@ -381,7 +381,7 @@ private fun ProgressSection(
         )
     }
     
-    Spacer(modifier = Modifier.height(8.dp))
+    Spacer(modifier = Modifier.height(16.dp))
     
     Row(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
