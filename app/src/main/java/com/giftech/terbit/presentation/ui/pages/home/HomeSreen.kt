@@ -40,6 +40,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -238,10 +239,12 @@ private fun InitialConditionsSection(
         ),
         modifier = Modifier
             .fillMaxWidth()
-            .background(
-                color = MaterialTheme.colorScheme.primary,
+            .shadow(
+                elevation = 4.dp,
                 shape = MaterialTheme.shapes.medium,
             )
+            .clip(MaterialTheme.shapes.medium)
+            .background(MaterialTheme.colorScheme.primary)
             .padding(8.dp),
     ) {
         val bmi = KategoriIMTEnum.fromTitle(state.bmiCategory)
@@ -554,6 +557,10 @@ private fun ProgressContainer(
 ) {
     Column(
         modifier = modifier
+            .shadow(
+                elevation = 4.dp,
+                shape = MaterialTheme.shapes.large,
+            )
             .clip(MaterialTheme.shapes.large)
             .background(backgroundColor)
             .padding(12.dp),
