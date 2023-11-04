@@ -172,6 +172,8 @@ private fun HomeContent(
                         )
                     }
                 } else null,
+                modifier = Modifier
+                    .padding(top = 12.dp),
             )
         }
         
@@ -337,7 +339,7 @@ private fun HeaderOfActivityToDoSection() {
         style = MaterialTheme.typography.titleMedium,
     )
     
-    Spacer(modifier = Modifier.height(24.dp))
+    Spacer(modifier = Modifier.height(12.dp))
 }
 
 @Composable
@@ -505,9 +507,17 @@ private fun ActivityToDoItem(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.outlineVariant,
+                shape = MaterialTheme.shapes.medium,
+            )
             .clip(MaterialTheme.shapes.medium)
             .clickable(enabled = onClick != null) { onClick!!() }
-            .padding(8.dp),
+            .padding(
+                horizontal = 16.dp,
+                vertical = 8.dp,
+            ),
     ) {
         Column(
             modifier = Modifier
