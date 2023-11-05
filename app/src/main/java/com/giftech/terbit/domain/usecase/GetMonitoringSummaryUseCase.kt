@@ -34,7 +34,7 @@ class GetMonitoringSummaryUseCase @Inject constructor(
                 val firstDayDate = programList
                     .first { it.tag == ProgramTag.PRE_TEST }
                     .completionDateInMillis.toLocalDateTime().toLocalDate()
-                    .plusDays(7)
+                    .plusDays(Constants.BreakDays.AFTER_PRE_TEST)
                 val completedDayList = weeklyProgramList
                     .filter { it.isCompleted }
                     .map {
