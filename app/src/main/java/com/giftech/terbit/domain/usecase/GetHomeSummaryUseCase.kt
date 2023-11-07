@@ -43,11 +43,11 @@ class GetHomeSummaryUseCase @Inject constructor(
                             )
                         )
                         
-                        // The weekly program opens after 7 days of pre-test
+                        // The weekly program opens after 3 days of pre-test
                         val programFirstDayDate = programList
                             .first { it.tag == ProgramTag.PRE_TEST }
                             .completionDateInMillis.toLocalDateTime().toLocalDate()
-                            .plusDays(7)
+                            .plusDays(Constants.BreakDays.AFTER_PRE_TEST)
                         val isWeeklyProgramAvailable = LocalDate.now() >= programFirstDayDate
                         
                         val lastCompletedProgram = weeklyProgramList
@@ -107,18 +107,16 @@ class GetHomeSummaryUseCase @Inject constructor(
                         
                         val weeklyProgramTotalDays = ((weeklyProgramList.last().week!! - 1) * 7 +
                                 weeklyProgramList.last().dayOfWeek!!).toLong()
-                        val breakDayAfterPreTest = 7L
-                        val breakDayBeforePostTest = 7L
                         val preTestCompletionDate = programList
                             .last { it.tag == ProgramTag.PRE_TEST }
                             .completionDateInMillis.toLocalDateTime().toLocalDate()
                         
                         val postTestOpeningDate = preTestCompletionDate
-                            .plusDays(breakDayAfterPreTest)
-                            // Intersects with 7 days after the pre-test
-                            // First day (day one) of weekly program is 7 days after pre-test
+                            .plusDays(Constants.BreakDays.AFTER_PRE_TEST)
+                            // Intersects with 3 days after the pre-test:
+                            // first day (day 1) of weekly program is 3 days after pre-test
                             .plusDays(-1 + weeklyProgramTotalDays)
-                            .plusDays(breakDayBeforePostTest)
+                            .plusDays(Constants.BreakDays.BEFORE_POST_TEST)
                         val postTestOpeningDateString = postTestOpeningDate
                             .toString(Constants.DatePattern.READABLE_DEFAULT)
                         val isPostTestDone = programList

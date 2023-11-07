@@ -4,7 +4,7 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import com.giftech.terbit.R
-import com.giftech.terbit.domain.usecase.GetDailyNotificationListUseCase
+import com.giftech.terbit.domain.usecase.GetEligibleDailyNotificationListUseCase
 import com.giftech.terbit.domain.usecase.GetUnshownUserNotificationListUseCase
 import com.giftech.terbit.presentation.util.RemindersManager.startReminder
 import com.giftech.terbit.presentation.util.buildHiddenNotification
@@ -26,7 +26,7 @@ class NotificationRestartService : Service() {
     lateinit var getUnshownUserNotificationListUseCase: GetUnshownUserNotificationListUseCase
     
     @Inject
-    lateinit var getDailyNotificationListUseCase: GetDailyNotificationListUseCase
+    lateinit var getEligibleDailyNotificationListUseCase: GetEligibleDailyNotificationListUseCase
     
     override fun onCreate() {
         super.onCreate()
@@ -74,7 +74,7 @@ class NotificationRestartService : Service() {
     
     private fun restartDailyTips() {
         scope.launch {
-            getDailyNotificationListUseCase().collect { notificationList ->
+            getEligibleDailyNotificationListUseCase().collect { notificationList ->
                 notificationList.forEach {
                     startReminder(
                         context = this@NotificationRestartService,

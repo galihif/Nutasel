@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.giftech.terbit.domain.model.Notification
 import com.giftech.terbit.domain.model.UserNotification
 import com.giftech.terbit.domain.usecase.GetAllUserNotificationListUseCase
-import com.giftech.terbit.domain.usecase.GetDailyNotificationListUseCase
+import com.giftech.terbit.domain.usecase.GetEligibleDailyNotificationListUseCase
 import com.giftech.terbit.domain.usecase.MonitorNotificationUseCase
 import com.giftech.terbit.domain.usecase.UpdateSchedulingStatusUserNotificationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +20,7 @@ class MainViewModel @Inject constructor(
     private val getAllUserNotificationUseCase: GetAllUserNotificationListUseCase,
     private val monitorNotificationUseCase: MonitorNotificationUseCase,
     private val updateSchedulingStatusUserNotificationUseCase: UpdateSchedulingStatusUserNotificationUseCase,
-    private val getDailyNotificationListUseCase: GetDailyNotificationListUseCase,
+    private val getEligibleDailyNotificationListUseCase: GetEligibleDailyNotificationListUseCase,
 ): ViewModel(){
     
     init {
@@ -50,7 +50,7 @@ class MainViewModel @Inject constructor(
     
     fun getDailyNotificationList(): LiveData<List<Notification>> {
         return liveData(context = viewModelScope.coroutineContext) {
-            getDailyNotificationListUseCase()
+            getEligibleDailyNotificationListUseCase()
         }
     }
 

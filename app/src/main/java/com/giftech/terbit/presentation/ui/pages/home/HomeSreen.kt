@@ -40,6 +40,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -172,6 +173,8 @@ private fun HomeContent(
                         )
                     }
                 } else null,
+                modifier = Modifier
+                    .padding(top = 12.dp),
             )
         }
         
@@ -236,10 +239,12 @@ private fun InitialConditionsSection(
         ),
         modifier = Modifier
             .fillMaxWidth()
-            .background(
-                color = MaterialTheme.colorScheme.primary,
+            .shadow(
+                elevation = 4.dp,
                 shape = MaterialTheme.shapes.medium,
             )
+            .clip(MaterialTheme.shapes.medium)
+            .background(MaterialTheme.colorScheme.primary)
             .padding(8.dp),
     ) {
         val bmi = KategoriIMTEnum.fromTitle(state.bmiCategory)
@@ -337,7 +342,7 @@ private fun HeaderOfActivityToDoSection() {
         style = MaterialTheme.typography.titleMedium,
     )
     
-    Spacer(modifier = Modifier.height(24.dp))
+    Spacer(modifier = Modifier.height(12.dp))
 }
 
 @Composable
@@ -376,7 +381,7 @@ private fun ProgressSection(
         )
     }
     
-    Spacer(modifier = Modifier.height(8.dp))
+    Spacer(modifier = Modifier.height(16.dp))
     
     Row(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -505,9 +510,17 @@ private fun ActivityToDoItem(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.outlineVariant,
+                shape = MaterialTheme.shapes.medium,
+            )
             .clip(MaterialTheme.shapes.medium)
             .clickable(enabled = onClick != null) { onClick!!() }
-            .padding(8.dp),
+            .padding(
+                horizontal = 16.dp,
+                vertical = 8.dp,
+            ),
     ) {
         Column(
             modifier = Modifier
@@ -544,6 +557,10 @@ private fun ProgressContainer(
 ) {
     Column(
         modifier = modifier
+            .shadow(
+                elevation = 4.dp,
+                shape = MaterialTheme.shapes.large,
+            )
             .clip(MaterialTheme.shapes.large)
             .background(backgroundColor)
             .padding(12.dp),

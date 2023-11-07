@@ -60,7 +60,7 @@ class MonitorNotificationUseCase @Inject constructor(
                         
                         val currentDate = LocalDateTime.now()
                         val preTestDate = preTest.first().completionDateInMillis.toLocalDateTime()
-                        val day1Date = preTestDate.plusDays(7)
+                        val day1Date = preTestDate.plusDays(Constants.BreakDays.AFTER_PRE_TEST)
                         
                         // Not using isWeeklyProgramDone.not()
                         // because we need to disable the last day notification
@@ -170,7 +170,7 @@ class MonitorNotificationUseCase @Inject constructor(
                                 .plusWeeks(lastWeeklyProgram.week!!.minus(1).toLong())
                                 .plusDays(lastWeeklyProgram.dayOfWeek!!.minus(1).toLong())
                             val postTestDate = lastDayDate
-                                .plusDays(7)
+                                .plusDays(Constants.BreakDays.BEFORE_POST_TEST)
                             
                             // ID 4000
                             if (currentDate < postTestDate) {
