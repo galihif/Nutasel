@@ -1,18 +1,27 @@
 package com.giftech.terbit.presentation.ui.pages.hasil_tingkat_pemantauan
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccessAlarm
 import androidx.compose.material.icons.filled.MenuBook
 import androidx.compose.material.icons.filled.PendingActions
+import androidx.compose.material.icons.outlined.LocalFireDepartment
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -27,14 +36,20 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.giftech.terbit.R
 import com.giftech.terbit.presentation.ui.components.atoms.PrimaryButton
 import com.giftech.terbit.presentation.ui.components.molecules.IconTextRow
+import com.giftech.terbit.presentation.ui.theme.light_CustomColor1Container
+import com.giftech.terbit.presentation.ui.theme.light_CustomColor2Container
+import com.giftech.terbit.presentation.ui.theme.light_CustomColor3
 
 @Composable
 fun HasilTPScreen(
     onNext: () -> Unit,
-    viewModel:HasilTPViewModel = hiltViewModel()
+    viewModel: HasilTPViewModel = hiltViewModel()
 ) {
     val sedenterType by remember {
         viewModel.sedenterType
+    }.collectAsState()
+    val avgHours by remember {
+        viewModel.avgHours
     }.collectAsState()
     Column(
         modifier = Modifier
@@ -44,46 +59,96 @@ fun HasilTPScreen(
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(32.dp)
+            verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             Column(
+                modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.check_circle),
-                    contentDescription = ""
-                )
                 Text(
-                    text = "Tingkat pemantauan kamu adalah",
+                    text = "Pemantauan Kamu",
                     style = MaterialTheme.typography.titleLarge
                 )
+                Image(
+                    painter = painterResource(id = R.drawable.hasil_tp_illustration),
+                    contentDescription = "",
+                    modifier = Modifier.fillMaxWidth(0.6f),
+                )
+            }
+            Surface(
+                shape = RoundedCornerShape(12.dp),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.onSurfaceVariant),
+            ) {
+                Row(
+                    modifier = Modifier
+                        .padding(vertical = 12.dp, horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            imageVector = Icons.Default.AccessAlarm,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Column {
+                            Text(text = "Rata - rata", style = MaterialTheme.typography.bodySmall)
+                            Text(
+                                text = "$avgHours jam",
+                                style = MaterialTheme.typography.labelLarge
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            imageVector = Icons.Outlined.LocalFireDepartment,
+                            contentDescription = null,
+                            tint = light_CustomColor3
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Column {
+                            Text(text = "Kategori", style = MaterialTheme.typography.bodySmall)
+                            Text(
+                                text = sedenterType.title,
+                                style = MaterialTheme.typography.labelLarge
+                            )
+                        }
+                    }
+                }
             }
             Card(
                 shape = RoundedCornerShape(12.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.onSurfaceVariant),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
             ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 12.dp, vertical = 24.dp)
+                        .padding(12.dp)
                 ) {
-                    Text(
-                        text = sedenterType.title,
-                        style = MaterialTheme.typography.headlineLarge
-                    )
                     Text(
                         text = sedenterType.description,
                         style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.Center
                     )
-                    IconTextRow(icon = Icons.Default.MenuBook, text = "Membaca 2 Artikel perminggu")
-                    IconTextRow(icon = Icons.Default.PendingActions, text = "Pemantauan Aktivitas Sedenter")
+                    Column {
+                        IconTextRow(
+                            icon = Icons.Default.MenuBook,
+                            text = "Membaca 2 Artikel perminggu",
+                            boxColor = light_CustomColor2Container
+                        )
+                        Spacer(modifier = Modifier.height(12.dp))
+                        IconTextRow(
+                            icon = Icons.Default.PendingActions,
+                            text = "Pemantauan Aktivitas Sedenter",
+                            boxColor = light_CustomColor1Container
+                        )
+                    }
                 }
             }
 

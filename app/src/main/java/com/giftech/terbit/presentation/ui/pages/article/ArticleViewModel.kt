@@ -9,6 +9,8 @@ import com.giftech.terbit.domain.usecase.ArticleUsecase
 import com.giftech.terbit.domain.usecase.CompleteProgramUseCase
 import com.giftech.terbit.domain.usecase.UserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,11 +22,11 @@ class ArticleViewModel
     private val userUseCase: UserUseCase
 ) : ViewModel() {
     
-    private val _article = mutableStateOf<Article?>(null)
-    val article: State<Article?> = _article
+    private val _article = MutableStateFlow<Article?>(null)
+    val article: StateFlow<Article?> = _article
 
-    private val _userName = mutableStateOf("")
-    val userName: State<String> = _userName
+    private val _userName = MutableStateFlow("")
+    val userName: StateFlow<String> = _userName
 
     fun getUserName() {
         viewModelScope.launch {

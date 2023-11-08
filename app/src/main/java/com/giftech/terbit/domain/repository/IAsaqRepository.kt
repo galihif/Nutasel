@@ -11,6 +11,8 @@ interface IAsaqRepository {
     suspend fun getPostTestAsaq(): Flow<List<Asaq>>
     
     suspend fun getSedenterType(): Flow<SedenterType>
+
+    suspend fun getAsaqAverage(): Flow<Double>
     
     
     suspend fun insertPreTestAsaq(
