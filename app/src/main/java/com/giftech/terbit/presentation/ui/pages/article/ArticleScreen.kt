@@ -18,6 +18,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -108,7 +110,9 @@ fun ArticleScreen(
             }
         }
     }
-
+    var openDialog by remember {
+        mutableStateOf(false)
+    }
     val onBack = {
         viewModel.complete(programId)
         navController.popBackStack()
@@ -119,10 +123,37 @@ fun ArticleScreen(
             )
         )
     }
-    BackHandler {
+    val backHandling = {
         if (timeLeftSeconds <= 0 && timerOn) {
             onBack()
+        }else{
+            openDialog = true
         }
+    }
+    BackHandler {
+        backHandling()
+    }
+    if (openDialog){
+        AlertDialog(
+            onDismissRequest = {
+                openDialog = false
+            },
+            title = {
+                Text(text = "Peringatan")
+            },
+            text = {
+                Text(text = "Anda baru bisa kembali setelah countdown selesai")
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        openDialog = false
+                    }
+                ) {
+                    Text(text = "Oke")
+                }
+            },
+        )
     }
 
     if (article != null) {
@@ -135,9 +166,7 @@ fun ArticleScreen(
                     navigationIcon = {
                         IconButton(
                             onClick = {
-                                if (timeLeftSeconds <= 0 && timerOn) {
-                                    onBack()
-                                }
+                                backHandling()
                             }
                         ) {
                             Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "")
@@ -171,9 +200,14 @@ fun ArticleScreen(
             ) {
                 Card(
                     shape = RoundedCornerShape(6.dp),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surface,
+                    ),
                 ) {
-                    Surface {
+                    Surface(
+                        color = MaterialTheme.colorScheme.surface,
+                    ) {
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth(),
@@ -192,7 +226,7 @@ fun ArticleScreen(
                                 contentScale = ContentScale.Crop
                             )
                             Text(
-                                text = "${article!!.readDuration} menit membaca",
+                                text = "Yuk luangkan  waktu ${article!!.readDuration} menit membaca!",
                                 modifier = Modifier.padding(12.dp),
                                 style = MaterialTheme.typography.labelSmall
                             )
