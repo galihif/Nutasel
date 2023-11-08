@@ -15,6 +15,8 @@ class AsaqUseCase @Inject constructor(
     
     suspend fun getPostTestAsaq() = asaqRepository.getPostTestAsaq()
         .flowOn(Dispatchers.IO)
+
+    suspend fun getAsaqAverage() = asaqRepository.getAsaqAverage()
     
     suspend fun insertPreTestAsaq(asaq: List<Asaq>) = asaqRepository.insertPreTestAsaq(asaq)
     
