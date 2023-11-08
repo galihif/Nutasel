@@ -19,6 +19,17 @@ class HasilTPViewModel
     private val _sedenterType = MutableStateFlow(SedenterType.RINGAN)
     val sedenterType:StateFlow<SedenterType> = _sedenterType
 
+    private val _avgHours = MutableStateFlow(0.0)
+    val avgHours:StateFlow<Double> = _avgHours
+
+    private fun getAvgHours(){
+        viewModelScope.launch {
+            asaqUseCase.getAsaqAverage().collect {
+                _avgHours.value = it
+            }
+        }
+    }
+
     private fun getSedenterType() {
         viewModelScope.launch {
             asaqUseCase.getSedenterType().collect {
@@ -29,6 +40,7 @@ class HasilTPViewModel
 
     init {
         getSedenterType()
+        getAvgHours()
     }
 
 }
