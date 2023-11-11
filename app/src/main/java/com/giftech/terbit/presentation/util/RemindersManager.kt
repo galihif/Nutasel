@@ -45,7 +45,7 @@ object RemindersManager {
         val intent =
             Intent(
                 applicationContext,
-                PushNotificationReceiver::class.java
+                PushNotificationReceiver::class.java,
             ).let { intent ->
                 intent.putExtra(
                     Constants.NotificationExtras.REMINDER_ID,
