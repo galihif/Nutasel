@@ -8,12 +8,14 @@ import com.giftech.terbit.data.source.local.room.dao.FfqFoodDao
 import com.giftech.terbit.data.source.local.room.dao.FfqResponseDao
 import com.giftech.terbit.data.source.local.room.dao.ProgramDao
 import com.giftech.terbit.data.source.local.room.dao.UserNotificationDao
+import com.giftech.terbit.data.source.local.room.dao.WeeklySummaryDao
 import com.giftech.terbit.data.source.local.room.entity.AsaqEntity
 import com.giftech.terbit.data.source.local.room.entity.AsaqResponseEntity
 import com.giftech.terbit.data.source.local.room.entity.FfqFoodEntity
 import com.giftech.terbit.data.source.local.room.entity.FfqResponseEntity
 import com.giftech.terbit.data.source.local.room.entity.ProgramEntity
 import com.giftech.terbit.data.source.local.room.entity.UserNotificationEntity
+import com.giftech.terbit.data.source.local.room.entity.WeeklySummaryEntity
 
 @Database(
     entities = [
@@ -23,6 +25,7 @@ import com.giftech.terbit.data.source.local.room.entity.UserNotificationEntity
         FfqFoodEntity::class,
         ProgramEntity::class,
         UserNotificationEntity::class,
+        WeeklySummaryEntity::class,
     ],
     version = 1,
     exportSchema = false,
@@ -44,5 +47,7 @@ abstract class LocalDatabase : RoomDatabase() {
     abstract fun programDao(): ProgramDao
     
     abstract fun userNotificationDao(): UserNotificationDao
+    
+    abstract fun weeklySummaryDao(): WeeklySummaryDao
     
 }

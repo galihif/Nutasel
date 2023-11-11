@@ -98,5 +98,9 @@ sealed class Screen(val route: String, val deepLink: String? = null) {
     data object OnboardingPosttest : Screen("OnboardingPosttest")
     
     data object DataExport : Screen("DataExport")
+
+    data object WeeklySummary : Screen("WeeklySummary/{${Constants.Extras.WEEK}}") {
+        fun createRoute(week: Int) = "WeeklySummary/${week}"
+    }
     
 }

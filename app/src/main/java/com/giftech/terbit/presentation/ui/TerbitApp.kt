@@ -42,6 +42,7 @@ import com.giftech.terbit.presentation.ui.pages.onboarding_posttest.OnboardingPo
 import com.giftech.terbit.presentation.ui.pages.profesional.ProfesionalScreen
 import com.giftech.terbit.presentation.ui.pages.profile.EditProfileScreen
 import com.giftech.terbit.presentation.ui.pages.profile.ProfileScreen
+import com.giftech.terbit.presentation.ui.pages.weeklysummary.WeeklySummaryScreen
 import com.giftech.terbit.presentation.ui.route.BottomNavItem
 import com.giftech.terbit.presentation.ui.route.Screen
 import com.giftech.terbit.presentation.util.Constants
@@ -412,6 +413,25 @@ fun TerbitApp(
             composable(Screen.DataExport.route) {
                 DataExportScreen(
                     navController = navHostController,
+                )
+            }
+            
+            composable(
+                route = Screen.WeeklySummary.route,
+                arguments = listOf(
+                    navArgument(Constants.Extras.WEEK) { type = NavType.IntType }
+                ),
+            ) {
+                val week = it.arguments?.getInt(Constants.Extras.WEEK) ?: -1
+                WeeklySummaryScreen(
+                    week = week,
+                    onNext = {
+                        navHostController.navigate(Screen.Home.route) {
+                            popUpTo(Screen.WeeklySummary.route) {
+                                inclusive = true
+                            }
+                        }
+                    },
                 )
             }
         }

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.giftech.terbit.domain.usecase.CheckPreTestDoneUseCase
 import com.giftech.terbit.domain.usecase.GetHomeSummaryUseCase
+import com.giftech.terbit.domain.usecase.GetWeeklySummaryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -14,6 +15,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getHomeSummaryUseCase: GetHomeSummaryUseCase,
     private val checkPreTestDoneUseCase: CheckPreTestDoneUseCase,
+    private val getWeeklySummaryUseCase: GetWeeklySummaryUseCase,
 ) : ViewModel() {
     
     private val _state = mutableStateOf(
@@ -37,6 +39,7 @@ class HomeViewModel @Inject constructor(
             totalCompletedWeek = 0,
             totalWeek = 0,
             isNotificationEmpty = true,
+            popUpWeeklySummary = false,
         )
     )
     val state: State<HomeState> = _state
@@ -44,6 +47,7 @@ class HomeViewModel @Inject constructor(
     init {
         getSummary()
         checkPreTestDone()
+        checkWeeklySummary()
     }
     
     private fun getSummary() {
@@ -78,6 +82,16 @@ class HomeViewModel @Inject constructor(
             checkPreTestDoneUseCase().collect { isPreTestDone ->
                 _state.value = _state.value.copy(
                     isPreTestDone = isPreTestDone,
+                )
+            }
+        }
+    }
+    
+    private fun checkWeeklySummary() {
+        viewModelScope.launch {
+            getWeeklySummaryUseCase().collect { weeklySummary ->
+                _state.value = _state.value.copy(
+                    popUpWeeklySummary = !weeklySummary.hasPresented,
                 )
             }
         }
