@@ -10,11 +10,12 @@ object Constants {
     }
     
     object Extras {
-        const val PROGRAM_ID = "program_id"
-        const val FFQ_FOOD_CATEGORY_ID = "ffq_food_category_id"
-        const val WEEK = "week"
         const val DAY = "day"
+        const val FFQ_FOOD_CATEGORY_ID = "ffq_food_category_id"
+        const val PROGRAM_ID = "program_id"
+        const val SEDENTARY_AVERAGE_HOURS = "sedentary_average_hours"
         const val TEST_TYPE = "test_type"
+        const val WEEK = "week"
     }
     
     object NotificationExtras {

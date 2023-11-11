@@ -204,7 +204,9 @@ private fun NavigationSection(
                 )
                 navController.popBackStack()
                 navController.navigate(
-                    Screen.WeeklyAsaqComplete.route
+                    Screen.WeeklyAsaqComplete.createRoute(
+                        sedentaryAverageHours = state.sedentaryAverageHours,
+                    )
                 )
             }
         },

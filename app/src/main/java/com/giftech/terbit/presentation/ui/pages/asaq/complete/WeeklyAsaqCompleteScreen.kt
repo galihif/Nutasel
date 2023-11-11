@@ -34,10 +34,12 @@ import com.giftech.terbit.presentation.ui.theme.light_onCustomColor2Container
 
 @Composable
 fun WeeklyAsaqCompleteScreen(
+    sedentaryAverageHours: Float,
     navController: NavController,
     modifier: Modifier = Modifier,
 ) {
     WeeklyAsaqCompleteContent(
+        sedentaryAverageHours = sedentaryAverageHours,
         navController = navController,
         modifier = modifier,
     )
@@ -45,6 +47,7 @@ fun WeeklyAsaqCompleteScreen(
 
 @Composable
 private fun WeeklyAsaqCompleteContent(
+    sedentaryAverageHours: Float,
     navController: NavController,
     modifier: Modifier = Modifier,
 ) {
@@ -82,7 +85,7 @@ private fun WeeklyAsaqCompleteContent(
         
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
                 .fillMaxWidth()
                 .border(
@@ -100,6 +103,12 @@ private fun WeeklyAsaqCompleteContent(
                     value = "100%",
                     titleTextColor = light_onCustomColor2Container,
                     titleBackgroundColor = dark_onCustomColor2Container,
+                ),
+                Stat(
+                    title = "Rata-Rata",
+                    value = "$sedentaryAverageHours Jam",
+                    titleTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    titleBackgroundColor = MaterialTheme.colorScheme.primaryContainer,
                 ),
                 Stat(
                     title = "Selesai",
@@ -161,7 +170,7 @@ private fun StatItem(
                     color = stat.titleBackgroundColor,
                     shape = RoundedCornerShape(100),
                 )
-                .padding(horizontal = 18.dp, vertical = 2.dp),
+                .padding(horizontal = 12.dp, vertical = 2.dp),
         )
         Text(
             text = stat.value,
