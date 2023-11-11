@@ -28,7 +28,10 @@ class GetFfqScoreChartUseCase @Inject constructor(
                         val entry2 = ffqResponseList
                             .filter { it.programId == Constants.ProgramId.LAST_FFQ }
                         val xLabels = foodCategoryList.map { it.abbreviation }
-                        val maxY = 300
+                        val maxY = if (
+                            entry1.maxOf { it.freq?.score ?: 0 } < 250 ||
+                            entry2.maxOf { it.freq?.score ?: 0 } < 250
+                        ) 300 else 350
                         val yLabelCount = 7
                         
                         FfqScoreChart(
