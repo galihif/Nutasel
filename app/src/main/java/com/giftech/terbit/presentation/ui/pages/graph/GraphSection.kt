@@ -56,6 +56,7 @@ fun PreTestAsaq(
     preTestAsaqChartXLabels: List<String>,
     preTestAsaqChartMaxY: Int,
     preTestAsaqChartYLabelCount: Int,
+    showMarkerLabel: Boolean = true,
     enableAnimation: Boolean = true,
     showDataLabel: Boolean = false,
     chartHeightDp: Int = 220,
@@ -75,11 +76,13 @@ fun PreTestAsaq(
             yTitle = "Jam",
             labelFormatter = AsaqLabelFormatter(),
             xValueFormatter = AsaqChartXValueFormatter(preTestAsaqChartXLabels),
+            showMarkerLabel = showMarkerLabel,
             enableAnimation = enableAnimation,
             showDataLabel = showDataLabel,
             dataLabelFormatter = if (showDataLabel) AsaqDataLabelFormatter() else null,
             modifier = Modifier
-                .height(chartHeightDp.dp),
+                .height(chartHeightDp.dp)
+                .padding(top = if (showMarkerLabel) 0.dp else 16.dp),
         )
     } else {
         Text(
@@ -101,6 +104,7 @@ fun PostTestAsaq(
     postTestAsaqChartXLabels: List<String>,
     postTestAsaqChartMaxY: Int,
     postTestAsaqChartYLabelCount: Int,
+    showMarkerLabel: Boolean = true,
     enableAnimation: Boolean = true,
     showDataLabel: Boolean = false,
     chartHeightDp: Int = 220,
@@ -120,11 +124,13 @@ fun PostTestAsaq(
             yTitle = "Jam",
             labelFormatter = AsaqLabelFormatter(),
             xValueFormatter = AsaqChartXValueFormatter(postTestAsaqChartXLabels),
+            showMarkerLabel = showMarkerLabel,
             enableAnimation = enableAnimation,
             showDataLabel = showDataLabel,
             dataLabelFormatter = if (showDataLabel) AsaqDataLabelFormatter() else null,
             modifier = Modifier
-                .height(chartHeightDp.dp),
+                .height(chartHeightDp.dp)
+                .padding(top = if (showMarkerLabel) 0.dp else 16.dp),
         )
     } else {
         Text(
@@ -172,6 +178,7 @@ fun WeeklyAsaq(
     weeklyAsaqResponseChartYLabelCount: Int,
     onSelectDayOfWeek: () -> Unit,
     onSelectWeek: () -> Unit,
+    showMarkerLabel: Boolean = true,
     enableAnimation: Boolean = true,
     showDataLabel: Boolean = false,
     chartHeightDp: Int = 220,
@@ -204,11 +211,13 @@ fun WeeklyAsaq(
             yTitle = "Jam",
             labelFormatter = AsaqLabelFormatter(),
             xValueFormatter = AsaqChartXValueFormatter(weeklyAsaqResponseChartXLabels),
+            showMarkerLabel = showMarkerLabel,
             enableAnimation = enableAnimation,
             showDataLabel = showDataLabel,
             dataLabelFormatter = if (showDataLabel) AsaqDataLabelFormatter() else null,
             modifier = Modifier
-                .height(chartHeightDp.dp),
+                .height(chartHeightDp.dp)
+                .padding(top = if (showMarkerLabel) 0.dp else 16.dp),
         )
         
         Spacer(modifier = Modifier.height(16.dp))
@@ -243,6 +252,7 @@ fun FfqScore(
     ffqScoreChartXLabels: List<String>,
     ffqScoreChartMaxY: Int,
     ffqScoreChartYLabelCount: Int,
+    showMarkerLabel: Boolean = true,
     enableAnimation: Boolean = true,
     showDataLabel: Boolean = false,
     chartHeightDp: Int = 320,
@@ -279,12 +289,14 @@ fun FfqScore(
             maxY = ffqScoreChartMaxY,
             yLabelCount = ffqScoreChartYLabelCount,
             labelFormatter = FfqScoreLabelFormatter(ffqScoreChartXLabels),
+            showMarkerLabel = showMarkerLabel,
             enableAnimation = enableAnimation,
             showDataLabel = showDataLabel,
             dataLabelFormatter = if (showDataLabel) FfqScoreDataLabelFormatter() else null,
             dataLabelRotationDegrees = 90f,
             modifier = Modifier
-                .height(chartHeightDp.dp),
+                .height(chartHeightDp.dp)
+                .padding(top = if (showMarkerLabel) 0.dp else 16.dp),
         )
         
         Spacer(modifier = Modifier.height(16.dp))
@@ -386,6 +398,7 @@ fun FfqCategory(
     ffqCategoryChartYLabels: List<String>,
     onSelectCategory: () -> Unit,
     chartColors: List<Color>,
+    showMarkerLabel: Boolean = true,
     enableAnimation: Boolean = true,
     chartHeightDp: Int = 260,
 ) {
@@ -409,10 +422,12 @@ fun FfqCategory(
             xLabels = ffqCategoryChartXLabels,
             yLabels = ffqCategoryChartYLabels,
             labelFormatter = FfqCategoryLabelFormatter(ffqCategoryChartXLabels),
+            showMarkerLabel = showMarkerLabel,
             enableAnimation = enableAnimation,
             chartColors = chartColors,
             modifier = Modifier
-                .height(chartHeightDp.dp),
+                .height(chartHeightDp.dp)
+                .padding(top = if (showMarkerLabel) 0.dp else 16.dp),
         )
         
         Spacer(modifier = Modifier.height(16.dp))

@@ -25,12 +25,13 @@ class GetPreTestAsaqChartUseCase @Inject constructor(
                     (it.durasiHariKerja.toDouble() * 5 + it.durasiHariLibur.toDouble() * 2) / 7 / 60
                 } ?: 0.0
                 val maxY = when {
-                    maxFreq <= 4.0 -> 4
-                    maxFreq <= 8.0 -> 8
-                    maxFreq <= 12.0 -> 12
-                    maxFreq <= 16.0 -> 16
-                    maxFreq <= 20.0 -> 20
-                    else -> 24
+                    maxFreq <= 3.0 -> 4
+                    maxFreq <= 7.0 -> 8
+                    maxFreq <= 11.0 -> 12
+                    maxFreq <= 15.0 -> 16
+                    maxFreq <= 19.0 -> 20
+                    maxFreq <= 23.0 -> 24
+                    else -> 32
                 }
                 val yLabelCount = 5
     
