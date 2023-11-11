@@ -9,6 +9,7 @@ import com.giftech.terbit.data.repository.NotificationRepository
 import com.giftech.terbit.data.repository.ProgramRepository
 import com.giftech.terbit.data.repository.UserNotificationRepository
 import com.giftech.terbit.data.repository.UserRepository
+import com.giftech.terbit.data.repository.WeeklySummaryRepository
 import com.giftech.terbit.domain.repository.IArticleRepository
 import com.giftech.terbit.domain.repository.IAsaqRepository
 import com.giftech.terbit.domain.repository.IAsaqResponseRepository
@@ -18,6 +19,7 @@ import com.giftech.terbit.domain.repository.INotificationRepository
 import com.giftech.terbit.domain.repository.IProgramRepository
 import com.giftech.terbit.domain.repository.IUserNotificationRepository
 import com.giftech.terbit.domain.repository.IUserRepository
+import com.giftech.terbit.domain.repository.IWeeklySummaryRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -71,5 +73,10 @@ abstract class RepositoryModule {
     abstract fun provideUserNotificationRepository(
         userNotificationRepository: UserNotificationRepository,
     ): IUserNotificationRepository
+    
+    @Binds
+    abstract fun provideWeeklySummaryRepository(
+        weeklySummaryRepository: WeeklySummaryRepository,
+    ): IWeeklySummaryRepository
     
 }

@@ -88,6 +88,20 @@ fun HomeScreen(
         state = state,
         navController = navController,
     )
+    
+    LaunchedEffect(state.popUpWeeklySummary) {
+        if (state.popUpWeeklySummary) {
+            navController.navigate(
+                Screen.WeeklySummary.createRoute(
+                    week = state.totalCompletedWeek,
+                ),
+            ) {
+                popUpTo(Screen.Home.route) {
+                    inclusive = true
+                }
+            }
+        }
+    }
 }
 
 @Composable

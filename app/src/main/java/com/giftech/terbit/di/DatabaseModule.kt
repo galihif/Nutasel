@@ -9,6 +9,7 @@ import com.giftech.terbit.data.source.local.room.dao.FfqFoodDao
 import com.giftech.terbit.data.source.local.room.dao.FfqResponseDao
 import com.giftech.terbit.data.source.local.room.dao.ProgramDao
 import com.giftech.terbit.data.source.local.room.dao.UserNotificationDao
+import com.giftech.terbit.data.source.local.room.dao.WeeklySummaryDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -63,6 +64,12 @@ object DatabaseModule {
     @Provides
     fun provideUserNotificationDao(database: LocalDatabase): UserNotificationDao {
         return database.userNotificationDao()
+    }
+    
+    @Singleton
+    @Provides
+    fun provideWeeklySummaryDao(database: LocalDatabase): WeeklySummaryDao {
+        return database.weeklySummaryDao()
     }
     
 }

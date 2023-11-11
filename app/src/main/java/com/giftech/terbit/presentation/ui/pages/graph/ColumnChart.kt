@@ -38,6 +38,7 @@ fun ColumnChart(
     modifier: Modifier = Modifier,
     yTitle: String? = null,
     xValueFormatter: AxisValueFormatter<AxisPosition.Horizontal.Bottom>? = null,
+    showMarkerLabel: Boolean = true,
     enableAnimation: Boolean = true,
     showDataLabel: Boolean = false,
     dataLabelFormatter: ValueFormatter? = null,
@@ -78,7 +79,7 @@ fun ColumnChart(
         
         val marker = rememberMarker(
             labelFormatter = labelFormatter,
-        )
+        ).takeIf { showMarkerLabel }
         
         val diffAnimationSpec = remember(enableAnimation) {
             if (enableAnimation) {

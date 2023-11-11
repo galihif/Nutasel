@@ -22,4 +22,5 @@ data class HomeState(
     val totalCompletedWeek: Int,
     val totalWeek: Int,
     val isNotificationEmpty: Boolean,
+    val popUpWeeklySummary: Boolean,
 )

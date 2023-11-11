@@ -38,6 +38,7 @@ fun LineChart(
     yLabels: List<String>,
     labelFormatter: MarkerLabelFormatter,
     modifier: Modifier = Modifier,
+    showMarkerLabel: Boolean = true,
     enableAnimation: Boolean = true,
     chartColors: List<Color> = defaultChartColors(),
 ) {
@@ -77,7 +78,7 @@ fun LineChart(
         
         val marker = rememberMarker(
             labelFormatter = labelFormatter,
-        )
+        ).takeIf { showMarkerLabel }
         
         val diffAnimationSpec = remember(enableAnimation) {
             if (enableAnimation) {
