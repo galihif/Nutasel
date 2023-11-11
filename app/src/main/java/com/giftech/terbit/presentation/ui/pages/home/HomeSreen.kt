@@ -271,14 +271,14 @@ private fun InitialConditionsSection(
                 .weight(1f),
         )
         InitialConditionContainer(
-            title = "Rerata",
-            value = "${state.sedentaryAverageHours.idFormat()} Jam",
+            title = "IMT",
+            value = state.bmiValue.idFormat(),
             modifier = Modifier
                 .weight(1f),
         )
         InitialConditionContainer(
-            title = "IMT",
-            value = state.bmiValue.idFormat(),
+            title = "Rerata",
+            value = "${state.sedentaryAverageHours.idFormat()} Jam",
             modifier = Modifier
                 .weight(1f),
         )
