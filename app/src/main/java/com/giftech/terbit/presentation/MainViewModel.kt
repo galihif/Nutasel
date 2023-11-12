@@ -33,7 +33,7 @@ class MainViewModel @Inject constructor(
         }
     }
     
-    fun getAllUserNotification(): LiveData<List<UserNotification>> {
+    suspend fun getAllUserNotification(): LiveData<List<UserNotification>> {
         return getAllUserNotificationUseCase().asLiveData()
     }
     

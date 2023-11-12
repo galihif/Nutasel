@@ -35,27 +35,29 @@ class MainActivity : ComponentActivity() {
     }
     
     private fun monitorNotification() {
-        viewModel.getAllUserNotification().observe(this@MainActivity) { userNotificationList ->
-            userNotificationList
-                .filter {
-                    it.shownStatus.not()
-                }
-                .forEach {
-                    if (it.activeStatus) {
-                        if (it.schedulingStatus.not()) {
-                            startReminder(
-                                context = this@MainActivity,
-                                userNotification = it,
-                            )
-                            viewModel.updateSchedulingStatusUserNotification(it)
-                        }
-                    } else {
-                        stopReminder(
-                            applicationContext = applicationContext,
-                            reminderId = it.reminderId,
-                        )
+        lifecycleScope.launch {
+            viewModel.getAllUserNotification().observe(this@MainActivity) { userNotificationList ->
+                userNotificationList
+                    .filter {
+                        it.shownStatus.not()
                     }
-                }
+                    .forEach {
+                        if (it.activeStatus) {
+                            if (it.schedulingStatus.not()) {
+                                startReminder(
+                                    context = this@MainActivity,
+                                    userNotification = it,
+                                )
+                                viewModel.updateSchedulingStatusUserNotification(it)
+                            }
+                        } else {
+                            stopReminder(
+                                applicationContext = applicationContext,
+                                reminderId = it.reminderId,
+                            )
+                        }
+                    }
+            }
         }
         
         lifecycleScope.launch {
