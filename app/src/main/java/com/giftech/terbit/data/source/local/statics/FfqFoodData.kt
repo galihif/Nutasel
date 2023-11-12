@@ -45,7 +45,7 @@ class FfqFoodData @Inject constructor(){
         // Staple
         "Nasi Putih",
         "Roti Tawar Putih",
-        "Mie kuning",
+        "Mie Kuning",
         "Bihun",
         "Mie Instan (Kuah)",
         "Mie Instan (Goreng)",

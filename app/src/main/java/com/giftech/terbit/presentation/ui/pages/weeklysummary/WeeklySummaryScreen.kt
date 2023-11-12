@@ -136,7 +136,7 @@ private fun WeeklySummaryContent(
                             .weight(1f),
                     )
                     ContainerTop(
-                        title = "Sedentari",
+                        title = "Sedenter",
                         value = state.sedentaryLevel.title,
                         icon = R.drawable.ic_sedentary_level_100,
                         iconColor = CustomColor1,
