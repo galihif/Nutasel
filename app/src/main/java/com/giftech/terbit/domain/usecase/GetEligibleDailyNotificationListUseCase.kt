@@ -1,10 +1,10 @@
 package com.giftech.terbit.domain.usecase
 
-import com.giftech.terbit.data.repository.ProgramRepository
 import com.giftech.terbit.domain.enums.NotificationType
 import com.giftech.terbit.domain.enums.ProgramTag
 import com.giftech.terbit.domain.model.Notification
 import com.giftech.terbit.domain.repository.INotificationRepository
+import com.giftech.terbit.domain.repository.IProgramRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 class GetEligibleDailyNotificationListUseCase @Inject constructor(
     private val notificationRepository: INotificationRepository,
-    private val programRepository: ProgramRepository,
+    private val programRepository: IProgramRepository,
 ) {
     
     @OptIn(ExperimentalCoroutinesApi::class)

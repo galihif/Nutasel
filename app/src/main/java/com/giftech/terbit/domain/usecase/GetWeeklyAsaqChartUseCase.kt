@@ -5,6 +5,7 @@ import com.giftech.terbit.domain.model.FillOutAsaq
 import com.giftech.terbit.domain.model.WeeklyAsaqChart
 import com.giftech.terbit.domain.repository.IAsaqResponseRepository
 import com.giftech.terbit.domain.repository.IProgramRepository
+import com.giftech.terbit.domain.util.toSinglePrecision
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -55,7 +56,7 @@ class GetWeeklyAsaqChartUseCase @Inject constructor(
                             else -> 32
                         }
                         val yLabelCount = 5
-                        val sedentaryAverageHours = freqHoursList.average()
+                        val sedentaryAverageHours = freqHoursList.average().toSinglePrecision()
                         
                         WeeklyAsaqChart(
                             entry = asaqResponseList,

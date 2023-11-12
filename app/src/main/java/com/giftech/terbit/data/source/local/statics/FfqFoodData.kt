@@ -22,71 +22,84 @@ class FfqFoodData @Inject constructor(){
     }
     
     private val foodIdList = listOf(
-        1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010, // Staple
-        1011, 1012, 1013, 1014, 1015, 1016, // Animal protein
-        1017, 1018, 1019, 1020, 1021, // Vegetable protein
-        1022, 1023, 1024, 1025, // Vegetable
-        1026, 1027, 1028, 1029, 1030, 1031, // Fruit
-        1032, 1033, 1034, 1035, // Drink
-        1036, 1037, 1038, // Snack
+        1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009, // Staple
+        1101, 1102, 1103, 1104, 1105, 1106, 1107, 1108, 1109, 1110, // Animal protein
+        1201, 1202, 1203, 1204, // Vegetable protein
+        1301, 1302, 1303, 1304, 1305, 1306, 1307, 1308, 1309, 1310, // Vegetable
+        1401, 1402, 1403, 1404, 1405, 1406, 1407, // Fruit
+        1501, 1502, 1503, 1504, // Drink
+        1601, 1602, 1603, 1604, 1605, 1606, 1607, // Snack
     )
     
     private val categoryIdList = listOf(
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, // Staple
-        2, 2, 2, 2, 2, 2, // Animal protein
-        3, 3, 3, 3, 3, // Vegetable protein
-        4, 4, 4, 4, // Vegetable
-        5, 5, 5, 5, 5, 5, // Fruit
+        1, 1, 1, 1, 1, 1, 1, 1, 1, // Staple
+        2, 2, 2, 2, 2, 2, 2, 2, 2, 2,// Animal protein
+        3, 3, 3, 3, // Vegetable protein
+        4, 4, 4, 4, 4, 4, 4, 4, 4, 4, // Vegetable
+        5, 5, 5, 5, 5, 5, 5, // Fruit
         6, 6, 6, 6, // Drink
-        7, 7, 7, // Snack
+        7, 7, 7, 7, 7, 7, 7  // Snack
     )
     
     private val nameList = listOf(
         // Staple
-        "Nasi",
-        "Biskuit",
-        "Jagung Segar",
+        "Nasi Putih",
+        "Roti Tawar Putih",
+        "Mie Kuning",
+        "Bihun",
+        "Mie Instan (Kuah)",
+        "Mie Instan (Goreng)",
+        "Soun",
         "Kentang",
-        "Mie Basah",
-        "Mie Kering",
-        "Roti Putih",
         "Singkong",
-        "Sukun",
-        "Tape Beras Ketan",
         // Animal protein
+        "Telur Ayam Ras",
+        "Telur Bebek",
+        "Dada Ayam",
+        "Paha Ayam",
         "Daging Sapi",
-        "Daging Ayam",
-        "Ikan Segar",
-        "Ikan Teri Kering",
-        "Telur Ayam",
-        "Udang Basah",
+        "Jeroan Sapi",
+        "Ikan Lele",
+        "Ikan Pindang",
+        "Sosis",
+        "Nugget Ayam",
         // Vegetable protein
-        "Kacang Hijau",
-        "Kacang Kedelai",
-        "Kacang Merah",
-        "Kacang Mete",
+        "Tempe Kedelai",
         "Tahu",
+        "Kacang Hijau",
+        "Kacang Merah",
         // Vegetable
-        "Bayam",
         "Kangkung",
-        "Sawi",
-        "Terong",
+        "Bayam",
+        "Kol",
+        "Wortel",
+        "Buncis",
+        "Kacang Panjang",
+        "Jamur Hitam",
+        "Brokoli",
+        "Sawi Hijau",
+        "Sawi Putih",
         // Fruit
-        "Apel",
-        "Pisang",
-        "Mangga",
-        "Nanas",
+        "Pisang Muli",
+        "Pisang Sunpride",
+        "Pisang Tanduk",
+        "Pepaya",
         "Semangka",
-        "Melon",
+        "Apel",
+        "Jeruk",
         // Drink
-        "Air Putih",
-        "Es Teh",
+        "Teh",
         "Kopi Susu",
-        "Matcha",
+        "Kopi Hitam",
+        "Susu Sapi",
         // Snack
-        "Gorengan",
-        "Kerupuk",
-        "Makanan Ringan (Keripik Berasa)",
+        "Kerupuk Putih",
+        "Kerupuk Kuning",
+        "Keripik Singkong",
+        "Keripik Kentang",
+        "Bakwan",
+        "Kroket",
+        "Risoles",
     )
     
 }

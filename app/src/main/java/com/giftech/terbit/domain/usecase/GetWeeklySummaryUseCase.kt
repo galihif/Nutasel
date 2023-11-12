@@ -87,7 +87,7 @@ class GetWeeklySummaryUseCase @Inject constructor(
                                                     .groupBy { it.programId }
                                                     .mapValues { asaqResponseListByProgramId ->
                                                         asaqResponseListByProgramId.value.map { it.freq }
-                                                            .average()
+                                                            .average().toSinglePrecision()
                                                     }
                                                     .values
                                                     .average()

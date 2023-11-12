@@ -6,11 +6,13 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
 import com.giftech.terbit.presentation.ui.TerbitApp
 import com.giftech.terbit.presentation.ui.theme.TerbitTheme
 import com.giftech.terbit.presentation.util.RemindersManager.startReminder
 import com.giftech.terbit.presentation.util.RemindersManager.stopReminder
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @ExperimentalMaterial3Api
 @AndroidEntryPoint
@@ -33,7 +35,7 @@ class MainActivity : ComponentActivity() {
     }
     
     private fun monitorNotification() {
-        viewModel.getAllUserNotification().observe(this) { userNotificationList ->
+        viewModel.getAllUserNotification().observe(this@MainActivity) { userNotificationList ->
             userNotificationList
                 .filter {
                     it.shownStatus.not()
@@ -42,7 +44,7 @@ class MainActivity : ComponentActivity() {
                     if (it.activeStatus) {
                         if (it.schedulingStatus.not()) {
                             startReminder(
-                                context = this,
+                                context = this@MainActivity,
                                 userNotification = it,
                             )
                             viewModel.updateSchedulingStatusUserNotification(it)
@@ -56,12 +58,14 @@ class MainActivity : ComponentActivity() {
                 }
         }
         
-        viewModel.getDailyNotificationList().observe(this) { notificationList ->
-            notificationList.forEach {
-                startReminder(
-                    context = this,
-                    dailyTipsNotification = it,
-                )
+        lifecycleScope.launch {
+            viewModel.getDailyNotificationList().observe(this@MainActivity) { notificationList ->
+                notificationList.forEach {
+                    startReminder(
+                        context = this@MainActivity,
+                        dailyTipsNotification = it,
+                    )
+                }
             }
         }
     }

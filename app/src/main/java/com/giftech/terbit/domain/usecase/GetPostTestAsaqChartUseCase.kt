@@ -2,6 +2,7 @@ package com.giftech.terbit.domain.usecase
 
 import com.giftech.terbit.domain.model.PostTestAsaqChart
 import com.giftech.terbit.domain.repository.IAsaqRepository
+import com.giftech.terbit.domain.util.toSinglePrecision
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -36,7 +37,7 @@ class GetPostTestAsaqChartUseCase @Inject constructor(
                     else -> 32
                 }
                 val yLabelCount = 5
-                val sedentaryAverageHours = freqHoursList.average()
+                val sedentaryAverageHours = freqHoursList.average().toSinglePrecision()
                 
                 PostTestAsaqChart(
                     entry = asaqResponseList,
