@@ -56,6 +56,7 @@ fun PreTestAsaq(
     preTestAsaqChartXLabels: List<String>,
     preTestAsaqChartMaxY: Int,
     preTestAsaqChartYLabelCount: Int,
+    preTestAsaqSedentaryAverageHours: Double,
     showMarkerLabel: Boolean = true,
     enableAnimation: Boolean = true,
     showDataLabel: Boolean = false,
@@ -68,6 +69,28 @@ fun PreTestAsaq(
     )
     
     if (preTestAsaqChartEntry.isNotEmpty()) {
+        Spacer(modifier = Modifier.height(16.dp))
+    
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            Text(
+                text = "Rata-Rata Jam",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier
+                    .weight(1f),
+            )
+            ScoreText(
+                value = preTestAsaqSedentaryAverageHours,
+                backgroundColor = MaterialTheme.colorScheme.primaryContainer,
+                textColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            )
+        }
+    
+        Spacer(modifier = Modifier.height(8.dp))
+        
         ColumnChart(
             entries = listOf(preTestAsaqChartEntry),
             xLabels = preTestAsaqChartXLabels,
@@ -104,6 +127,7 @@ fun PostTestAsaq(
     postTestAsaqChartXLabels: List<String>,
     postTestAsaqChartMaxY: Int,
     postTestAsaqChartYLabelCount: Int,
+    postTestAsaqSedentaryAverageHours: Double,
     showMarkerLabel: Boolean = true,
     enableAnimation: Boolean = true,
     showDataLabel: Boolean = false,
@@ -116,6 +140,28 @@ fun PostTestAsaq(
     )
     
     if (postTestAsaqChartEntry.isNotEmpty()) {
+        Spacer(modifier = Modifier.height(16.dp))
+    
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            Text(
+                text = "Rata-Rata Jam",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier
+                    .weight(1f),
+            )
+            ScoreText(
+                value = postTestAsaqSedentaryAverageHours,
+                backgroundColor = light_CustomColor2Container,
+                textColor = light_onCustomColor2Container,
+            )
+        }
+    
+        Spacer(modifier = Modifier.height(8.dp))
+        
         ColumnChart(
             entries = listOf(postTestAsaqChartEntry),
             xLabels = postTestAsaqChartXLabels,
@@ -176,6 +222,7 @@ fun WeeklyAsaq(
     weeklyAsaqResponseChartXLabels: List<String>,
     weeklyAsaqResponseChartMaxY: Int,
     weeklyAsaqResponseChartYLabelCount: Int,
+    weeklyAsaqResponseSedentaryAverageHours: Double,
     onSelectDayOfWeek: () -> Unit,
     onSelectWeek: () -> Unit,
     showMarkerLabel: Boolean = true,
@@ -183,6 +230,29 @@ fun WeeklyAsaq(
     showDataLabel: Boolean = false,
     chartHeightDp: Int = 220,
 ) {
+    
+    if (weeklyAsaqResponseChartEntry.isNotEmpty()) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            Text(
+                text = "Rata-Rata Jam",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier
+                    .weight(1f),
+            )
+            ScoreText(
+                value = weeklyAsaqResponseSedentaryAverageHours.toInt(),
+                backgroundColor = MaterialTheme.colorScheme.primaryContainer,
+                textColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            )
+        }
+    
+        Spacer(modifier = Modifier.height(16.dp))
+    }
+    
     Row(
         horizontalArrangement = Arrangement.End,
         modifier = Modifier
@@ -368,7 +438,7 @@ fun FfqScore(
 
 @Composable
 private fun ScoreText(
-    value: Int,
+    value: Number,
     backgroundColor: Color,
     textColor: Color,
     modifier: Modifier = Modifier,

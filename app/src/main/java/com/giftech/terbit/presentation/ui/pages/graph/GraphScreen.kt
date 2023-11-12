@@ -102,6 +102,7 @@ private fun PrePostTestAsaqSection(
         preTestAsaqChartXLabels = state.preTestAsaqChartXLabels,
         preTestAsaqChartMaxY = state.preTestAsaqChartMaxY,
         preTestAsaqChartYLabelCount = state.preTestAsaqChartYLabelCount,
+        preTestAsaqSedentaryAverageHours = state.preTestAsaqSedentaryAverageHours,
     )
     PostTestAsaq(
         preTestAsaqChartEntry = state.preTestAsaqChartEntry,
@@ -109,6 +110,7 @@ private fun PrePostTestAsaqSection(
         postTestAsaqChartXLabels = state.postTestAsaqChartXLabels,
         postTestAsaqChartMaxY = state.postTestAsaqChartMaxY,
         postTestAsaqChartYLabelCount = state.postTestAsaqChartYLabelCount,
+        postTestAsaqSedentaryAverageHours = state.postTestAsaqSedentaryAverageHours,
     )
 }
 
@@ -129,6 +131,7 @@ private fun DailyAsaqSection(
         weeklyAsaqResponseChartXLabels = state.weeklyAsaqResponseChartXLabels,
         weeklyAsaqResponseChartMaxY = state.weeklyAsaqResponseChartMaxY,
         weeklyAsaqResponseChartYLabelCount = state.weeklyAsaqResponseChartYLabelCount,
+        weeklyAsaqResponseSedentaryAverageHours = state.weeklyAsaqResponseSedentaryAverageHours,
         onSelectDayOfWeek = {
             viewModel.onEvent(
                 GraphEvent.ShowWeeklyAsaqOptionsDayOfWeekDialog

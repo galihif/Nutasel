@@ -20,10 +20,12 @@ class GetPreTestAsaqChartUseCase @Inject constructor(
                 asaqResponseList.sortedBy { it.questionId }
             }
             .mapLatest { asaqResponseList ->
-                val xLabels = asaqResponseList.map { "Q${it.questionId}" }
-                val maxFreq = asaqResponseList.maxOfOrNull {
+                val freqHoursList = asaqResponseList.map {
                     (it.durasiHariKerja.toDouble() * 5 + it.durasiHariLibur.toDouble() * 2) / 7 / 60
-                } ?: 0.0
+                }
+                
+                val xLabels = asaqResponseList.map { "Q${it.questionId}" }
+                val maxFreq = freqHoursList.maxOrNull() ?: 0.0
                 val maxY = when {
                     maxFreq <= 3.0 -> 4
                     maxFreq <= 7.0 -> 8
@@ -34,12 +36,14 @@ class GetPreTestAsaqChartUseCase @Inject constructor(
                     else -> 32
                 }
                 val yLabelCount = 5
+                val sedentaryAverageHours = freqHoursList.average()
     
                 PreTestAsaqChart(
                     entry = asaqResponseList,
                     xLabels = xLabels,
                     maxY = maxY,
                     yLabelCount = yLabelCount,
+                    sedentaryAverageHours = sedentaryAverageHours,
                 )
             }
             .flowOn(Dispatchers.IO)

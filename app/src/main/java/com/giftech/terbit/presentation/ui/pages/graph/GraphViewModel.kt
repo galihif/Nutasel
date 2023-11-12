@@ -52,16 +52,19 @@ class GraphViewModel @Inject constructor(
             preTestAsaqChartXLabels = emptyList(),
             preTestAsaqChartMaxY = 0,
             preTestAsaqChartYLabelCount = 0,
+            preTestAsaqSedentaryAverageHours = 0.0,
             
             postTestAsaqChartEntry = emptyList(),
             postTestAsaqChartXLabels = emptyList(),
             postTestAsaqChartMaxY = 0,
             postTestAsaqChartYLabelCount = 0,
+            postTestAsaqSedentaryAverageHours = 0.0,
             
             weeklyAsaqResponseChartEntry = emptyList(),
             weeklyAsaqResponseChartXLabels = emptyList(),
             weeklyAsaqResponseChartMaxY = 0,
             weeklyAsaqResponseChartYLabelCount = 0,
+            weeklyAsaqResponseSedentaryAverageHours = 0.0,
             
             ffqScoreChartEntries = emptyList(),
             ffqScoreChartXLabels = emptyList(),
@@ -146,6 +149,7 @@ class GraphViewModel @Inject constructor(
                     preTestAsaqChartXLabels = preTestAsaqChart.xLabels,
                     preTestAsaqChartMaxY = preTestAsaqChart.maxY,
                     preTestAsaqChartYLabelCount = preTestAsaqChart.yLabelCount,
+                    preTestAsaqSedentaryAverageHours = preTestAsaqChart.sedentaryAverageHours,
                 )
             }
         }
@@ -164,6 +168,7 @@ class GraphViewModel @Inject constructor(
                     postTestAsaqChartXLabels = postTestAsaqChart.xLabels,
                     postTestAsaqChartMaxY = postTestAsaqChart.maxY,
                     postTestAsaqChartYLabelCount = postTestAsaqChart.yLabelCount,
+                    postTestAsaqSedentaryAverageHours = postTestAsaqChart.sedentaryAverageHours,
                 )
             }
         }
@@ -282,6 +287,7 @@ class GraphViewModel @Inject constructor(
                     weeklyAsaqResponseChartXLabels = weeklyAsaqChart.xLabels,
                     weeklyAsaqResponseChartMaxY = weeklyAsaqChart.maxY,
                     weeklyAsaqResponseChartYLabelCount = weeklyAsaqChart.yLabelCount,
+                    weeklyAsaqResponseSedentaryAverageHours = weeklyAsaqChart.sedentaryAverageHours,
                     weeklyAsaqSelectedWeek = week,
                     weeklyAsaqSelectedDayOfWeek = dayOfWeek,
                 )

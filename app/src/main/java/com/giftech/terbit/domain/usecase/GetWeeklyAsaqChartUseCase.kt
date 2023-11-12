@@ -39,9 +39,12 @@ class GetWeeklyAsaqChartUseCase @Inject constructor(
                             .sortedBy { it.questionId }
                     }
                     .mapLatest { asaqResponseList ->
+                        val freqHoursList = asaqResponseList.map {
+                            it.freq.toDouble() / 60
+                        }
+                        
                         val xLabels = asaqResponseList.map { "Q${it.questionId}" }
-                        val maxFreq =
-                            (asaqResponseList.maxOfOrNull { it.freq }?.toDouble() ?: 0.0) / 60
+                        val maxFreq = freqHoursList.maxOrNull() ?: 0.0
                         val maxY = when {
                             maxFreq <= 3.0 -> 4
                             maxFreq <= 7.0 -> 8
@@ -52,12 +55,14 @@ class GetWeeklyAsaqChartUseCase @Inject constructor(
                             else -> 32
                         }
                         val yLabelCount = 5
+                        val sedentaryAverageHours = freqHoursList.average()
                         
                         WeeklyAsaqChart(
                             entry = asaqResponseList,
                             xLabels = xLabels,
                             maxY = maxY,
                             yLabelCount = yLabelCount,
+                            sedentaryAverageHours = sedentaryAverageHours,
                         )
                     }
             }

@@ -106,6 +106,7 @@ class DataExportViewModel @Inject constructor(
                     preTestAsaqChartXLabels = preTestAsaqChart.xLabels,
                     preTestAsaqChartMaxY = preTestAsaqChart.maxY,
                     preTestAsaqChartYLabelCount = preTestAsaqChart.yLabelCount,
+                    preTestAsaqSedentaryAverageHours = preTestAsaqChart.sedentaryAverageHours,
                 )
             }
         }
@@ -124,6 +125,7 @@ class DataExportViewModel @Inject constructor(
                     postTestAsaqChartXLabels = postTestAsaqChart.xLabels,
                     postTestAsaqChartMaxY = postTestAsaqChart.maxY,
                     postTestAsaqChartYLabelCount = postTestAsaqChart.yLabelCount,
+                    postTestAsaqSedentaryAverageHours = postTestAsaqChart.sedentaryAverageHours,
                 )
             }
         }
@@ -144,6 +146,7 @@ class DataExportViewModel @Inject constructor(
                     weeklyAsaqChartXLabels = weeklyAsaqChartList.firstOrNull()?.xLabels.orEmpty(),
                     weeklyAsaqChartMaxYList = weeklyAsaqChartList.map { it.maxY },
                     weeklyAsaqChartYLabelCount = weeklyAsaqChartList.firstOrNull()?.yLabelCount ?: 0,
+                    weeklyAsaqSedentaryAverageHoursList = weeklyAsaqChartList.map { it.sedentaryAverageHours },
                 )
             }
         }
