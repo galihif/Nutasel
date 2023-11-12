@@ -19,16 +19,19 @@ data class DataExportState(
     val preTestAsaqChartXLabels: List<String> = emptyList(),
     val preTestAsaqChartMaxY: Int = 0,
     val preTestAsaqChartYLabelCount: Int = 0,
+    val preTestAsaqSedentaryAverageHours: Double = 0.0,
     
     val postTestAsaqChartEntry: List<ChartEntry> = emptyList(),
     val postTestAsaqChartXLabels: List<String> = emptyList(),
     val postTestAsaqChartMaxY: Int = 0,
     val postTestAsaqChartYLabelCount: Int = 0,
+    val postTestAsaqSedentaryAverageHours: Double = 0.0,
     
     val weeklyAsaqChartEntryList: List<List<ChartEntry>> = emptyList(),
     val weeklyAsaqChartXLabels: List<String> = emptyList(),
     val weeklyAsaqChartMaxYList: List<Int> = emptyList(),
     val weeklyAsaqChartYLabelCount: Int = 0,
+    val weeklyAsaqSedentaryAverageHoursList: List<Double> = emptyList(),
     
     val preTestFfqScore: Int = 0,
     val postTestFfqScore: Int = 0,

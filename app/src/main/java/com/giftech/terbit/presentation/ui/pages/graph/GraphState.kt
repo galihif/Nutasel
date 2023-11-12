@@ -19,16 +19,19 @@ data class GraphState(
     val preTestAsaqChartXLabels: List<String>,
     val preTestAsaqChartMaxY: Int,
     val preTestAsaqChartYLabelCount: Int,
+    val preTestAsaqSedentaryAverageHours: Double,
 
     val postTestAsaqChartEntry: List<ChartEntry>,
     val postTestAsaqChartXLabels: List<String>,
     val postTestAsaqChartMaxY: Int,
     val postTestAsaqChartYLabelCount: Int,
+    val postTestAsaqSedentaryAverageHours: Double,
 
     val weeklyAsaqResponseChartEntry: List<ChartEntry>,
     val weeklyAsaqResponseChartXLabels: List<String>,
     val weeklyAsaqResponseChartMaxY: Int,
     val weeklyAsaqResponseChartYLabelCount: Int,
+    val weeklyAsaqResponseSedentaryAverageHours: Double,
 
     val ffqScoreChartEntries: List<List<ChartEntry>>,
     val ffqScoreChartXLabels: List<String>,

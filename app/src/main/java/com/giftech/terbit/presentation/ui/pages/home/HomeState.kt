@@ -8,6 +8,7 @@ data class HomeState(
     val bmiCategory: String,
     val monitoringLevel: String,
     val bmiValue: Double,
+    val sedentaryAverageHours: Double,
     val postTestOpeningDate: String,
     val isPostTestAvailable: Boolean,
     val isPostTestDone: Boolean,

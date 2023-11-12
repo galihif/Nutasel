@@ -5,4 +5,5 @@ data class PostTestAsaqChart(
     val xLabels: List<String>,
     val maxY: Int,
     val yLabelCount: Int,
+    val sedentaryAverageHours: Double,
 )

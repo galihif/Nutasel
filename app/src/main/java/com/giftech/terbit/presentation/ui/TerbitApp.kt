@@ -391,8 +391,16 @@ fun TerbitApp(
                 )
             }
             
-            composable(Screen.WeeklyAsaqComplete.route) {
+            composable(
+                route = Screen.WeeklyAsaqComplete.route,
+                arguments = listOf(
+                    navArgument(Constants.Extras.SEDENTARY_AVERAGE_HOURS) { type = NavType.FloatType }
+                ),
+            ) {
+                val sedentaryAverageHours =
+                    it.arguments?.getFloat(Constants.Extras.SEDENTARY_AVERAGE_HOURS) ?: 0f
                 WeeklyAsaqCompleteScreen(
+                    sedentaryAverageHours = sedentaryAverageHours,
                     navController = navHostController,
                 )
             }

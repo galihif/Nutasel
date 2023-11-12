@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.giftech.terbit.domain.usecase.CompleteProgramUseCase
 import com.giftech.terbit.domain.usecase.GetAsaqResponseUseCase
 import com.giftech.terbit.domain.usecase.SubmitAsaqResponseUseCase
+import com.giftech.terbit.domain.util.toSinglePrecision
 import com.giftech.terbit.presentation.ui.components.enums.AsaqQuestions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -28,6 +29,7 @@ class WeeklyAsaqViewModel @Inject constructor(
             minutesFreq = null,
             isFirstQuestion = true,
             isLastQuestion = false,
+            sedentaryAverageHours = 0f,
         )
     )
     val state: State<WeeklyAsaqState> = _state
@@ -51,6 +53,12 @@ class WeeklyAsaqViewModel @Inject constructor(
                             responseList = asaqResponseList,
                             hoursFreq = freq?.div(60),
                             minutesFreq = freq?.rem(60),
+                            sedentaryAverageHours = asaqResponseList
+                                .map { it.freq }
+                                .average()
+                                .div(60)
+                                .toSinglePrecision()
+                                .toFloat(),
                         )
                     }
                 }

@@ -11,4 +11,5 @@ data class WeeklyAsaqState(
     val minutesFreq: Int?,
     val isFirstQuestion: Boolean,
     val isLastQuestion: Boolean,
+    val sedentaryAverageHours: Float,
 )

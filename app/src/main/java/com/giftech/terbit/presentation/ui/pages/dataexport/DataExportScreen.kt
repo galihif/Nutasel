@@ -301,6 +301,7 @@ private fun PageSection(
                         preTestAsaqChartXLabels = state.preTestAsaqChartXLabels,
                         preTestAsaqChartMaxY = state.preTestAsaqChartMaxY,
                         preTestAsaqChartYLabelCount = state.preTestAsaqChartYLabelCount,
+                        preTestAsaqSedentaryAverageHours = state.preTestAsaqSedentaryAverageHours,
                     )
                 }
                 
@@ -312,6 +313,7 @@ private fun PageSection(
                         postTestAsaqChartXLabels = state.postTestAsaqChartXLabels,
                         postTestAsaqChartMaxY = state.postTestAsaqChartMaxY,
                         postTestAsaqChartYLabelCount = state.postTestAsaqChartYLabelCount,
+                        postTestAsaqSedentaryAverageHours = state.postTestAsaqSedentaryAverageHours,
                     )
                 }
                 
@@ -338,6 +340,7 @@ private fun PageSection(
                         weeklyAsaqChartXLabels = state.weeklyAsaqChartXLabels,
                         weeklyAsaqChartMaxY = state.weeklyAsaqChartMaxYList.getOrElse(index) { 0 },
                         weeklyAsaqChartYLabelCount = state.weeklyAsaqChartYLabelCount,
+                        weeklyAsaqResponseSedentaryAverageHours = state.weeklyAsaqSedentaryAverageHoursList.getOrElse(index) { 0.0 },
                         weeklyAsaqSelectedWeek = weeklyAsaqSelectedWeek,
                         weeklyAsaqSelectedDayOfWeek = weeklyAsaqSelectedDayOfWeek,
                         showTitle = index == 0,
@@ -509,6 +512,7 @@ private fun PageSection3(
     preTestAsaqChartXLabels: List<String>,
     preTestAsaqChartMaxY: Int,
     preTestAsaqChartYLabelCount: Int,
+    preTestAsaqSedentaryAverageHours: Double,
 ) {
     Page(
         pageNumber = pageNumber,
@@ -519,6 +523,7 @@ private fun PageSection3(
             preTestAsaqChartXLabels = preTestAsaqChartXLabels,
             preTestAsaqChartMaxY = preTestAsaqChartMaxY,
             preTestAsaqChartYLabelCount = preTestAsaqChartYLabelCount,
+            preTestAsaqSedentaryAverageHours = preTestAsaqSedentaryAverageHours,
             showMarkerLabel = false,
             enableAnimation = false,
             showDataLabel = true,
@@ -535,6 +540,7 @@ private fun PageSection4(
     postTestAsaqChartXLabels: List<String>,
     postTestAsaqChartMaxY: Int,
     postTestAsaqChartYLabelCount: Int,
+    postTestAsaqSedentaryAverageHours: Double,
 ) {
     Page(
         pageNumber = pageNumber,
@@ -545,6 +551,7 @@ private fun PageSection4(
             postTestAsaqChartXLabels = postTestAsaqChartXLabels,
             postTestAsaqChartMaxY = postTestAsaqChartMaxY,
             postTestAsaqChartYLabelCount = postTestAsaqChartYLabelCount,
+            postTestAsaqSedentaryAverageHours = postTestAsaqSedentaryAverageHours,
             showMarkerLabel = false,
             enableAnimation = false,
             showDataLabel = true,
@@ -560,6 +567,7 @@ private fun PageSection5(
     weeklyAsaqChartXLabels: List<String>,
     weeklyAsaqChartMaxY: Int,
     weeklyAsaqChartYLabelCount: Int,
+    weeklyAsaqResponseSedentaryAverageHours: Double,
     weeklyAsaqSelectedWeek: Int,
     weeklyAsaqSelectedDayOfWeek: Int,
     showTitle: Boolean,
@@ -575,6 +583,7 @@ private fun PageSection5(
             weeklyAsaqResponseChartXLabels = weeklyAsaqChartXLabels,
             weeklyAsaqResponseChartMaxY = weeklyAsaqChartMaxY,
             weeklyAsaqResponseChartYLabelCount = weeklyAsaqChartYLabelCount,
+            weeklyAsaqResponseSedentaryAverageHours = weeklyAsaqResponseSedentaryAverageHours,
             onSelectDayOfWeek = {},
             onSelectWeek = {},
             showMarkerLabel = false,

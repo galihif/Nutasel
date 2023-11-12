@@ -93,7 +93,9 @@ sealed class Screen(val route: String, val deepLink: String? = null) {
             "https://terbiasafit.com/program/weekly_asaq/$programId"
     }
     
-    data object WeeklyAsaqComplete : Screen("WeeklyAsaqComplete")
+    data object WeeklyAsaqComplete : Screen("WeeklyAsaqComplete/{${Constants.Extras.SEDENTARY_AVERAGE_HOURS}}") {
+        fun createRoute(sedentaryAverageHours: Float) = "WeeklyAsaqComplete/$sedentaryAverageHours"
+    }
     
     data object OnboardingPosttest : Screen("OnboardingPosttest")
     

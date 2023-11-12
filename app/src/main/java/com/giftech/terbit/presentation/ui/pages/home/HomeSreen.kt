@@ -277,6 +277,12 @@ private fun InitialConditionsSection(
                 .weight(1f),
         )
         InitialConditionContainer(
+            title = "Rerata",
+            value = "${state.sedentaryAverageHours.idFormat()} Jam",
+            modifier = Modifier
+                .weight(1f),
+        )
+        InitialConditionContainer(
             title = "Sedenter",
             value = state.monitoringLevel,
             modifier = Modifier
@@ -441,6 +447,7 @@ private fun InitialConditionContainer(
         Text(
             text = title,
             style = MaterialTheme.typography.bodyMedium,
+            textAlign = TextAlign.Center,
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
