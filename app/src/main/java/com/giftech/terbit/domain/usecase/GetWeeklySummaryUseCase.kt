@@ -45,14 +45,14 @@ class GetWeeklySummaryUseCase @Inject constructor(
                         val preTestDate =
                             preTest.first().completionDateInMillis.toLocalDateTime().toLocalDate()
                         val day1Date = preTestDate.plusDays(Constants.BreakDays.AFTER_PRE_TEST)
-    
+                        
                         val currentDay = currentDate.toEpochDay() - day1Date.toEpochDay() + 1
                         val currentWeek = if (currentDay % 7 == 0L) {
                             (currentDay / 7).toInt()
                         } else {
                             (currentDay / 7).toInt() + 1
                         }
-    
+                        
                         currentWeek
                     }.flatMapConcat { ongoingWeek ->
                         val week = ongoingWeek - 1
@@ -67,15 +67,17 @@ class GetWeeklySummaryUseCase @Inject constructor(
                                 programRepository.getAll()
                                     .map { programList ->
                                         programList
-                                            .asSequence()
                                             .filterIsInstance(FillOutAsaq::class.java)
                                             .filter { it.week == week }
                                             .filter { it.tag == ProgramTag.WEEKLY_PROGRAM }
-                                            .filter { it.isCompleted }
-                                            .map { it.programId }
-                                            .toList()
                                     }
-                                    .filter { it.isNotEmpty() }
+                                    .filter { asaqWeeklyProgramList ->
+                                        asaqWeeklyProgramList.all { it.isCompleted }
+                                    }
+                                    .map { asaqWeeklyProgramList ->
+                                        asaqWeeklyProgramList
+                                            .map { it.programId }
+                                    }
                                     .flatMapConcat { asaqProgramIdList ->
                                         asaqResponseRepository.getAll()
                                             .map { asaqResponseList ->
