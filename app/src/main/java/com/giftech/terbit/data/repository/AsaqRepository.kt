@@ -41,7 +41,7 @@ class AsaqRepository @Inject constructor(
 
     override suspend fun getAsaqAverage(): Flow<Double> = flow{
         val totalMinutes = asaqDao.getPreTests().first().sumOf {
-            it.durasiHariKerja + it.durasiHariLibur
+            (it.durasiHariKerja.toDouble() * 5 + it.durasiHariLibur.toDouble() * 2) / 7
         }
         val avgMinutesQuest = totalMinutes/12
         val avgHoursPerquestion = avgMinutesQuest/60
