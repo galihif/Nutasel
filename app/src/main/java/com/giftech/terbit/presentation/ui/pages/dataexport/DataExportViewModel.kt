@@ -145,7 +145,8 @@ class DataExportViewModel @Inject constructor(
                     weeklyAsaqChartEntryList = weeklyAsaqResponseChartEntryList,
                     weeklyAsaqChartXLabels = weeklyAsaqChartList.firstOrNull()?.xLabels.orEmpty(),
                     weeklyAsaqChartMaxYList = weeklyAsaqChartList.map { it.maxY },
-                    weeklyAsaqChartYLabelCount = weeklyAsaqChartList.firstOrNull()?.yLabelCount ?: 0,
+                    weeklyAsaqChartYLabelCount = weeklyAsaqChartList.firstOrNull()?.yLabelCount
+                        ?: 0,
                     weeklyAsaqSedentaryAverageHoursList = weeklyAsaqChartList.map { it.sedentaryAverageHours },
                 )
             }
@@ -173,7 +174,8 @@ class DataExportViewModel @Inject constructor(
                 _state.value = _state.value.copy(
                     ffqScoreChartEntries = ffqScoreChartEntries,
                     ffqScoreChartXLabels = ffqScoreChart.xLabels,
-                    ffqScoreChartMaxY = ffqScoreChart.maxY,
+                    ffqScoreChartMaxY = if (ffqScoreChartEntries[0].maxOf { it.y } <= 250 &&
+                        ffqScoreChartEntries[1].maxOf { it.y } <= 250) 300 else 600,
                     ffqScoreChartYLabelCount = ffqScoreChart.yLabelCount,
                 )
             }

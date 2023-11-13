@@ -195,7 +195,8 @@ class GraphViewModel @Inject constructor(
                 _state.value = _state.value.copy(
                     ffqScoreChartEntries = ffqScoreChartEntries,
                     ffqScoreChartXLabels = ffqScoreChart.xLabels,
-                    ffqScoreChartMaxY = ffqScoreChart.maxY,
+                    ffqScoreChartMaxY = if (ffqScoreChartEntries[0].maxOf { it.y } <= 300 &&
+                        ffqScoreChartEntries[1].maxOf { it.y } <= 300) 300 else 600,
                     ffqScoreChartYLabelCount = ffqScoreChart.yLabelCount,
                 )
             }
