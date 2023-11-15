@@ -29,28 +29,28 @@ class AsaqRepository @Inject constructor(
     
     override suspend fun getSedenterType(): Flow<SedenterType> = flow {
         val score = asaqDao.getPreTests().first().sumOf {
-            it.durasiHariKerja + it.durasiHariLibur
+            (it.durasiHariKerja.toDouble() * 5 + it.durasiHariLibur.toDouble() * 2) / 7 / 60
         }
-        val avgMinutesPerQuestion = score/12
+        val avgHoursPerQuestion = score / 12
         when {
-            avgMinutesPerQuestion <= 59 -> emit(SedenterType.RINGAN)
-            avgMinutesPerQuestion <= 119 -> emit(SedenterType.SEDANG)
-            else -> emit(SedenterType.BERAT)
+            avgHoursPerQuestion < 2 -> emit(SedenterType.RINGAN)
+            avgHoursPerQuestion > 5 -> emit(SedenterType.BERAT)
+            else -> emit(SedenterType.SEDANG)
         }
     }
-
-    override suspend fun getAsaqAverage(): Flow<Double> = flow{
+    
+    override suspend fun getAsaqAverage(): Flow<Double> = flow {
         val totalMinutes = asaqDao.getPreTests().first().sumOf {
             (it.durasiHariKerja.toDouble() * 5 + it.durasiHariLibur.toDouble() * 2) / 7
         }
-        val avgMinutesQuest = totalMinutes/12
-        val avgHoursPerquestion = avgMinutesQuest/60
+        val avgMinutesQuest = totalMinutes / 12
+        val avgHoursPerquestion = avgMinutesQuest / 60
         Log.d("AsaqRepository", "totalMinutes: $totalMinutes")
         Log.d("AsaqRepository", "avgMinutesQuest: $avgMinutesQuest")
         Log.d("AsaqRepository", "avgHoursPerquestion: $avgHoursPerquestion")
         emit(avgHoursPerquestion.toDouble())
     }
-
+    
     override suspend fun insertPreTestAsaq(asaq: List<Asaq>) {
         asaqDao.insertAll(mapper.mapToEntity(asaq, AsaqTestType.PRE_TEST))
     }

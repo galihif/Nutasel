@@ -98,9 +98,9 @@ class GetWeeklySummaryUseCase @Inject constructor(
                                                     .toFloat()
                                                 
                                                 val sedentaryLevel = when {
-                                                    sedentaryAverageHours <= 2.0 -> SedenterType.RINGAN
-                                                    sedentaryAverageHours <= 5.0 -> SedenterType.SEDANG
-                                                    else -> SedenterType.BERAT
+                                                    sedentaryAverageHours < 2.0 -> SedenterType.RINGAN
+                                                    sedentaryAverageHours > 5.0 -> SedenterType.BERAT
+                                                    else -> SedenterType.SEDANG
                                                 }
                                                 
                                                 WeeklySummary(
