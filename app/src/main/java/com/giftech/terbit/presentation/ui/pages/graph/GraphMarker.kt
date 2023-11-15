@@ -173,11 +173,11 @@ class FfqCategoryLabelFormatter(
         val line1 = xLabels[indexX]
         val line2 = when (indexY) {
             0 -> "Tidak pernah"
-            1 -> "1 kali / hari"
-            2 -> "> 3 kali / hari"
-            3 -> "1 - 2 kali / minggu"
-            4 -> "3 - 6 kali / minggu"
-            5 -> "2 kali / bulan"
+            1 -> "2 kali / bulan"
+            2 -> "1 - 2 kali / minggu"
+            3 -> "3 - 6 kali / minggu"
+            4 -> "1 kali / hari"
+            5 -> "> 3 kali / hari"
             else -> ""
         }
         

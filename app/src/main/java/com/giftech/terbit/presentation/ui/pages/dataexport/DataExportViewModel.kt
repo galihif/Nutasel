@@ -191,11 +191,11 @@ class DataExportViewModel @Inject constructor(
                                 x = index,
                                 y = when (ffqResponse.freq ?: FfqFrequency.NEVER) {
                                     FfqFrequency.NEVER -> 0
-                                    FfqFrequency.DAY_1 -> 1
-                                    FfqFrequency.DAY_3 -> 2
-                                    FfqFrequency.WEEK_1_2 -> 3
-                                    FfqFrequency.WEEK_3_6 -> 4
-                                    FfqFrequency.MONTH_2 -> 5
+                                    FfqFrequency.MONTH_2 -> 1
+                                    FfqFrequency.WEEK_1_2 -> 2
+                                    FfqFrequency.WEEK_3_6 -> 3
+                                    FfqFrequency.DAY_1 -> 4
+                                    FfqFrequency.DAY_3 -> 5
                                 },
                             )
                         }
@@ -219,11 +219,11 @@ class DataExportViewModel @Inject constructor(
                                 x = index,
                                 y = when (ffqResponse.freq ?: FfqFrequency.NEVER) {
                                     FfqFrequency.NEVER -> 0
-                                    FfqFrequency.DAY_1 -> 1
-                                    FfqFrequency.DAY_3 -> 2
-                                    FfqFrequency.WEEK_1_2 -> 3
-                                    FfqFrequency.WEEK_3_6 -> 4
-                                    FfqFrequency.MONTH_2 -> 5
+                                    FfqFrequency.MONTH_2 -> 1
+                                    FfqFrequency.WEEK_1_2 -> 2
+                                    FfqFrequency.WEEK_3_6 -> 3
+                                    FfqFrequency.DAY_1 -> 4
+                                    FfqFrequency.DAY_3 -> 5
                                 },
                             )
                         }

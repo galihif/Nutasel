@@ -140,7 +140,8 @@ class GraphViewModel @Inject constructor(
                     preTestAsaqChart.entry.map {
                         entryOf(
                             x = it.questionId,
-                            y = ((it.durasiHariKerja * 5 + it.durasiHariLibur * 2) / 7).toDouble() / 60,
+                            y = (((it.durasiHariKerja * 5 + it.durasiHariLibur * 2) / 7).toDouble() / 60)
+                                .takeIf { freqHours -> freqHours > 0.0 } ?: 0.01,
                         )
                     }
                 }
@@ -159,7 +160,8 @@ class GraphViewModel @Inject constructor(
                     postTestAsaqChart.entry.map {
                         entryOf(
                             x = it.questionId,
-                            y = ((it.durasiHariKerja * 5 + it.durasiHariLibur * 2) / 7).toDouble() / 60,
+                            y = (((it.durasiHariKerja * 5 + it.durasiHariLibur * 2) / 7).toDouble() / 60)
+                                .takeIf { freqHours -> freqHours > 0.0 } ?: 0.01,
                         )
                     }
                 }
@@ -182,12 +184,14 @@ class GraphViewModel @Inject constructor(
                             entryOf(
                                 x = groupedEntries1.keys.indexOf(foodCategoryId),
                                 y = ffqResponseList.sumOf { it.freq?.score ?: 0 }
+                                    .takeIf { it > 0 } ?: 0.01,
                             )
                         },
                         groupedEntries2.map { (foodCategoryId, ffqResponseList) ->
                             entryOf(
                                 x = groupedEntries2.keys.indexOf(foodCategoryId),
                                 y = ffqResponseList.sumOf { it.freq?.score ?: 0 }
+                                    .takeIf { it > 0 } ?: 0.01,
                             )
                         },
                     )
@@ -279,7 +283,8 @@ class GraphViewModel @Inject constructor(
                     weeklyAsaqChart.entry.map {
                         entryOf(
                             x = it.questionId,
-                            y = it.freq.toDouble() / 60,
+                            y = (it.freq.toDouble() / 60)
+                                .takeIf { freqHours -> freqHours > 0.0 } ?: 0.01,
                         )
                     }
                 }
@@ -308,11 +313,11 @@ class GraphViewModel @Inject constructor(
                             x = index,
                             y = when (ffqResponse.freq ?: FfqFrequency.NEVER) {
                                 FfqFrequency.NEVER -> 0
-                                FfqFrequency.DAY_1 -> 1
-                                FfqFrequency.DAY_3 -> 2
-                                FfqFrequency.WEEK_1_2 -> 3
-                                FfqFrequency.WEEK_3_6 -> 4
-                                FfqFrequency.MONTH_2 -> 5
+                                FfqFrequency.MONTH_2 -> 1
+                                FfqFrequency.WEEK_1_2 -> 2
+                                FfqFrequency.WEEK_3_6 -> 3
+                                FfqFrequency.DAY_1 -> 4
+                                FfqFrequency.DAY_3 -> 5
                             },
                         )
                     }
@@ -339,11 +344,11 @@ class GraphViewModel @Inject constructor(
                             x = index,
                             y = when (ffqResponse.freq ?: FfqFrequency.NEVER) {
                                 FfqFrequency.NEVER -> 0
-                                FfqFrequency.DAY_1 -> 1
-                                FfqFrequency.DAY_3 -> 2
-                                FfqFrequency.WEEK_1_2 -> 3
-                                FfqFrequency.WEEK_3_6 -> 4
-                                FfqFrequency.MONTH_2 -> 5
+                                FfqFrequency.MONTH_2 -> 1
+                                FfqFrequency.WEEK_1_2 -> 2
+                                FfqFrequency.WEEK_3_6 -> 3
+                                FfqFrequency.DAY_1 -> 4
+                                FfqFrequency.DAY_3 -> 5
                             },
                         )
                     }

@@ -30,11 +30,11 @@ class GetFfqCategoryChartUseCase @Inject constructor(
                 val xLabels = ffqResponseList.map { it.foodName }
                 val yLabels = listOf(
                     "0x",
-                    "1x/H",
-                    ">3x/H",
+                    "2x/B",
                     "1-2x/M",
                     "3-6x/M",
-                    "2x/B",
+                    "1x/H",
+                    ">3x/H",
                 )
                 
                 FfqCategoryChart(

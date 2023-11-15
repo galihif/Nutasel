@@ -28,11 +28,11 @@ class GetFfqCategoryChartListUseCase @Inject constructor(
                 
                 val yLabels = listOf(
                     "0x",
-                    "1x/H",
-                    ">3x/H",
+                    "2x/B",
                     "1-2x/M",
                     "3-6x/M",
-                    "2x/B",
+                    "1x/H",
+                    ">3x/H",
                 )
                 ffqResponseList.forEach {
                     val xLabels = it.value.map { ffqResponse ->
