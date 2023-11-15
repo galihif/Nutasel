@@ -267,23 +267,6 @@ fun ArticleScreen(
                         textAlign = TextAlign.Justify
                     )
                 }
-
-                if (article!!.imageSource.isNotEmpty()) {
-                    Column {
-                        Text(
-                            text = "Sumber Gambar :",
-                            style = MaterialTheme.typography.titleMedium,
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Justify
-                        )
-                        Text(
-                            text = article!!.imageSource,
-                            style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Justify
-                        )
-                    }
-                }
             }
         }
     }
