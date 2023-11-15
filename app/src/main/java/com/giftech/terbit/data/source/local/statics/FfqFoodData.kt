@@ -75,7 +75,7 @@ class FfqFoodData @Inject constructor(){
         "Wortel",
         "Buncis",
         "Kacang Panjang",
-        "Jamur Hitam",
+        "Jamur Tiram",
         "Brokoli",
         "Sawi Hijau",
         "Sawi Putih",
