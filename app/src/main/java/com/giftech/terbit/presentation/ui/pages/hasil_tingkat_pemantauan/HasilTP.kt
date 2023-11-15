@@ -39,11 +39,13 @@ import com.giftech.terbit.presentation.ui.components.molecules.IconTextRow
 import com.giftech.terbit.presentation.ui.theme.light_CustomColor1Container
 import com.giftech.terbit.presentation.ui.theme.light_CustomColor2Container
 import com.giftech.terbit.presentation.ui.theme.light_CustomColor3
+import com.giftech.terbit.presentation.ui.theme.light_onCustomColor1Container
+import com.giftech.terbit.presentation.ui.theme.light_onCustomColor2Container
 
 @Composable
 fun HasilTPScreen(
     onNext: () -> Unit,
-    viewModel: HasilTPViewModel = hiltViewModel()
+    viewModel: HasilTPViewModel = hiltViewModel(),
 ) {
     val sedenterType by remember {
         viewModel.sedenterType
@@ -140,18 +142,20 @@ fun HasilTPScreen(
                         IconTextRow(
                             icon = Icons.Default.MenuBook,
                             text = "Membaca 2 Artikel perminggu",
-                            boxColor = light_CustomColor2Container
+                            iconColor = light_onCustomColor2Container,
+                            boxColor = light_CustomColor2Container,
                         )
                         Spacer(modifier = Modifier.height(12.dp))
                         IconTextRow(
                             icon = Icons.Default.PendingActions,
                             text = "Pemantauan Aktivitas Sedenter",
-                            boxColor = light_CustomColor1Container
+                            iconColor = light_onCustomColor1Container,
+                            boxColor = light_CustomColor1Container,
                         )
                     }
                 }
             }
-
+            
         }
         PrimaryButton(
             text = "Selanjutnya",

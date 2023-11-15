@@ -29,7 +29,7 @@ import com.giftech.terbit.presentation.ui.components.enums.ProfMenuEnum
 fun IconTextRow(
     modifier: Modifier = Modifier,
     icon: ImageVector,
-    text: String
+    text: String,
 ) {
     Row(
         modifier = modifier,
@@ -44,13 +44,13 @@ fun IconTextRow(
     }
 }
 
-
 @Composable
 fun IconTextRow(
     modifier: Modifier = Modifier,
     icon: ImageVector,
     text: String,
-    boxColor: Color
+    iconColor: Color,
+    boxColor: Color,
 ) {
     Row(
         modifier = modifier,
@@ -62,7 +62,12 @@ fun IconTextRow(
                 .background(boxColor, RoundedCornerShape(4.dp)),
             contentAlignment = Alignment.Center,
         ) {
-            Icon(icon, "", Modifier.padding(4.dp))
+            Icon(
+                imageVector = icon,
+                contentDescription = "",
+                tint = iconColor,
+                modifier = Modifier.padding(4.dp),
+            )
         }
         Text(
             text = text,
@@ -71,11 +76,10 @@ fun IconTextRow(
     }
 }
 
-
 @Composable
 fun SegmentedButtonRow(
     selected: ProfMenuEnum,
-    onSelected: (ProfMenuEnum) -> Unit
+    onSelected: (ProfMenuEnum) -> Unit,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -96,7 +100,7 @@ fun SegmentedButtonRow(
                 contentColor = MaterialTheme.colorScheme.onSecondaryContainer
             ) else ButtonDefaults.outlinedButtonColors()
         ) {
-            AnimatedVisibility(visible = selected== ProfMenuEnum.INFO) {
+            AnimatedVisibility(visible = selected == ProfMenuEnum.INFO) {
                 Icon(
                     imageVector = Icons.Default.Check,
                     contentDescription = "",
@@ -120,13 +124,19 @@ fun SegmentedButtonRow(
                 contentColor = MaterialTheme.colorScheme.onSecondaryContainer
             ) else ButtonDefaults.outlinedButtonColors()
         ) {
-            AnimatedVisibility(visible = selected== ProfMenuEnum.KREDIBILITAS) {
+            AnimatedVisibility(visible = selected == ProfMenuEnum.KREDIBILITAS) {
                 Icon(
                     imageVector = Icons.Default.Check,
                     contentDescription = "",
                 )
             }
-            Text(text = ProfMenuEnum.KREDIBILITAS.title, textAlign = TextAlign.Center, maxLines = 1, modifier = Modifier.weight(1f), overflow = TextOverflow.Ellipsis)
+            Text(
+                text = ProfMenuEnum.KREDIBILITAS.title,
+                textAlign = TextAlign.Center,
+                maxLines = 1,
+                modifier = Modifier.weight(1f),
+                overflow = TextOverflow.Ellipsis
+            )
         }
     }
 }
