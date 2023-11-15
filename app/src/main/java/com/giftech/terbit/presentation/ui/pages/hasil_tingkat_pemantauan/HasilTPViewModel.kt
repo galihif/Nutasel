@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.giftech.terbit.domain.enums.SedenterType
 import com.giftech.terbit.domain.usecase.AsaqUseCase
+import com.giftech.terbit.domain.util.toSinglePrecision
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,7 +26,7 @@ class HasilTPViewModel
     private fun getAvgHours(){
         viewModelScope.launch {
             asaqUseCase.getAsaqAverage().collect {
-                _avgHours.value = it
+                _avgHours.value = it.toSinglePrecision()
             }
         }
     }
