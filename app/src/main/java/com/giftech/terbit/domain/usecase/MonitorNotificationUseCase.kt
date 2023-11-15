@@ -224,7 +224,7 @@ class MonitorNotificationUseCase @Inject constructor(
                         if (isPostTestDone) {
                             userNotificationRepository.updateActiveStatus(
                                 notificationId = 5000,
-                                idLink = 0,
+                                idLink = Constants.ProgramId.LAST_ASAQ,
                                 activeStatus = false,
                             )
                         }
