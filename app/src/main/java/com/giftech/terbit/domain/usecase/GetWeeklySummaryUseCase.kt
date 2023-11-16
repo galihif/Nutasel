@@ -58,25 +58,35 @@ class GetWeeklySummaryUseCase @Inject constructor(
                         val week = ongoingWeek - 1
                         weeklySummaryRepository.getAll()
                             .map { weeklySummaryList ->
-                                weeklySummaryList.filter { it.week == week }
+                                // Get all weekly summaries that have not been presented
+                                weeklySummaryList
+                                    .filter {
+                                        it.week <= week &&
+                                                !it.hasPresented
+                                    }
+                                    .sortedBy {
+                                        it.week
+                                    }
                             }
                             .filter { it.isNotEmpty() }
                             .map { it.first() }
-                            .filter { !it.hasPresented }
                             .flatMapConcat { weeklySummary ->
                                 programRepository.getAll()
                                     .map { programList ->
-                                        programList
-                                            .filterIsInstance(FillOutAsaq::class.java)
-                                            .filter { it.week == week }
+                                        val weeklyProgramList = programList
                                             .filter { it.tag == ProgramTag.WEEKLY_PROGRAM }
+                                            .filter { it.week == weeklySummary.week }
+                                        weeklyProgramList
                                     }
-                                    .filter { asaqWeeklyProgramList ->
-                                        asaqWeeklyProgramList.all { it.isCompleted }
+                                    .filter { weeklyProgramList ->
+                                        weeklyProgramList.all { it.isCompleted }
                                     }
-                                    .map { asaqWeeklyProgramList ->
-                                        asaqWeeklyProgramList
+                                    .map { weeklyProgramList ->
+                                        val asaqWeeklyProgramList = weeklyProgramList
+                                            .filterIsInstance(FillOutAsaq::class.java)
+                                        val asaqProgramIdList = asaqWeeklyProgramList
                                             .map { it.programId }
+                                        asaqProgramIdList
                                     }
                                     .flatMapConcat { asaqProgramIdList ->
                                         asaqResponseRepository.getAll()
@@ -104,7 +114,7 @@ class GetWeeklySummaryUseCase @Inject constructor(
                                                 }
                                                 
                                                 WeeklySummary(
-                                                    week = week,
+                                                    week = weeklySummary.week,
                                                     hasPresented = weeklySummary.hasPresented,
                                                     sedentaryAverageHours = sedentaryAverageHours,
                                                     sedentaryLevel = sedentaryLevel,
