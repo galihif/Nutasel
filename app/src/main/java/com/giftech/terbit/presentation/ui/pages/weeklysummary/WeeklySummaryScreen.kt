@@ -95,11 +95,11 @@ private fun WeeklySummaryContent(
     ) {
         HeroColumn(
             title = "Hasil Pemantauan Mingguan",
-            description = "",
+            description = "Minggu ${state.week}",
             imageRes = R.drawable.img_weekly_summary_1080,
             titleColor = accentColor,
             descColor = accentColor,
-            imageHeight = 280,
+            imageHeight = 260,
         )
         Column(
             modifier = Modifier
