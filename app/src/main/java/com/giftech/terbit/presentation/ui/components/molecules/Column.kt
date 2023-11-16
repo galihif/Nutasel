@@ -34,9 +34,9 @@ import com.giftech.terbit.presentation.ui.theme.light_onCustomColor2
 @Composable
 fun HeroColumn(
     modifier: Modifier = Modifier,
-    title:String,
-    description:String,
-    imageRes:Int,
+    title: String,
+    description: String,
+    imageRes: Int,
     imageHeight: Int? = null,
     titleColor: Color = MaterialTheme.colorScheme.onSurface,
     descColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -61,18 +61,21 @@ fun HeroColumn(
             textAlign = TextAlign.Center,
             color = titleColor
         )
-        Text(
-            text = description.ifBlank { "" },
-            style = descriptionStyle,
-            textAlign = TextAlign.Center,
-            color = descColor
-        )
+        if (description.isNotBlank()) {
+            Text(
+                text = description,
+                style = descriptionStyle,
+                textAlign = TextAlign.Center,
+                color = descColor,
+                modifier = Modifier.padding(bottom = 16.dp, start = 16.dp, end = 16.dp),
+            )
+        }
     }
 }
 
 @Composable
 fun ProfInfoColumn(
-    onContactClick : () -> Unit
+    onContactClick: () -> Unit,
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -121,7 +124,7 @@ fun ProfInfoColumn(
 
 @Composable
 fun ProfKredColumn(
-    onKTRClick : () -> Unit
+    onKTRClick: () -> Unit,
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp),
