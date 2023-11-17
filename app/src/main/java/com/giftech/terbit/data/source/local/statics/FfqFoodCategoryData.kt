@@ -39,7 +39,7 @@ class FfqFoodCategoryData @Inject constructor(){
         "Lauk Hewani",
         "Lauk Nabati",
         "Sayuran",
-        "Buah-buahan",
+        "Buah - buahan",
         "Minuman",
         "Selingan",
     )

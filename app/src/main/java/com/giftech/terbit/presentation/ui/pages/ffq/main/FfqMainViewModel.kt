@@ -4,8 +4,8 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.giftech.terbit.domain.usecase.CheckAllFfqQuestionAnsweredUseCase
 import com.giftech.terbit.domain.usecase.CompleteProgramUseCase
+import com.giftech.terbit.domain.usecase.GetCompletionStatusPerFfqFoodCategoryUseCase
 import com.giftech.terbit.domain.usecase.GetFfqFoodCategoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FfqMainViewModel @Inject constructor(
-    private val checkAllFfqQuestionAnsweredUseCase: CheckAllFfqQuestionAnsweredUseCase,
+    private val getCompletionStatusPerFfqFoodCategoryUseCase: GetCompletionStatusPerFfqFoodCategoryUseCase,
     private val completeProgramUseCase: CompleteProgramUseCase,
     private val getFfqFoodCategoryUseCase: GetFfqFoodCategoryUseCase,
 ) : ViewModel() {
@@ -22,6 +22,7 @@ class FfqMainViewModel @Inject constructor(
         FfqMainState(
             programId = -1,
             foodCategoryList = emptyList(),
+            completionStatusPerFoodCategory = emptyMap(),
             isAllAnswered = false,
         )
     )
@@ -45,11 +46,12 @@ class FfqMainViewModel @Inject constructor(
         when (event) {
             is FfqMainEvent.Init -> {
                 viewModelScope.launch {
-                    checkAllFfqQuestionAnsweredUseCase(event.programId)
-                        .collect { isAllAnswered ->
+                    getCompletionStatusPerFfqFoodCategoryUseCase(event.programId)
+                        .collect { completionStatusPerFoodCategory ->
                             _state.value = _state.value.copy(
                                 programId = event.programId,
-                                isAllAnswered = isAllAnswered,
+                                completionStatusPerFoodCategory = completionStatusPerFoodCategory,
+                                isAllAnswered = completionStatusPerFoodCategory.all { it.value },
                             )
                         }
                 }
