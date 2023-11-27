@@ -23,16 +23,20 @@ class GetEligibleDailyNotificationListUseCase @Inject constructor(
     
     @OptIn(ExperimentalCoroutinesApi::class)
     suspend operator fun invoke(): Flow<List<Notification>> {
-        return programRepository.getAll()
-            .flatMapLatest { programList ->
-                notificationRepository.getAll()
-                    .mapLatest { notificationList ->
+        return notificationRepository.getAll()
+            .flatMapLatest { notificationList ->
+                programRepository.getAll()
+                    .mapLatest { programList ->
                         val preTestProgramList = programList.filter {
                             it.tag == ProgramTag.PRE_TEST
                         }
                         val weeklyProgramList = programList.filter {
                             it.tag == ProgramTag.WEEKLY_PROGRAM
                         }
+                        
+                        preTestProgramList to weeklyProgramList
+                    }
+                    .mapLatest { (preTestProgramList, weeklyProgramList) ->
                         val isPreTestDone = preTestProgramList.all { it.isCompleted }
                         val isWeeklyProgramStarted = LocalDate.now() >=
                                 preTestProgramList.first().completionDateInMillis
@@ -46,10 +50,9 @@ class GetEligibleDailyNotificationListUseCase @Inject constructor(
                                 else -> it.type == NotificationType.DAILY_TIPS
                             }
                         }
-                        
                     }
-                    .flowOn(Dispatchers.IO)
             }
+            .flowOn(Dispatchers.IO)
     }
     
 }

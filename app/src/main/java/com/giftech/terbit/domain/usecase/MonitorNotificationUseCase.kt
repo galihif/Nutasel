@@ -2,6 +2,7 @@ package com.giftech.terbit.domain.usecase
 
 import com.giftech.terbit.domain.enums.ProgramTag
 import com.giftech.terbit.domain.model.FillOutAsaq
+import com.giftech.terbit.domain.model.Program
 import com.giftech.terbit.domain.repository.INotificationRepository
 import com.giftech.terbit.domain.repository.IProgramRepository
 import com.giftech.terbit.domain.repository.IUserNotificationRepository
@@ -12,6 +13,7 @@ import com.giftech.terbit.domain.util.toString
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
@@ -26,78 +28,95 @@ class MonitorNotificationUseCase @Inject constructor(
     
     @OptIn(ExperimentalCoroutinesApi::class)
     suspend operator fun invoke(): Flow<Unit> {
-        val readStatus = false
-        val schedulingStatus = false
-        val shownStatus = false
+        val defaultReadStatus = false
+        val defaultSchedulingStatus = false
+        val defaultShownStatus = false
         
-        return programRepository.getAll()
-            .mapLatest { programList ->
-                programList.sortedWith(
-                    compareBy(
-                        { it.week },
-                        { it.dayOfWeek },
-                    )
-                )
-            }
-            .flatMapLatest { programList ->
-                notificationRepository.getAll()
-                    .mapLatest { notificationList ->
-                        val preTest = programList.filter {
-                            it.tag == ProgramTag.PRE_TEST
-                        }
-                        val weeklyProgramList = programList.filter {
-                            it.tag == ProgramTag.WEEKLY_PROGRAM
-                        }
-                        val postTest = programList.filter {
-                            it.tag == ProgramTag.POST_TEST
+        return notificationRepository.getAll()
+            .flatMapLatest { notificationList ->
+                programRepository.getAll()
+                    .mapLatest { programList ->
+                        programList.sortedWith(
+                            compareBy(
+                                { it.week },
+                                { it.dayOfWeek },
+                            )
+                        )
+                    }
+                    .mapLatest { programList ->
+                        val preTestProgramList = mutableListOf<Program>()
+                        val weeklyProgramList = mutableListOf<Program>()
+                        val postTestProgramList = mutableListOf<Program>()
+                        
+                        programList.forEach {
+                            when (it.tag) {
+                                ProgramTag.PRE_TEST -> preTestProgramList.add(it)
+                                ProgramTag.WEEKLY_PROGRAM -> weeklyProgramList.add(it)
+                                ProgramTag.POST_TEST -> postTestProgramList.add(it)
+                            }
                         }
                         
-                        val isPreTestDone = preTest.all { it.isCompleted }
+                        Triple(preTestProgramList, weeklyProgramList, postTestProgramList)
+                    }
+                    .filter { (preTestProgramList, _, _) ->
+                        val isPreTestDone = preTestProgramList.all { it.isCompleted }
+                        isPreTestDone
+                    }
+                    .mapLatest { (preTestProgramList, weeklyProgramList, postTestProgramList) ->
                         val isWeeklyProgramDone = weeklyProgramList.all { it.isCompleted }
-                        val isPostTestDone = postTest.all { it.isCompleted }
-                        
-                        if (isPreTestDone.not()) return@mapLatest
+                        val isPostTestDone = postTestProgramList.all { it.isCompleted }
                         
                         val currentDate = LocalDateTime.now()
-                        val preTestDate = preTest.first().completionDateInMillis.toLocalDateTime()
+                        val preTestDate =
+                            preTestProgramList.first().completionDateInMillis.toLocalDateTime()
                         val day1Date = preTestDate.plusDays(Constants.BreakDays.AFTER_PRE_TEST)
+                        
+                        val isWeeklyProgramStarted = currentDate.toLocalDate() >=
+                                day1Date.toLocalDate()
                         
                         // Not using isWeeklyProgramDone.not()
                         // because we need to disable the last day notification
-                        if (isPostTestDone.not()) {
+                        if (isPostTestDone.not() && isWeeklyProgramStarted) {
                             // ID 1000
                             val notification1 = notificationList.first { it.id == 1000 }
-                            weeklyProgramList.filterIsInstance<FillOutAsaq>().forEach {
-                                val idLink = it.programId
-                                if (it.isCompleted) {
-                                    userNotificationRepository.updateActiveStatus(
-                                        notificationId = notification1.id,
-                                        idLink = idLink,
-                                        activeStatus = false,
-                                    )
-                                } else {
-                                    val deepLink =
-                                        "https://terbiasafit.com/program/weekly_asaq/$idLink"
-                                    val triggerDateTime = day1Date
-                                        .withHour(notification1.triggerHours)
-                                        .withMinute(notification1.triggerMinutes)
-                                        .plusDays((7L * it.week!!) - 1)
-                                    userNotificationRepository.insert(
-                                        notificationId = notification1.id,
-                                        title = notification1.title,
-                                        message = notification1.message.replace(
-                                            "{{day_of_week}}",
-                                            it.dayOfWeek.toString()
-                                        ),
-                                        deepLink = deepLink,
-                                        idLink = idLink,
-                                        readStatus = readStatus,
-                                        triggerDateTimeInMillis = triggerDateTime.toMillis(),
-                                        notificationType = notification1.type.typeId,
-                                        activeStatus = true,
-                                        schedulingStatus = schedulingStatus,
-                                        shownStatus = shownStatus,
-                                    )
+                            val triggerDateTime = day1Date
+                                .withHour(notification1.triggerHours)
+                                .withMinute(notification1.triggerMinutes)
+                            val weeklyAsaqProgramList = weeklyProgramList
+                                .filterIsInstance<FillOutAsaq>()
+                                .groupBy { it.week!! }
+                            for (i in weeklyProgramList.first().week!!..weeklyProgramList.last().week!!) {
+                                val triggerDateTimeMillis = triggerDateTime
+                                    .plusDays((7L * i) - 1)
+                                    .toMillis()
+                                weeklyAsaqProgramList[i]?.forEach {
+                                    val idLink = it.programId
+                                    if (it.isCompleted) {
+                                        userNotificationRepository.updateActiveStatus(
+                                            notificationId = notification1.id,
+                                            idLink = idLink,
+                                            activeStatus = false,
+                                        )
+                                    } else {
+                                        val deepLink =
+                                            "https://terbiasafit.com/program/weekly_asaq/$idLink"
+                                        userNotificationRepository.insert(
+                                            notificationId = notification1.id,
+                                            title = notification1.title,
+                                            message = notification1.message.replace(
+                                                "{{day_of_week}}",
+                                                it.dayOfWeek.toString()
+                                            ),
+                                            deepLink = deepLink,
+                                            idLink = idLink,
+                                            readStatus = defaultReadStatus,
+                                            triggerDateTimeInMillis = triggerDateTimeMillis,
+                                            notificationType = notification1.type.typeId,
+                                            activeStatus = true,
+                                            schedulingStatus = defaultSchedulingStatus,
+                                            shownStatus = defaultShownStatus,
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -116,12 +135,12 @@ class MonitorNotificationUseCase @Inject constructor(
                                     ),
                                     deepLink = null,
                                     idLink = 0,
-                                    readStatus = readStatus,
-                                    triggerDateTimeInMillis = LocalDateTime.now().toMillis(),
+                                    readStatus = defaultReadStatus,
+                                    triggerDateTimeInMillis = currentDate.toMillis(),
                                     notificationType = notification2.type.typeId,
                                     activeStatus = true,
-                                    schedulingStatus = schedulingStatus,
-                                    shownStatus = shownStatus,
+                                    schedulingStatus = defaultSchedulingStatus,
+                                    shownStatus = defaultShownStatus,
                                 )
                             } else if (currentDate.toLocalDate() >= day1Date.toLocalDate()) {
                                 userNotificationRepository.updateActiveStatus(
@@ -147,13 +166,15 @@ class MonitorNotificationUseCase @Inject constructor(
                                     message = notification3.message,
                                     deepLink = null,
                                     idLink = 0,
-                                    readStatus = readStatus,
-                                    triggerDateTimeInMillis = day1Date.withHour(notification3.triggerHours)
-                                        .withMinute(notification3.triggerMinutes).toMillis(),
+                                    readStatus = defaultReadStatus,
+                                    triggerDateTimeInMillis = day1Date
+                                        .withHour(notification3.triggerHours)
+                                        .withMinute(notification3.triggerMinutes)
+                                        .toMillis(),
                                     notificationType = notification3.type.typeId,
                                     activeStatus = true,
-                                    schedulingStatus = schedulingStatus,
-                                    shownStatus = shownStatus,
+                                    schedulingStatus = defaultSchedulingStatus,
+                                    shownStatus = defaultShownStatus,
                                 )
                             } else {
                                 userNotificationRepository.updateActiveStatus(
@@ -185,12 +206,12 @@ class MonitorNotificationUseCase @Inject constructor(
                                     ),
                                     deepLink = null,
                                     idLink = 0,
-                                    readStatus = readStatus,
-                                    triggerDateTimeInMillis = LocalDateTime.now().toMillis(),
+                                    readStatus = defaultReadStatus,
+                                    triggerDateTimeInMillis = currentDate.toMillis(),
                                     notificationType = notification4.type.typeId,
                                     activeStatus = true,
-                                    schedulingStatus = schedulingStatus,
-                                    shownStatus = shownStatus,
+                                    schedulingStatus = defaultSchedulingStatus,
+                                    shownStatus = defaultShownStatus,
                                 )
                             } else {
                                 userNotificationRepository.updateActiveStatus(
@@ -211,13 +232,15 @@ class MonitorNotificationUseCase @Inject constructor(
                                 message = notification5.message,
                                 deepLink = deepLink,
                                 idLink = idLink,
-                                readStatus = readStatus,
-                                triggerDateTimeInMillis = postTestDate.withHour(notification5.triggerHours)
-                                    .withMinute(notification5.triggerMinutes).toMillis(),
+                                readStatus = defaultReadStatus,
+                                triggerDateTimeInMillis = postTestDate
+                                    .withHour(notification5.triggerHours)
+                                    .withMinute(notification5.triggerMinutes)
+                                    .toMillis(),
                                 notificationType = notification5.type.typeId,
                                 activeStatus = true,
-                                schedulingStatus = schedulingStatus,
-                                shownStatus = shownStatus,
+                                schedulingStatus = defaultSchedulingStatus,
+                                shownStatus = defaultShownStatus,
                             )
                         }
                         

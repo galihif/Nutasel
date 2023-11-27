@@ -11,7 +11,9 @@ import com.giftech.terbit.domain.usecase.GetEligibleDailyNotificationListUseCase
 import com.giftech.terbit.domain.usecase.MonitorNotificationUseCase
 import com.giftech.terbit.domain.usecase.UpdateSchedulingStatusUserNotificationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -33,8 +35,14 @@ class MainViewModel @Inject constructor(
         }
     }
     
+    @OptIn(ExperimentalCoroutinesApi::class)
     suspend fun getAllUserNotification(): LiveData<List<UserNotification>> {
-        return getAllUserNotificationUseCase().asLiveData()
+        return getAllUserNotificationUseCase()
+            .mapLatest { userNotificationList ->
+                userNotificationList.filter {
+                    it.shownStatus.not()
+                }
+            }.asLiveData()
     }
     
     fun updateSchedulingStatusUserNotification(userNotification: UserNotification) {

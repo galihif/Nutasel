@@ -38,9 +38,6 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launch {
             viewModel.getAllUserNotification().observe(this@MainActivity) { userNotificationList ->
                 userNotificationList
-                    .filter {
-                        it.shownStatus.not()
-                    }
                     .forEach {
                         if (it.activeStatus) {
                             if (it.schedulingStatus.not()) {
